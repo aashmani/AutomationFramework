@@ -37,8 +37,8 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             lstRole = ConfigurationManager.GetInstance().Roles.ToList();
             var objEntities = ConfigurationManager.GetInstance().Entities;
             hostURL = ConfigurationManager.GetInstance().rootURL;
-            password = ConfigurationManager.GetInstance().Password;
-            username = ConfigurationManager.GetInstance().UserName;
+            //password = ConfigurationManager.GetInstance().Password;
+            //username = ConfigurationManager.GetInstance().UserName;
 
 
             //**********************************************
