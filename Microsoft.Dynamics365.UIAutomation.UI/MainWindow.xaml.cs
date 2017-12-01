@@ -1,0 +1,300 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.Dynamics365.UIAutomation.Browser;
+using System.Reflection;
+using System;
+using TaskScheduler;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
+
+namespace Microsoft.Dynamics365.UIAutomation.UI
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        List<BrowserEntity> lstBrowse = new List<BrowserEntity>();
+        List<RolesConfiguration> lstRole = new List<RolesConfiguration>();
+        List<string> lstSenario = new List<string>();
+        string hostURL = string.Empty;
+        string password = string.Empty;
+        string username = string.Empty;
+        List<string> lstSelectedRoleUsers = new List<string>();
+        string schBrowser = string.Empty;
+        string schUser = string.Empty;
+        string schRole=string.Empty;
+        List<string> lstSchScenario = new List<string>();
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            var objBrowser = ConfigurationManager.GetInstance().browsers;
+            lstRole = ConfigurationManager.GetInstance().Roles.ToList();
+            var objEntities = ConfigurationManager.GetInstance().Entities;
+            hostURL = ConfigurationManager.GetInstance().rootURL;
+            password = ConfigurationManager.GetInstance().Password;
+            username = ConfigurationManager.GetInstance().UserName;
+
+
+            //**********************************************
+            #region For Run Test
+            //**********************************************
+            //cb_Roles.ItemsSource = lstRole;
+            foreach (var browser in objBrowser)
+            {
+                lstBrowse.Add(new BrowserEntity
+                {
+                    BrowserName = browser.ToString()
+
+                });
+            }
+            cb_Browser.ItemsSource = lstBrowse;
+         
+
+            foreach (var entities in objEntities)
+            {
+                var entityExpander = new Expander { Header = entities.entityname };
+                entityExpander.IsExpanded = true;
+                var stkSenario = new StackPanel();
+                foreach (var scenario in entities.scenarios)
+                {
+                    var cbScenario = new CheckBox { Content = scenario, Margin = new Thickness(10, 4, 4, 4) };
+                    cbScenario.Checked += CheckBoxSenario_Checked;
+                    cbScenario.Unchecked += CheckBoxSenario_UnChecked;
+                    stkSenario.Children.Add(cbScenario);
+                }
+                entityExpander.Content = stkSenario;
+                stkExpanderMain.Children.Add(entityExpander);
+            }
+
+            foreach(var role in lstRole)
+            {
+                var roleExpander = new Expander { Header = role.rolename };
+                roleExpander.IsExpanded = true;
+                var stkRole = new StackPanel();
+                foreach(var user in role.users)
+                {
+                    var cbRole = new CheckBox { Content = user.user, Margin = new Thickness(10, 4, 4, 4) };
+                    cbRole.Checked += CheckBoxRole_Checked;
+                    cbRole.Unchecked+=CheckBoxRole_UnChecked;
+                    stkRole.Children.Add(cbRole);
+                }
+                roleExpander.Content = stkRole;
+                stkExpanderRoleMain.Children.Add(roleExpander);
+            }
+            #endregion
+
+            //**********************************************
+            #region For Schedule Test
+            //**********************************************
+            cb_SchBrowser.ItemsSource = lstBrowse;
+
+            foreach (var entities in objEntities)
+            {
+                var entitySchExpander = new Expander { Header = entities.entityname };
+                entitySchExpander.IsExpanded = true;
+                var stkSchSenario = new StackPanel();
+                foreach (var scenario in entities.scenarios)
+                {
+                    var rbSchScenario = new CheckBox { Content = scenario, Margin = new Thickness(10, 4, 4, 4) };
+                    rbSchScenario.Checked += rbSchScenario_Checked;
+                    rbSchScenario.Unchecked += rbSchScenario_UnChecked;
+                    stkSchSenario.Children.Add(rbSchScenario);
+                }
+                entitySchExpander.Content = stkSchSenario;
+                stkExpanderSchMain.Children.Add(entitySchExpander);
+            }
+            foreach (var role in lstRole)
+            {
+                var roleSchExpander = new Expander { Header = role.rolename };
+                roleSchExpander.IsExpanded = true;
+                var stkSchRole = new StackPanel();
+                foreach (var user in role.users)
+                {
+                    var rbSchRole = new RadioButton { Content = user.user, Margin = new Thickness(10, 4, 4, 4) };
+                    rbSchRole.GroupName = "Role";
+                    rbSchRole.Checked += rbSchRole_Checked;
+                    rbSchRole.Unchecked += rbSchRole_UnChecked;
+                    stkSchRole.Children.Add(rbSchRole);
+                }
+                roleSchExpander.Content = stkSchRole;
+                stkExpanderSchRoleMain.Children.Add(roleSchExpander);
+            }
+            #endregion
+        }
+
+
+        //**********************************************
+        #region For Run Test
+        //**********************************************
+        private void CheckBoxSenario_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSenario = sender as CheckBox;
+            lstSenario.Add(chkSenario.Content.ToString());
+        }
+        private void CheckBoxSenario_UnChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSenario = sender as CheckBox;
+            if (lstSenario.Contains(chkSenario.Content.ToString()))
+            {
+                lstSenario.Remove(chkSenario.Content.ToString());
+            }
+        }
+
+        private void CheckBoxRole_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkRole = sender as CheckBox;
+            lstSelectedRoleUsers.Add(chkRole.Content.ToString());
+        }
+        private void CheckBoxRole_UnChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkRole = sender as CheckBox;
+            if (lstSelectedRoleUsers.Contains(chkRole.Content.ToString()))
+            {
+                lstSelectedRoleUsers.Remove(chkRole.Content.ToString());
+            }
+        }
+
+        private void btnRuntest_Click(object sender, RoutedEventArgs e)
+        {
+            btnRuntest.IsEnabled = false;
+            List<BrowserEntity> lstSelectedBrowser = new List<BrowserEntity>();
+            lstSelectedBrowser = lstBrowse.Where(b => b.IsChecked.Equals(true)).ToList();           
+            string path = System.AppDomain.CurrentDomain.BaseDirectory + @"Microsoft.Dynamics365.UIAutomation.Sample.dll";
+            //foreach(var browswer in lstSelectedBrowser)
+            //{
+            foreach (var role in lstSelectedRoleUsers)
+            {
+                //foreach (var user in role)
+                //{
+                    foreach (var senarion in lstSenario)
+                    {
+                        Assembly objAssembly = Assembly.LoadFile(path);
+                        if (objAssembly != null)
+                        {
+                            Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + senarion);
+                            //type.GetMethod("TestUpdateAccount").Invoke(Activator.CreateInstance(type), null);
+                            if (type != null)
+                            {
+                                object objType = Activator.CreateInstance(type);
+                                FieldInfo field = type.GetField("_username", BindingFlags.NonPublic | BindingFlags.Instance);
+                                field.SetValue(objType, username.ToSecureString());
+                                FieldInfo fieldPassword = type.GetField("_password", BindingFlags.NonPublic | BindingFlags.Instance);
+                                fieldPassword.SetValue(objType, password.ToSecureString());
+                                FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
+                                fieldURL.SetValue(objType, new Uri(hostURL));
+                                MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                                if (methodInfos.Count() > 0)
+                                {
+                                    methodInfos[0].Invoke(objType, null);
+                                }
+                            }
+                        }
+
+                    }
+                //}
+            }
+            btnRuntest.IsEnabled = true;
+            //}
+        }
+
+        #endregion
+
+        //*****************************************************
+        #region For Schedule Test
+        //*****************************************************
+        private void rbSchRole_UnChecked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void rbSchRole_Checked(object sender, RoutedEventArgs e)
+        {
+            var rbRole = sender as RadioButton;
+            schRole = rbRole.Content.ToString();
+        }
+
+        private void rbSchScenario_UnChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSenario = sender as CheckBox;
+            if (lstSchScenario.Contains(chkSenario.Content.ToString()))
+            {
+                lstSchScenario.Remove(chkSenario.Content.ToString());
+            }
+        }
+
+        private void rbSchScenario_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSenario = sender as CheckBox;
+            lstSchScenario .Add(chkSenario.Content.ToString());
+        }
+        private void btnScheduleTest_Click(object sender, RoutedEventArgs e)
+        {
+            var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
+
+            var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
+            ITaskService taskService = new TaskScheduler.TaskScheduler();
+            taskService.Connect();
+            ITaskDefinition taskDefinition = taskService.NewTask(0);
+            taskDefinition.RegistrationInfo.Description = "CRM Automation Testing";
+            ITriggerCollection triggers = taskDefinition.Triggers;
+            ITrigger trigger = triggers.Create(_TASK_TRIGGER_TYPE2.TASK_TRIGGER_DAILY);
+            trigger.Id = "testCRM";
+            trigger.Enabled = true;
+            trigger.StartBoundary = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss");
+            
+            IActionCollection actions = taskDefinition.Actions;
+            IAction action = actions.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
+            IExecAction execAction = action as IExecAction;
+            execAction.Path = @"D:\Learning\TestSchedule\TestSchedule\bin\Debug\TestSchedule.exe";
+            execAction.Arguments = schArgument;
+            ITaskFolder rootFolder = taskService.GetFolder("\\");
+            rootFolder.RegisterTaskDefinition("CRMAutomation",taskDefinition , 6, null, null, _TASK_LOGON_TYPE.TASK_LOGON_NONE, null);
+
+        }
+
+       
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var rbBrowser = sender as RadioButton;
+            var txtBrowser = rbBrowser.Content as TextBlock;
+            schBrowser = txtBrowser.Text;
+        }
+        #endregion
+    }
+
+    public static class XMLSerializer
+    {
+        public static string SerializeObject(this List<string> list)
+        {
+         
+            using (MemoryStream xmlStream = new MemoryStream())
+            {
+                StringWriter stringWriter = new StringWriter();
+                XmlDocument xmlDoc = new XmlDocument();
+
+                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
+                XmlSerializerNamespaces xmlNamespace = new XmlSerializerNamespaces();
+                xmlNamespace.Add("","");
+
+                serializer.Serialize(xmlWriter, list,xmlNamespace);
+
+                string xmlResult = stringWriter.ToString();
+
+                xmlDoc.LoadXml(xmlResult);
+                if (xmlDoc.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
+                    xmlDoc.RemoveChild(xmlDoc.FirstChild);
+                return xmlDoc.InnerXml;
+            }
+          
+        }
+    }
+
+}

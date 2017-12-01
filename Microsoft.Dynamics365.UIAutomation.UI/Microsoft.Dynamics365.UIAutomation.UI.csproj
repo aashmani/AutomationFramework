@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3EB94D0C-073E-4EF4-A27E-53EF53D376E8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Dynamics365.UIAutomation.UI</RootNamespace>
+    <AssemblyName>Microsoft.Dynamics365.UIAutomation.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataServices, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.DataServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataServices50, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.DataServices50.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ImageEditor, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RichTextBoxUI, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Controls.RichTextBoxUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Fixed.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Maths">
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Maths.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2016.1.106.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\AxiomCS\AXIOM_3.1_Latest\AxiomRibbon3.0\AxiomIRISRibbon\Telerik\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Microsoft.Dynamics365.UIAutomation.Api\bin\Debug\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Microsoft.Dynamics365.UIAutomation.Api\bin\Debug\WebDriver.Support.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrowserEntity.cs" />
+    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="RoleEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="bin\Debug\config\config.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.exe.config" />
+    <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.vshost.exe.config" />
+    <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.vshost.exe.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Api.dll" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Api.pdb" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Browser.dll" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Browser.pdb" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.dll" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.pdb" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.exe" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.pdb" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.vshost.exe" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.Data.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.DataServices.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.DataServices50.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.Docking.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.GridView.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.ImageEditor.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.Input.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.Navigation.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.RibbonView.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Controls.RichTextBoxUI.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Data.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Core.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Fixed.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Flow.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Spreadsheet.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Maths.dll" />
+    <Content Include="bin\Debug\Telerik.Windows.Zip.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.Data.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.DataServices.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.DataServices50.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.Docking.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.GridView.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.ImageEditor.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.Input.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.Navigation.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.RibbonView.dll" />
+    <Content Include="Telerik\Telerik.Windows.Controls.RichTextBoxUI.dll" />
+    <Content Include="Telerik\Telerik.Windows.Data.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Core.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Fixed.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Flow.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Spreadsheet.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
+    <Content Include="Telerik\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll" />
+    <Content Include="Telerik\Telerik.Windows.Maths.dll" />
+    <Content Include="Telerik\Telerik.Windows.Zip.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Dynamics365.UIAutomation.Api\Microsoft.Dynamics365.UIAutomation.Api.csproj">
+      <Project>{dfe2c141-f1aa-4d4b-8df8-0fb93023cf45}</Project>
+      <Name>Microsoft.Dynamics365.UIAutomation.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Dynamics365.UIAutomation.Browser\Microsoft.Dynamics365.UIAutomation.Browser.csproj">
+      <Project>{c9748803-f3cb-4531-b313-bc24d4d0bf0c}</Project>
+      <Name>Microsoft.Dynamics365.UIAutomation.Browser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Dynamics365.UIAutomation.Sample\Microsoft.Dynamics365.UIAutomation.Sample.csproj">
+      <Project>{a075b87e-dca5-4a2a-909b-932e2f5f98b4}</Project>
+      <Name>Microsoft.Dynamics365.UIAutomation.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\Debug\config\config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="TaskScheduler">
+      <Guid>{E34CB9F1-C7F7-424C-BE29-027DCC09363A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
