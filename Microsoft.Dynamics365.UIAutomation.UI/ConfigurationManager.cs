@@ -64,8 +64,8 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                     Roles = root.crmconfiguration.roles;
                     Entities = root.crmconfiguration.entities;
                     rootURL = root.crmconfiguration.hosturl;
-                    Password = root.crmconfiguration.password;
-                    UserName = root.crmconfiguration.username;
+                    //Password = root.crmconfiguration.password;
+                    //UserName = root.crmconfiguration.username;
 
                 }
                 finally
@@ -349,45 +349,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             }
         }
 
-        /// <remarks/>
-        public string username
-        {
-            get
-            {
-                return this.usernameField;
-            }
-            set
-            {
-                this.usernameField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string userguid
-        {
-            get
-            {
-                return this.userguidField;
-            }
-            set
-            {
-                this.userguidField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string password
-        {
-            get
-            {
-                return this.passwordField;
-            }
-            set
-            {
-                this.passwordField = value;
-            }
-        }
-
+      
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("role", IsNullable = false)]
         public RolesConfiguration[] roles
@@ -425,7 +387,6 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         private string rolenameField;
 
         private List<RoleUsersConfiguration> usersField;
-        private bool isChecked;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("role-name")]
@@ -441,9 +402,8 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             }
         }
 
-
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("users")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("user", IsNullable = false)]
         public List<RoleUsersConfiguration> users
         {
             get
@@ -455,6 +415,11 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                 this.usersField = value;
             }
         }
+
+
+        private bool isChecked;
+
+       
         public bool IsChecked
         {
             get
@@ -473,22 +438,56 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
     public partial class RoleUsersConfiguration
     {
 
-        private string userField;
+ 
+
+        private string usernameField;
+
+        private string passwordField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("user")]
-        public string user
+
+        /// <remarks/>
+        public string username
         {
             get
             {
-                return this.userField;
+                return this.usernameField;
             }
             set
             {
-                this.userField = value;
+                this.usernameField = value;
             }
         }
+
+        /// <remarks/>
+        public string password
+        {
+            get
+            {
+                return this.passwordField;
+            }
+            set
+            {
+                this.passwordField = value;
+            }
+        }
+        private bool isChecked;
+
+
+        public bool IsChecked
+        {
+            get
+            {
+                return isChecked;
+            }
+            set
+            {
+                isChecked = value;
+            }
+        }
+
     }
+
 
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

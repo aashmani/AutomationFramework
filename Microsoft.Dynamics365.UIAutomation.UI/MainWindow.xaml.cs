@@ -21,9 +21,9 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         List<RolesConfiguration> lstRole = new List<RolesConfiguration>();
         List<string> lstSenario = new List<string>();
         string hostURL = string.Empty;
-        string password = string.Empty;
-        string username = string.Empty;
-        List<string> lstSelectedRoleUsers = new List<string>();
+        //string password = string.Empty;
+        //string username = string.Empty;
+        List<RoleUsersConfiguration> lstSelectedRoleUsers = new List<RoleUsersConfiguration>();
         string schBrowser = string.Empty;
         string schUser = string.Empty;
         string schRole=string.Empty;
@@ -37,9 +37,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             lstRole = ConfigurationManager.GetInstance().Roles.ToList();
             var objEntities = ConfigurationManager.GetInstance().Entities;
             hostURL = ConfigurationManager.GetInstance().rootURL;
-            //password = ConfigurationManager.GetInstance().Password;
-            //username = ConfigurationManager.GetInstance().UserName;
-
+     
 
             //**********************************************
             #region For Run Test
@@ -79,7 +77,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                 var stkRole = new StackPanel();
                 foreach(var user in role.users)
                 {
-                    var cbRole = new CheckBox { Content = user.user, Margin = new Thickness(10, 4, 4, 4) };
+                    var cbRole = new CheckBox { Content = user.username, Tag = user.password, Margin = new Thickness(10, 4, 4, 4) };
                     cbRole.Checked += CheckBoxRole_Checked;
                     cbRole.Unchecked+=CheckBoxRole_UnChecked;
                     stkRole.Children.Add(cbRole);
@@ -116,7 +114,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                 var stkSchRole = new StackPanel();
                 foreach (var user in role.users)
                 {
-                    var rbSchRole = new RadioButton { Content = user.user, Margin = new Thickness(10, 4, 4, 4) };
+                    var rbSchRole = new RadioButton { Content = user.username, Tag= user.password,  Margin = new Thickness(10, 4, 4, 4) };
                     rbSchRole.GroupName = "Role";
                     rbSchRole.Checked += rbSchRole_Checked;
                     rbSchRole.Unchecked += rbSchRole_UnChecked;
@@ -149,15 +147,16 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         private void CheckBoxRole_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox chkRole = sender as CheckBox;
-            lstSelectedRoleUsers.Add(chkRole.Content.ToString());
+            RoleUsersConfiguration user = new RoleUsersConfiguration();
+            user.username = chkRole.Content.ToString();
+            user.password = chkRole.Tag.ToString();
+            user.IsChecked = true;
+            lstSelectedRoleUsers.Add(user);
         }
         private void CheckBoxRole_UnChecked(object sender, RoutedEventArgs e)
         {
             CheckBox chkRole = sender as CheckBox;
-            if (lstSelectedRoleUsers.Contains(chkRole.Content.ToString()))
-            {
-                lstSelectedRoleUsers.Remove(chkRole.Content.ToString());
-            }
+            lstSelectedRoleUsers.RemoveAll(item => item.username == chkRole.Content.ToString());
         }
 
         private void btnRuntest_Click(object sender, RoutedEventArgs e)
@@ -168,24 +167,25 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             string path = System.AppDomain.CurrentDomain.BaseDirectory + @"Microsoft.Dynamics365.UIAutomation.Sample.dll";
             //foreach(var browswer in lstSelectedBrowser)
             //{
-            foreach (var role in lstSelectedRoleUsers)
+
+            foreach (var user in lstSelectedRoleUsers)
             {
                 //foreach (var user in role)
                 //{
-                    foreach (var senarion in lstSenario)
+                    foreach (var scenario in lstSenario)
                     {
                         Assembly objAssembly = Assembly.LoadFile(path);
                         if (objAssembly != null)
                         {
-                            Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + senarion);
+                            Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + scenario);
                             //type.GetMethod("TestUpdateAccount").Invoke(Activator.CreateInstance(type), null);
                             if (type != null)
                             {
                                 object objType = Activator.CreateInstance(type);
                                 FieldInfo field = type.GetField("_username", BindingFlags.NonPublic | BindingFlags.Instance);
-                                field.SetValue(objType, username.ToSecureString());
+                                field.SetValue(objType, user.username.ToSecureString());
                                 FieldInfo fieldPassword = type.GetField("_password", BindingFlags.NonPublic | BindingFlags.Instance);
-                                fieldPassword.SetValue(objType, password.ToSecureString());
+                                fieldPassword.SetValue(objType, user.password.ToSecureString());
                                 FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
                                 fieldURL.SetValue(objType, new Uri(hostURL));
                                 MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);

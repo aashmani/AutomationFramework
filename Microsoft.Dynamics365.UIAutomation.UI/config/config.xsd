@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="mscrm-automation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="application-name" type="xs:string" />
+        <xs:element name="client-name" type="xs:string" />
+        <xs:element name="admin-configuration">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="db-connect-string" type="xs:string" />
+              <xs:element name="email-configuration">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="smtp-server" type="xs:string" />
+                    <xs:element name="from-address" type="xs:string" />
+                    <xs:element name="template-location" type="xs:string" />
+                    <xs:element name="image-location" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="browsers">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="browser-name" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="crm-configuration">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="host-url" type="xs:string" />
+              <xs:element name="tenant-name" type="xs:string" />
+              <xs:element name="roles">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="role">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="role-name" type="xs:string" />
+                          <xs:element name="users">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="user">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element minOccurs="0" name="user" type="xs:string" />
+                                      <xs:element minOccurs="0" name="username" type="xs:string" />
+                                      <xs:element name="password" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="entities">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="entity">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="entity-name" type="xs:string" />
+                          <xs:element name="scenarios">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="scenario-name" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
