@@ -190,7 +190,11 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                                 fieldPassword.SetValue(objType, user.password.ToSecureString());
                                 FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
                                 fieldURL.SetValue(objType, new Uri(hostURL));
-                                MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+                                 FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
+                                 fieldBrowser.SetValue(objType, BrowserType.Chrome);
+
+                            MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                                 if (methodInfos.Count() > 0)
                                 {
                                     methodInfos[0].Invoke(objType, null);

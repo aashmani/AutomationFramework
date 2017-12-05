@@ -67,7 +67,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
             }
         }
 
-        public static void LogHTML(string testCaseFile, string strComment, HTMLSection section, TestStatus teststatus =TestStatus.NA, string ScreenShotFile = "")
+        public static void LogHTML(string testCaseFile, string strComment, HTMLSection section, TestStatus teststatus =TestStatus.NA, string TestCase = "", string User = "", string Browser = "")
         {
 
             string file = "CRM Testing-" + testCaseFile + ".html";
@@ -80,16 +80,15 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                     //sw.WriteLine("< html >");
                     //sw.WriteLine(" < body >");
 
-                
-                    if (section == HTMLSection.TestCase)                      
-                        sw.WriteLine("<h1> TestCase : " + strComment + "</h1> "  );
-                    else if (section == HTMLSection.UserName)
-                        sw.WriteLine("<h2> User :  " + strComment + "</h2> ");
-                    else if (section == HTMLSection.BrowserName)
-                        sw.WriteLine("<h3> Browser : " + strComment + "</h3> ");
+
+                    if (section == HTMLSection.Header) {
+                        sw.WriteLine("<h1> TestCase : " + strComment + "</h1> ");
+                            sw.WriteLine("<h2> User :  " + User + "</h2> ");
+                            sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
+                    }
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
                         sw.WriteLine("<p style = 'color: green;'> " + strComment + "</p> ");
-                    else if (section == HTMLSection.Details && teststatus== TestStatus.Fail )
+                    else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
                         sw.WriteLine("<p style = 'color: red; '> " + strComment + "</p> ");
                   
                 }
@@ -98,13 +97,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
             {
                 using (StreamWriter sw = File.AppendText(filename))
                 {
-                    if (section == HTMLSection.TestCase)
-                        sw.WriteLine("<h1> TestCase : " + strComment + "</h1> ");
-                    else if (section == HTMLSection.UserName)
-                        sw.WriteLine("<h2> User :  " + strComment + "</h2> ");
-                    else if (section == HTMLSection.BrowserName)
-                        sw.WriteLine("<h3> Browser : " + strComment + "</h3> ");
-                    else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
+                   
+                    if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
                         sw.WriteLine("<p style = 'color: green;'> " + strComment + "</p> ");
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
                         sw.WriteLine("<p style = 'color: red; '> " + strComment + "</p> ");
@@ -120,6 +114,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
         }
     
         public  enum TestStatus { Pass, Fail, NA  };
-        public enum HTMLSection { UserName, TestCase, BrowserName, Header, Details, Images, Close };
+        public enum HTMLSection {  Header, Details, Images, Close };
     }
 }

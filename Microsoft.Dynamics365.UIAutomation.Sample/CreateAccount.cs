@@ -17,7 +17,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-
+        private readonly BrowserType _browser;
 
         [TestMethod]
         public void TestCreateNewAccount()
