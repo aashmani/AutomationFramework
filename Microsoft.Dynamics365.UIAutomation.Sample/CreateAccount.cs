@@ -7,16 +7,22 @@ using System.Security;
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
     [TestClass]
-    public class CreateAccountTests
+    public class CreateAccount
     {
 
-        private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
+        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
+        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
+        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
+
+        private SecureString _username = string.Empty.ToSecureString();
+        private readonly SecureString _password = string.Empty.ToSecureString();
+        private readonly Uri _xrmUri;
+
 
         [TestMethod]
         public void TestCreateNewAccount()
         {
+            Guid id = Guid.NewGuid();
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
@@ -32,7 +38,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.CommandBar.ClickCommand("New");
 
                 xrmBrowser.ThinkTime(4000);
-                xrmBrowser.Entity.SetValue("name", "Test API Account");
+                xrmBrowser.Entity.SetValue("name", "Test API Account" + id.ToString());
                 xrmBrowser.Entity.SetValue("telephone1", "555-555-5555");
                 xrmBrowser.Entity.SetValue("websiteurl", "https://easyrepro.crm.dynamics.com");
 

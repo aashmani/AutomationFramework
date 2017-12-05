@@ -21,13 +21,14 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         List<RolesConfiguration> lstRole = new List<RolesConfiguration>();
         List<string> lstSenario = new List<string>();
         string hostURL = string.Empty;
-        //string password = string.Empty;
-        //string username = string.Empty;
+        string password = string.Empty;
+        string username = string.Empty;
         List<RoleUsersConfiguration> lstSelectedRoleUsers = new List<RoleUsersConfiguration>();
         string schBrowser = string.Empty;
         string schUser = string.Empty;
         string schRole=string.Empty;
         List<string> lstSchScenario = new List<string>();
+        RoleUsersConfiguration schRoleconfig = new RoleUsersConfiguration();
 
         public MainWindow()
         {
@@ -37,6 +38,8 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             lstRole = ConfigurationManager.GetInstance().Roles.ToList();
             var objEntities = ConfigurationManager.GetInstance().Entities;
             hostURL = ConfigurationManager.GetInstance().rootURL;
+            //username = ConfigurationManager.GetInstance().UserName;
+            //password = ConfigurationManager.GetInstance().Password;
      
 
             //**********************************************
@@ -167,14 +170,13 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             string path = System.AppDomain.CurrentDomain.BaseDirectory + @"Microsoft.Dynamics365.UIAutomation.Sample.dll";
             //foreach(var browswer in lstSelectedBrowser)
             //{
-
+            Assembly objAssembly = Assembly.LoadFile(path);
             foreach (var user in lstSelectedRoleUsers)
             {
                 //foreach (var user in role)
                 //{
                     foreach (var scenario in lstSenario)
-                    {
-                        Assembly objAssembly = Assembly.LoadFile(path);
+                    {                    
                         if (objAssembly != null)
                         {
                             Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + scenario);
@@ -216,7 +218,10 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         private void rbSchRole_Checked(object sender, RoutedEventArgs e)
         {
             var rbRole = sender as RadioButton;
-            schRole = rbRole.Content.ToString();
+            schRoleconfig.username= rbRole.Content.ToString();
+            schRoleconfig.password= rbRole.Tag.ToString();
+            schRoleconfig.IsChecked = true;
+            //schRole = rbRole.Content.ToString();
         }
 
         private void rbSchScenario_UnChecked(object sender, RoutedEventArgs e)
@@ -237,7 +242,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         {
             var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
 
-            var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
+            var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario + "|" + hostURL + "|" + schRoleconfig.username + "|" + schRoleconfig.password;
             ITaskService taskService = new TaskScheduler.TaskScheduler();
             taskService.Connect();
             ITaskDefinition taskDefinition = taskService.NewTask(0);
@@ -246,8 +251,12 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             ITrigger trigger = triggers.Create(_TASK_TRIGGER_TYPE2.TASK_TRIGGER_DAILY);
             trigger.Id = "testCRM";
             trigger.Enabled = true;
-            trigger.StartBoundary = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss");
-            
+            trigger.StartBoundary = DateTime.Now.AddMinutes(1).ToString("yyyy-MM-ddTHH:mm:ss ");
+            taskDefinition.Settings.StopIfGoingOnBatteries = false;
+            taskDefinition.Settings.DisallowStartIfOnBatteries = false;
+
+
+
             IActionCollection actions = taskDefinition.Actions;
             IAction action = actions.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
             IExecAction execAction = action as IExecAction;
@@ -255,7 +264,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             execAction.Arguments = schArgument;
             ITaskFolder rootFolder = taskService.GetFolder("\\");
             rootFolder.RegisterTaskDefinition("CRMAutomation",taskDefinition , 6, null, null, _TASK_LOGON_TYPE.TASK_LOGON_NONE, null);
-
+           
         }
 
        
