@@ -14,16 +14,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                            string ExecutionAttempts = "", string RetryAttempts = "", string FullName = "", string Message = "", string ImageName="")
         {
 
-            //string file = "CRM Testing-" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
+          
             string file = TraceEventTypeError + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
-            //string filename = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\" + file;
-            string filename = logPath + @"\Logs\" + file;
-            //string filename = @"D:\Projects\EasyRepro-master\Microsoft.Dynamics365.UIAutomation.Utility\Logs\" + file;
+            string filename = logPath + @"\Logs\Errors\" + file;
             if (!File.Exists(filename))
             {
                 using (StreamWriter sw = File.CreateText(filename))
                 {
-                    //sw.WriteLine("TraceEventTypeError : " + TraceEventTypeError);
                     sw.WriteLine("ErrorId : " + ErrorId);
                     if (CommandErrorEventId != "")
                         sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
@@ -48,7 +45,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 using (StreamWriter sw = File.AppendText(filename))
                 {
                     sw.WriteLine("************************************");
-                    //sw.WriteLine("TraceEventTypeError : " + TraceEventTypeError);
+
                     sw.WriteLine("ErrorId : " + ErrorId);
                     if (CommandErrorEventId != "")
                         sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
@@ -74,9 +71,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
         {
 
             string file = "CRM Testing-" + testCaseFile + ".html";
-            //string filename = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\HTML\" + file;
-            string filename = logPath + @"\Logs\HTML\" + file;
-            //string filename = @"D:\Projects\EasyRepro-master\Microsoft.Dynamics365.UIAutomation.Utility\Logs\HTML\" + file;
+            string filename = logPath + @"\Logs\TestCases\" + file;
             if (!File.Exists(filename))
             {
                 using (StreamWriter sw = File.CreateText(filename))
