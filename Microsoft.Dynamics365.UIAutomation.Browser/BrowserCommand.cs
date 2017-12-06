@@ -133,7 +133,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
 
                             if (this.Options.ThrowExceptions)
                             {
-                                throw;
+                               throw;
                             }
                         }
                         else

@@ -140,6 +140,10 @@
       <Project>{c9748803-f3cb-4531-b313-bc24d4d0bf0c}</Project>
       <Name>Microsoft.Dynamics365.UIAutomation.Browser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Dynamics365.UIAutomation.Utility\Microsoft.Dynamics365.UIAutomation.Utility.csproj">
+      <Project>{7ceda799-a9fd-4471-a846-bb047aa07b84}</Project>
+      <Name>Microsoft.Dynamics365.UIAutomation.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
