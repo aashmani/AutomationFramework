@@ -142,6 +142,21 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
                         driver.FindElement(By.XPath(Elements.Xpath[Reference.Login.OldSignInPassword])).Submit();
                     }
 
+                    try
+                    {
+                        if (driver.IsVisible(By.Id("idBtn_Back")))
+                        {
+                            String xpath = "//*[@id='idBtn_Back']";
+                            driver.FindElement(By.XPath(xpath)).Click();
+                            //page has been refreshed. Now create a new element and work on it
+                            driver.FindElement(By.XPath(xpath)).Click();   //This works
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                     driver.WaitUntilVisible(By.XPath(Elements.Xpath[Reference.Login.CrmMainPage])
                         , new TimeSpan(0, 0, 60),
                         e => { e.WaitForPageToLoad(); },

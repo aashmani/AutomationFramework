@@ -165,7 +165,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BrowserEntity.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="RoleEntity.cs" />
   </ItemGroup>
