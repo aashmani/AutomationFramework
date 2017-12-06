@@ -36,6 +36,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Task Scheduler\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.5.28.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Task Scheduler\Microsoft.Win32.TaskScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskSchedulerEditor">
+      <HintPath>Task Scheduler\Microsoft.Win32.TaskSchedulerEditor.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -154,6 +165,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BrowserEntity.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="RoleEntity.cs" />
   </ItemGroup>
@@ -230,6 +242,16 @@
     <Content Include="bin\Debug\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll" />
     <Content Include="bin\Debug\Telerik.Windows.Maths.dll" />
     <Content Include="bin\Debug\Telerik.Windows.Zip.dll" />
+    <Content Include="Task Scheduler\de\Microsoft.Win32.TaskScheduler.resources.dll" />
+    <Content Include="Task Scheduler\es\Microsoft.Win32.TaskScheduler.resources.dll" />
+    <Content Include="Task Scheduler\fr\Microsoft.Win32.TaskScheduler.resources.dll" />
+    <Content Include="Task Scheduler\it\Microsoft.Win32.TaskScheduler.resources.dll" />
+    <Content Include="Task Scheduler\JetBrains.Annotations.dll" />
+    <Resource Include="Task Scheduler\JetBrains.Annotations.xml" />
+    <Content Include="Task Scheduler\Microsoft.Win32.TaskScheduler.dll" />
+    <Content Include="Task Scheduler\Microsoft.Win32.TaskScheduler.pdb" />
+    <Resource Include="Task Scheduler\Microsoft.Win32.TaskScheduler.XML" />
+    <Content Include="Task Scheduler\zh-CN\Microsoft.Win32.TaskScheduler.resources.dll" />
     <Content Include="Telerik\Telerik.Windows.Controls.Data.dll" />
     <Content Include="Telerik\Telerik.Windows.Controls.DataServices.dll" />
     <Content Include="Telerik\Telerik.Windows.Controls.DataServices50.dll" />

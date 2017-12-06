@@ -9,6 +9,8 @@ using TaskScheduler;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
+using Microsoft.Win32.TaskScheduler;
+
 
 namespace Microsoft.Dynamics365.UIAutomation.UI
 {
@@ -235,7 +237,33 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         }
         private void btnScheduleTest_Click(object sender, RoutedEventArgs e)
         {
-            var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
+            //Triggering scheduler using win32 dll
+
+            using (TaskService ts = new TaskService())
+            {
+                // Create a new task
+                const string taskName = "Test";
+                Task t = ts.AddTask(taskName,
+                   new TimeTrigger()
+                   {
+                       StartBoundary = DateTime.Now + TimeSpan.FromHours(1),
+                       Enabled = false
+                   },
+                   new ExecAction("notepad.exe", "c:\\test.log", "C:\\"));
+
+                // Edit task and re-register if user clicks Ok
+                TaskEditDialog editorForm = new TaskEditDialog();
+                editorForm.Editable = true;
+                editorForm.RegisterTaskOnAccept = true;
+                editorForm.Initialize(t);
+                // ** The four lines above can be replaced by using the full constructor
+                // TaskEditDialog editorForm = new TaskEditDialog(t, true, true);
+                editorForm.ShowDialog();
+            }
+            //upto here
+
+            // commented out existing code for testing the win32 dll
+            /*var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
 
             var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
             ITaskService taskService = new TaskScheduler.TaskScheduler();
@@ -255,7 +283,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             execAction.Arguments = schArgument;
             ITaskFolder rootFolder = taskService.GetFolder("\\");
             rootFolder.RegisterTaskDefinition("CRMAutomation",taskDefinition , 6, null, null, _TASK_LOGON_TYPE.TASK_LOGON_NONE, null);
-
+            */
         }
 
        
