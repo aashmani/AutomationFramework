@@ -242,14 +242,17 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             using (TaskService ts = new TaskService())
             {
                 // Create a new task
-                const string taskName = "Test";
+                const string taskName = "Test_name";
+                var xmlScenario = XMLSerializer.SerializeObject(lstSchScenario);
+
+                var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
                 Task t = ts.AddTask(taskName,
                    new TimeTrigger()
                    {
                        StartBoundary = DateTime.Now + TimeSpan.FromHours(1),
                        Enabled = false
                    },
-                   new ExecAction("notepad.exe", "c:\\test.log", "C:\\"));
+                   new ExecAction(@"D:\Learning\TestSchedule\TestSchedule\bin\Debug\TestSchedule.exe", schArgument, "D:\\"));
 
                 // Edit task and re-register if user clicks Ok
                 TaskEditDialog editorForm = new TaskEditDialog();
@@ -263,10 +266,8 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             //upto here
 
             // commented out existing code for testing the win32 dll
-            /*var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
-
-            var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
-            ITaskService taskService = new TaskScheduler.TaskScheduler();
+           
+           /* ITaskService taskService = new TaskScheduler.TaskScheduler();
             taskService.Connect();
             ITaskDefinition taskDefinition = taskService.NewTask(0);
             taskDefinition.RegistrationInfo.Description = "CRM Automation Testing";
@@ -279,7 +280,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             IActionCollection actions = taskDefinition.Actions;
             IAction action = actions.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
             IExecAction execAction = action as IExecAction;
-            execAction.Path = @"D:\Learning\TestSchedule\TestSchedule\bin\Debug\TestSchedule.exe";
+            execAction.Path = @"";
             execAction.Arguments = schArgument;
             ITaskFolder rootFolder = taskService.GetFolder("\\");
             rootFolder.RegisterTaskDefinition("CRMAutomation",taskDefinition , 6, null, null, _TASK_LOGON_TYPE.TASK_LOGON_NONE, null);
