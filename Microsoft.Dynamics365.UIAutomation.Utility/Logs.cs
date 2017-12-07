@@ -10,6 +10,20 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
     public class Logs
     {
         private static string  logPath=Path.GetFullPath(@"..\..\..");
+
+        /// <summary>
+        /// To Log Errors in txt file.
+        /// </summary>
+        /// <param name="ErrorId"></param>
+        /// <param name="TraceEventTypeError"></param>
+        /// <param name="CommandErrorEventId"></param>
+        /// <param name="CommandError"></param>
+        /// <param name="CommandName"></param>
+        /// <param name="ExecutionAttempts"></param>
+        /// <param name="RetryAttempts"></param>
+        /// <param name="FullName"></param>
+        /// <param name="Message"></param>
+        /// <param name="ImageName"></param>
         public static void Log(string ErrorId, string TraceEventTypeError, string CommandErrorEventId, string CommandError = "", string CommandName = "",
                            string ExecutionAttempts = "", string RetryAttempts = "", string FullName = "", string Message = "", string ImageName="")
         {
@@ -67,7 +81,17 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
             }
         }
 
-        public static void LogHTML(string testCaseFile, string strComment, HTMLSection section, TestStatus teststatus =TestStatus.NA, string TestCase = "", string User = "", string Browser = "")
+        /// <summary>
+        /// To log Details in HTML
+        /// </summary>
+        /// <param name="testCaseFile"></param>
+        /// <param name="message">Message to Show in test result</param>
+        /// <param name="section"></param>
+        /// <param name="teststatus"></param>
+        /// <param name="TestCase"></param>
+        /// <param name="User"></param>
+        /// <param name="Browser"></param>
+        public static void LogHTML(string testCaseFile, string message, HTMLSection section, TestStatus teststatus =TestStatus.NA, string TestCase = "", string User = "", string Browser = "")
         {
 
             string file = "CRM Testing-" + testCaseFile + ".html";
@@ -82,14 +106,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
 
 
                     if (section == HTMLSection.Header) {
-                        sw.WriteLine("<h1> TestCase : " + strComment + "</h1> ");
+                        sw.WriteLine("<h1> TestCase : " + TestCase + "</h1> ");
                             sw.WriteLine("<h2> User :  " + User + "</h2> ");
                             sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
                     }
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
-                        sw.WriteLine("<p style = 'color: green;'> " + strComment + "</p> ");
+                        sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                        sw.WriteLine("<p style = 'color: red; '> " + strComment + "</p> ");
+                        sw.WriteLine("<p style = 'color: red; '> " + message + "</p> ");
                   
                 }
             }
@@ -99,9 +123,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 {
                    
                     if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
-                        sw.WriteLine("<p style = 'color: green;'> " + strComment + "</p> ");
+                        sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                        sw.WriteLine("<p style = 'color: red; '> " + strComment + "</p> ");
+                        sw.WriteLine("<p style = 'color: red; '> " + message + "</p> ");
 
                     //else if (section == HTMLSection.Close)
                     //{
@@ -113,7 +137,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
             }
         }
     
+      
         public  enum TestStatus { Pass, Fail, NA  };
+      
         public enum HTMLSection {  Header, Details, Images, Close };
     }
 }

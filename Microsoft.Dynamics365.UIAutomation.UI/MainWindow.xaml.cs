@@ -193,7 +193,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                                 fieldURL.SetValue(objType, new Uri(hostURL));
                           
                                 FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
-                                fieldBrowser.SetValue(objType,  BrowserType.Chrome);  //Update BrowserType When  Browser seclection implemented
+                                fieldBrowser.SetValue(objType,  BrowserType.Chrome);  //Update BrowserType When  Browser selection implemented
                             //fieldBrowser.SetValue(objType, lstSelectedBrowser);
 
 
