@@ -95,6 +95,7 @@
     <Compile Include="CreateContact.cs" />
     <Compile Include="CreateLead.cs" />
     <Compile Include="CreateOpportunity.cs" />
+    <Compile Include="DeleteAccount.cs" />
     <Compile Include="DOCValidationTests\CreateUser.cs" />
     <Compile Include="DOCValidationTests\CreateWorkflow.cs" />
     <Compile Include="DOCValidationTests\OpenMobile.cs" />
@@ -144,6 +145,11 @@
       <Project>{7ceda799-a9fd-4471-a846-bb047aa07b84}</Project>
       <Name>Microsoft.Dynamics365.UIAutomation.Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.dll" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.pdb" />
+    <Content Include="bin\Release\chromedriver.exe" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -99,6 +99,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Dynamics365.UIAutomation.Utility\Microsoft.Dynamics365.UIAutomation.Utility.csproj">
+      <Project>{7CEDA799-A9FD-4471-A846-BB047AA07B84}</Project>
+      <Name>Microsoft.Dynamics365.UIAutomation.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -291,7 +291,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bin\Debug\config\config.xml" />
+    <Resource Include="bin\Debug\config\config.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="TaskScheduler">

@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Dynamics365.UIAutomation.Utility;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using ThreadState = System.Threading.ThreadState;
@@ -431,11 +433,15 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserEventFiringEventId,
                 "BrowserInitialized invoked.");
 
+            Logs.Log(level.ToString() + "1", level.ToString(), Constants.Tracing.BrowserEventFiringEventId.ToString(), "BrowserInitialized invoked.");
+
             this.BrowserInitialized?.Invoke(this, e);
 
             Trace.TraceEvent(level,
                 Constants.Tracing.BrowserEventFiredEventId,
                 "BrowserInitialized completed.");
+
+            Logs.Log(level.ToString() + "2", level.ToString(),Constants.Tracing.BrowserEventFiredEventId.ToString(), "BrowserInitialized completed.");
         }
 
         [DebuggerNonUserCode()]
@@ -445,11 +451,17 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserEventFiringEventId,
                 "BrowserDisposing invoked.");
 
+
+            Logs.Log("Info 4", TraceEventType.Information.ToString(), Constants.Tracing.BrowserEventFiringEventId.ToString(), "BrowserDisposing invoked.");
+
             this.BrowserDisposing?.Invoke(this, e);
 
             Trace.TraceEvent(TraceEventType.Information,
                 Constants.Tracing.BrowserEventFiredEventId,
                 "BrowserDisposing completed.");
+
+
+            Logs.Log("Info 5", TraceEventType.Information.ToString(), Constants.Tracing.BrowserEventFiredEventId.ToString(), "BrowserDisposing completed.");
         }
 
         [DebuggerNonUserCode()]
@@ -458,6 +470,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserElementClickedEventId,
                 string.Format("ElementClicked - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y, e.Element.TagName, e.Element.Text));
+
+            Logs.Log("Verbose 3", TraceEventType.Verbose.ToString(),Constants.Tracing.BrowserElementClickedEventId.ToString(),
+                        string.Format("ElementClicked - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y, 
+                        e.Element.TagName, e.Element.Text));
+
 
             OnElementClicked(e);
         }
@@ -475,6 +492,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserElementClickingEventId,
                 string.Format("ElementClicking - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y, e.Element.TagName, e.Element.Text));
 
+            Logs.Log("Verbose 4", TraceEventType.Verbose.ToString(), Constants.Tracing.BrowserElementClickingEventId.ToString(),
+                    string.Format("ElementClicking - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y, 
+                    e.Element.TagName, e.Element.Text));
+
             OnElementClicking(e);
         }
 
@@ -490,6 +511,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserElementValueChangedEventId,
                 string.Format("ElementValueChanged - [{0},{1}] - <{2}>{3}</{2}>", e.Element?.Location.X, e.Element?.Location.Y, e.Element?.TagName, e.Element?.Text));
+
+            Logs.Log("Verbose 5", TraceEventType.Verbose.ToString(),  Constants.Tracing.BrowserElementValueChangedEventId.ToString(),
+                        string.Format("ElementValueChanged - [{0},{1}] - <{2}>{3}</{2}>", e.Element?.Location.X, e.Element?.Location.Y, 
+                        e.Element?.TagName, e.Element?.Text));
+
 
             OnElementValueChanged(e);
         }
@@ -507,6 +533,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserElementValueChangingEventId,
                 string.Format("ElementValueChanging - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y, e.Element.TagName, e.Element.Text));
 
+            Logs.Log("Verbose 6", TraceEventType.Verbose.ToString(),  Constants.Tracing.BrowserElementValueChangingEventId.ToString(),
+                      string.Format("ElementValueChanging - [{0},{1}] - <{2}>{3}</{2}>", e.Element.Location.X, e.Element.Location.Y,
+                      e.Element.TagName, e.Element.Text));
+
+
             OnElementValueChanging(e);
         }
 
@@ -523,6 +554,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserExceptionThrownEventId,
                 $"ExceptionThrown - [{e.ThrownException.GetType().Name}] - {e.ThrownException.Message} (HResult = {e.ThrownException.HResult}, InnerException = {e.ThrownException.InnerException?.Message})");
 
+            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
+            TakeWindowScreenShot(Path.GetFullPath(@"..\..\..") + @"\Logs\Screenshots\Screenshot" + timeStamp + ".jpg", ScreenshotImageFormat.Jpeg);
+
+            Logs.Log("Error 3", TraceEventType.Error.ToString(), Constants.Tracing.BrowserExceptionThrownEventId.ToString(),
+        $"ExceptionThrown - [{e.ThrownException.GetType().Name}] - {e.ThrownException.Message} (HResult = {e.ThrownException.HResult}, InnerException = {e.ThrownException.InnerException?.Message})",
+        ImageName: timeStamp);
+
             OnExceptionThrown(e);
         }
 
@@ -537,6 +575,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
         {
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserFindElementCompletedEventId,
+                $"FindElementCompleted - {e.ToTraceString()}");
+
+           Logs.Log("Verbose"+"7",TraceEventType.Verbose.ToString(),
+                Constants.Tracing.BrowserFindElementCompletedEventId.ToString(),
                 $"FindElementCompleted - {e.ToTraceString()}");
 
             OnFindElementCompleted(e);
@@ -555,6 +597,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserFindingElementEventId,
                 $"FindingElement - {e.ToTraceString()}");
 
+            Logs.Log("Verbose 8", TraceEventType.Verbose.ToString(),
+              Constants.Tracing.BrowserFindingElementEventId.ToString(),
+              $"FindingElement - {e.ToTraceString()}");
+
             OnFindingElement(e);
         }
 
@@ -570,6 +616,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserNavigatedEventId,
                 $"Navigated - {e.Url}");
+
+            Logs.Log("Verbose 9", TraceEventType.Verbose.ToString(),
+              Constants.Tracing.BrowserNavigatedEventId.ToString(),
+               $"Navigated - {e.Url}");
 
             if (Options.EnableRecording)
             {
@@ -593,6 +643,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserNavigatedBackEventId,
                 $"NavigatedBack - {e.Url}");
 
+            Logs.Log("Verbose 10", TraceEventType.Verbose.ToString(),
+            Constants.Tracing.BrowserNavigatedBackEventId.ToString(),
+              $"NavigatedBack - {e.Url}");
+
             OnNavigatedBack(e);
         }
 
@@ -608,6 +662,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserNavigatedForwardEventId,
                 $"NavigatedForward - {e.Url}");
+
+            Logs.Log("Verbose 11", TraceEventType.Verbose.ToString(),
+           Constants.Tracing.BrowserNavigatedBackEventId.ToString(),
+             $"NavigatedForward - {e.Url}");
 
             OnNavigatedForward(e);
         }
@@ -625,6 +683,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserNavigatingEventId,
                 $"Navigating - {e.Url}");
 
+            Logs.Log("Verbose 12", TraceEventType.Verbose.ToString(),
+          Constants.Tracing.BrowserNavigatingEventId.ToString(),
+            $"Navigating - {e.Url}");
+
             OnNavigating(e);
         }
 
@@ -640,6 +702,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserNavigatingBackEventId,
                 $"NavigatingBack - {e.Url}");
+
+            Logs.Log("Verbose 13", TraceEventType.Verbose.ToString(),
+         Constants.Tracing.BrowserNavigatingBackEventId.ToString(),
+           $"NavigatingBack - {e.Url}");
 
             OnNavigatingBack(e);
         }
@@ -657,6 +723,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserNavigatingForwardEventId,
                 $"NavigatingForward - {e.Url}");
 
+            Logs.Log("Verbose 13", TraceEventType.Verbose.ToString(),
+                     Constants.Tracing.BrowserNavigatingForwardEventId.ToString(),
+                      $"NavigatingForward - {e.Url}");
+
             OnNavigatingForward(e);
         }
 
@@ -671,6 +741,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
         {
             Trace.TraceEvent(TraceEventType.Verbose,
                 Constants.Tracing.BrowserScriptExecutedEventId,
+                $"ScriptExecuted - {e.Script}");
+
+            Logs.Log("Verbose 14", TraceEventType.Verbose.ToString(),
+                     Constants.Tracing.BrowserScriptExecutedEventId.ToString(),
                 $"ScriptExecuted - {e.Script}");
 
             OnScriptExecuted(e);
@@ -689,6 +763,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserScriptExecutingEventId,
                 $"ScriptExecuting - {e.Script}");
 
+            Logs.Log("Verbose 14", TraceEventType.Verbose.ToString(),
+                   Constants.Tracing.BrowserScriptExecutingEventId.ToString(),
+                $"ScriptExecuting - {e.Script}");
             OnScriptExecuting(e);
         }
 

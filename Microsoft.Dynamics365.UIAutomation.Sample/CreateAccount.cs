@@ -13,7 +13,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
         //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
         //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
-
+        Random rnd = new Random();
+        
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
@@ -38,7 +39,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.CommandBar.ClickCommand("New");
 
                 xrmBrowser.ThinkTime(4000);
-                xrmBrowser.Entity.SetValue("name", "Test API Account" + id.ToString());
+                xrmBrowser.Entity.SetValue("name", "Test API Account_" + rnd.Next(100000, 999999).ToString());
                 xrmBrowser.Entity.SetValue("telephone1", "555-555-5555");
                 xrmBrowser.Entity.SetValue("websiteurl", "https://easyrepro.crm.dynamics.com");
 

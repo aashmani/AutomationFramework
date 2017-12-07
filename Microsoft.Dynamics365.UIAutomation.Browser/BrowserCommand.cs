@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.Browser
 {
@@ -23,7 +24,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
 
         protected BrowserCommand(BrowserCommandOptions options)
         {
-            this.Options = options;            
+            this.Options = options;
 
             Trace = new TraceSource(this.Options.TraceSource);
         }
@@ -87,7 +88,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
         //[DebuggerNonUserCode()]
         public BrowserCommandResult<TReturn> Execute<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IWebDriver driver, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
         {
-            int retries = this.Options.RetryAttempts;            
+            int retries = this.Options.RetryAttempts;
             var result = new BrowserCommandResult<TReturn>();
             result.CommandName = this.Options.CommandName;
 
@@ -107,6 +108,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                         this.Options.CommandName,
                         result.ExecutionAttempts,
                         this.Options.RetryAttempts);
+
+                    Logs.Log("Info 1", TraceEventType.Information.ToString(),
+                           Constants.Tracing.CommandStartEventId.ToString(),
+                           "Command Start: {0} - Attempt {1}/{2}",
+                           this.Options.CommandName,
+                           result.ExecutionAttempts.ToString(),
+                           this.Options.RetryAttempts.ToString());
 
                     result.Value = ExecuteCommand(driver, p1, p2, p3, p4, p5, p6, p7, p8, p9);
                     result.Success = true;
@@ -131,9 +139,18 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                                 this.Options.RetryAttempts,
                                 e.GetType().FullName, e.Message);
 
+
+                            Logs.Log("Error 1", TraceEventType.Error.ToString(),
+                                Constants.Tracing.CommandErrorEventId.ToString(),
+                                "Command Error: {0} - Attempt {1}/{2} - {3} - {4}",
+                                this.Options.CommandName,
+                                result.ExecutionAttempts.ToString(),
+                                this.Options.RetryAttempts.ToString(),
+                                e.GetType().FullName, e.Message);
+
                             if (this.Options.ThrowExceptions)
                             {
-                               throw;
+                                throw;
                             }
                         }
                         else
@@ -144,6 +161,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                                     Constants.Tracing.CommandRetryEventId,
                                     "Command Error: {0} - Retry Action initiated",
                                     this.Options.CommandName);
+
+                                Logs.Log("Info 2", TraceEventType.Information.ToString(), Constants.Tracing.CommandRetryEventId.ToString(),
+                                    "Command Error: {0} - Retry Action initiated", this.Options.CommandName);
 
                                 this.Options.ExceptionAction(e);
                             }
@@ -161,6 +181,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                             result.ExecutionAttempts,
                             this.Options.RetryAttempts,
                             e.GetType().FullName, e.Message);
+
+                        Logs.Log("Error 2", TraceEventType.Error.ToString(),
+                        Constants.Tracing.CommandErrorEventId.ToString(),
+                        "Command Error: {0} - Attempt {1}/{2} - {3} - {4}",
+                        this.Options.CommandName,
+                        result.ExecutionAttempts.ToString(),
+                        this.Options.RetryAttempts.ToString(),
+                        e.GetType().FullName, e.Message);
 
                         if (this.Options.ThrowExceptions)
                         {
@@ -186,8 +214,16 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 result.ExecutionAttempts,
                 result.ExecutionTime);
 
+            Logs.Log("Info 3", TraceEventType.Information.ToString(),
+                           Constants.Tracing.CommandStopEventId.ToString(),
+                             "Command Stop: {0} - {1} attempts - total execution time {2}ms",
+                           this.Options.CommandName,
+                           result.ExecutionAttempts.ToString(),
+                          result.ExecutionTime.ToString());
+
+
             System.Diagnostics.Trace.CorrelationManager.StopLogicalOperation();
-            
+
             return result;
         }
 

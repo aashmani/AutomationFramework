@@ -30,6 +30,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         string schUser = string.Empty;
         string schRole=string.Empty;
         List<string> lstSchScenario = new List<string>();
+        RoleUsersConfiguration schRoleconfig = new RoleUsersConfiguration();
 
         public MainWindow()
         {
@@ -190,7 +191,13 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                                 fieldPassword.SetValue(objType, user.password.ToSecureString());
                                 FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
                                 fieldURL.SetValue(objType, new Uri(hostURL));
-                                MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                          
+                                FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
+                                fieldBrowser.SetValue(objType,  BrowserType.Chrome);  //Update BrowserType When  Browser seclection implemented
+                            //fieldBrowser.SetValue(objType, lstSelectedBrowser);
+
+
+                            MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                                 if (methodInfos.Count() > 0)
                                 {
                                     methodInfos[0].Invoke(objType, null);
@@ -218,7 +225,10 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         private void rbSchRole_Checked(object sender, RoutedEventArgs e)
         {
             var rbRole = sender as RadioButton;
-            schRole = rbRole.Content.ToString();
+            schRoleconfig.username = rbRole.Content.ToString();
+            schRoleconfig.password = rbRole.Tag.ToString();
+            schRoleconfig.IsChecked = true;
+            // schRole = rbRole.Content.ToString();
         }
 
         private void rbSchScenario_UnChecked(object sender, RoutedEventArgs e)
@@ -237,54 +247,43 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         }
         private void btnScheduleTest_Click(object sender, RoutedEventArgs e)
         {
-            //Triggering scheduler using win32 dll
-
-            using (TaskService ts = new TaskService())
+            try
             {
-                // Create a new task
-                const string taskName = "Test";
-                Task t = ts.AddTask(taskName,
-                   new TimeTrigger()
-                   {
-                       StartBoundary = DateTime.Now + TimeSpan.FromHours(1),
-                       Enabled = false
-                   },
-                   new ExecAction("notepad.exe", "c:\\test.log", "C:\\"));
+                string taskName = txtTaskName.Text;
+                if (string.IsNullOrEmpty(taskName))
+                {
+                    MessageBox.Show("Please enter task name.");
+                    return;
+                }
+                var xmlScenario = XMLSerializer.SerializeObject(lstSchScenario);
+                var schArgument = schBrowser + "|" + xmlScenario + "|" + hostURL + "|" + schRoleconfig.username + "|" + schRoleconfig.password;
+                //Triggering scheduler using win32 dll
+                using (TaskService ts = new TaskService())
+                {
+                    // Create a new task
+                    //const string taskName = "CRMAutomation";
+                    Task t = ts.AddTask(taskName,
+                       new TimeTrigger()
+                       {
+                           StartBoundary = DateTime.Now + TimeSpan.FromHours(1),
+                           Enabled = false,
+                       },
+                       new ExecAction(@"D:\AutomationFramework\Microsoft.Dynamics365.UIAutomation.AutomationScheduler\bin\Debug\Microsoft.Dynamics365.UIAutomation.AutomationScheduler.exe", schArgument, null));
+                    // Edit task and re-register if user clicks Ok
+                    TaskEditDialog editorForm = new TaskEditDialog();
+                    editorForm.Editable = true;
+                    editorForm.RegisterTaskOnAccept = true;
+                    editorForm.Initialize(t);
+                    // ** The four lines above can be replaced by using the full constructor
+                    editorForm.ShowDialog();
+                }
 
-                // Edit task and re-register if user clicks Ok
-                TaskEditDialog editorForm = new TaskEditDialog();
-                editorForm.Editable = true;
-                editorForm.RegisterTaskOnAccept = true;
-                editorForm.Initialize(t);
-                // ** The four lines above can be replaced by using the full constructor
-                // TaskEditDialog editorForm = new TaskEditDialog(t, true, true);
-                editorForm.ShowDialog();
             }
-            //upto here
+            catch(Exception ex)
+            {
 
-            // commented out existing code for testing the win32 dll
-            /*var xmlScenario= XMLSerializer.SerializeObject(lstSchScenario);
-
-            var schArgument = schBrowser + "|" + schRole + "|" + xmlScenario;
-            ITaskService taskService = new TaskScheduler.TaskScheduler();
-            taskService.Connect();
-            ITaskDefinition taskDefinition = taskService.NewTask(0);
-            taskDefinition.RegistrationInfo.Description = "CRM Automation Testing";
-            ITriggerCollection triggers = taskDefinition.Triggers;
-            ITrigger trigger = triggers.Create(_TASK_TRIGGER_TYPE2.TASK_TRIGGER_DAILY);
-            trigger.Id = "testCRM";
-            trigger.Enabled = true;
-            trigger.StartBoundary = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss");
-            
-            IActionCollection actions = taskDefinition.Actions;
-            IAction action = actions.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
-            IExecAction execAction = action as IExecAction;
-            execAction.Path = @"D:\Learning\TestSchedule\TestSchedule\bin\Debug\TestSchedule.exe";
-            execAction.Arguments = schArgument;
-            ITaskFolder rootFolder = taskService.GetFolder("\\");
-            rootFolder.RegisterTaskDefinition("CRMAutomation",taskDefinition , 6, null, null, _TASK_LOGON_TYPE.TASK_LOGON_NONE, null);
-            */
-        }
+            }
+            }
 
        
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
