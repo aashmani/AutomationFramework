@@ -146,6 +146,11 @@
       <Name>Microsoft.Dynamics365.UIAutomation.Utility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.dll" />
+    <Content Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.Sample.pdb" />
+    <Content Include="bin\Release\chromedriver.exe" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

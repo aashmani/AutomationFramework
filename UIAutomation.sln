@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Dynamics365.UIAut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Dynamics365.UIAutomation.Utility", "Microsoft.Dynamics365.UIAutomation.Utility\Microsoft.Dynamics365.UIAutomation.Utility.csproj", "{7CEDA799-A9FD-4471-A846-BB047AA07B84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Dynamics365.UIAutomation.AutomationScheduler", "Microsoft.Dynamics365.UIAutomation.AutomationScheduler\Microsoft.Dynamics365.UIAutomation.AutomationScheduler.csproj", "{70F78461-BEED-448D-AAEA-F4DF62D0AA13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{7CEDA799-A9FD-4471-A846-BB047AA07B84}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CEDA799-A9FD-4471-A846-BB047AA07B84}.UnitTest|Any CPU.ActiveCfg = Release|Any CPU
 		{7CEDA799-A9FD-4471-A846-BB047AA07B84}.UnitTest|Any CPU.Build.0 = Release|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.UnitTest|Any CPU.ActiveCfg = Release|Any CPU
+		{70F78461-BEED-448D-AAEA-F4DF62D0AA13}.UnitTest|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

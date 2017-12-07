@@ -513,7 +513,7 @@
         <TabItem Header="Schedule Test">
             <GroupBox Margin="5,0,5,5" FontSize="14"  FontWeight="Black" Background="White" BorderBrush="#0BC0C0">
                 <GroupBox.Header>
-                   Schedule Test Scenarios
+                    Schedule Test Scenarios
                 </GroupBox.Header>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -523,13 +523,13 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="141"></ColumnDefinition>
-                            <ColumnDefinition Width="149.278"></ColumnDefinition>
-                            <ColumnDefinition Width="102"></ColumnDefinition>
-                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="265"></ColumnDefinition>
+                            <ColumnDefinition Width="96"></ColumnDefinition>
+                            <ColumnDefinition Width="274"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Browser:" Grid.Column="0"  Height="28" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="118" />
-                        <ComboBox Name="cb_SchBrowser" Height="28" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Margin="109,0,31,12" >
+                        <Label Content="Browser:" Grid.Column="0"  Height="28" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="118" Grid.ColumnSpan="2" />
+                        <ComboBox Name="cb_SchBrowser" Height="28" VerticalAlignment="Bottom" Margin="8,0,10,12" Grid.Column="1" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <RadioButton IsChecked="{Binding IsChecked,Mode=TwoWay}" GroupName="Browser" Checked="RadioButton_Checked" >
@@ -538,23 +538,26 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ComboBox>
+                        <Label Content="Task Name:" Grid.Column="2"  Height="28" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="123" Grid.ColumnSpan="2" />
+                        <TextBox Name="txtTaskName" Grid.Column="3" Margin="8,10,-71,12"></TextBox>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="141"></ColumnDefinition>
                             <ColumnDefinition Width="210"></ColumnDefinition>
                             <ColumnDefinition Width="110"></ColumnDefinition>
-                            <ColumnDefinition Width="365"></ColumnDefinition>
+                            <ColumnDefinition Width="107"></ColumnDefinition>
+                            <ColumnDefinition Width="259"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Scenarios:" Grid.Column="0" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.463,0.5"  Width="120" Margin="6,10,0,0" />
                         <Grid Grid.Column="1">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="-34,10,10,50">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="-42,10,0,50">
                                 <StackPanel Name="stkExpanderSchMain" Width="600"/>
                             </ScrollViewer>
                         </Grid>
-                        <Label Content="Roles:" Grid.Column="2" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.463,0.5"  Width="120" Margin="6,10,0,0" />
-                        <Grid Grid.Column="3">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="-34,10,5,40">
+                        <Label Content="Roles:" Grid.Column="2" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.463,0.5"  Width="120" Margin="6,10,0,0" Grid.ColumnSpan="2" />
+                        <Grid Grid.Column="3" Grid.ColumnSpan="2">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="-4,10,5,40">
                                 <StackPanel Name="stkExpanderSchRoleMain" />
                             </ScrollViewer>
                         </Grid>
