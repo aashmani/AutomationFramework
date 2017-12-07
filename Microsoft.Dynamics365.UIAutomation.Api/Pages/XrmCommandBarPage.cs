@@ -79,7 +79,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
                 {
                     if (button != null)
                     {
-                        button.Click();
+                        try
+                        {
+                            button.Click();
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
                     }
                     else
                     {

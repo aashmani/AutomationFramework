@@ -95,8 +95,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
                     throw new InvalidOperationException($"No subarea with the name '{subArea}' exists inside of '{area}'.");
                 }
 
-                subAreas[subArea].Click();
+                try
+                {
+                    subAreas[subArea].Click();
+                }
+                catch(Exception ex)
+                {
 
+                }
                 SwitchToContent();
                 driver.WaitForPageToLoad();
 
@@ -204,7 +210,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
                 var items = area.FindElements(By.ClassName("nav-rowLabel"));
                 var item = items.FirstOrDefault(x => x.Text == entity);
 
-                if(item == null)
+                if (item == null)
                 {
                     throw new InvalidOperationException($"No Entity with the name '{entity}' exists inside QuickCreate.");
                 }
@@ -435,7 +441,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
 
                 foreach (var subItem in subItems)
                 {
-                    dictionary.Add(subItem.Text.ToLowerString(), subItem);
+                    if(!dictionary.ContainsKey(subItem.Text.ToLowerString()))
+                        dictionary.Add(subItem.Text.ToLowerString(), subItem);
                 }
 
                 return dictionary;
