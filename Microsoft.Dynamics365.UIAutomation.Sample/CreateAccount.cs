@@ -3,6 +3,7 @@ using Microsoft.Dynamics365.UIAutomation.Api;
 using Microsoft.Dynamics365.UIAutomation.Browser;
 using System;
 using System.Security;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -26,11 +27,16 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             Guid id = Guid.NewGuid();
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
+                string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
+                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
+                Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
+                Logs.LogHTML(testCaseFile, "Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.ThinkTime(2000);
                 xrmBrowser.Grid.SwitchView("Active Accounts");
@@ -45,6 +51,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 xrmBrowser.CommandBar.ClickCommand("Save & Close");
                 xrmBrowser.ThinkTime(2000);
+                Logs.LogHTML(testCaseFile, "Created Account  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
             }
         }
     }

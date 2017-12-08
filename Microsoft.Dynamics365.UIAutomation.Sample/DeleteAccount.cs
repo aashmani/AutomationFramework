@@ -7,49 +7,67 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security;
 using Microsoft.Dynamics365.UIAutomation.Api;
 using Microsoft.Dynamics365.UIAutomation.Browser;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
-        [TestClass]
-        public class DeleteAccount
-        {
-            //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-            //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-            //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
-            private SecureString _username = string.Empty.ToSecureString();
-            private readonly SecureString _password = string.Empty.ToSecureString();
-            private readonly Uri _xrmUri;
-            private readonly BrowserType _browser;
+    [TestClass]
+    public class DeleteAccount
+    {
+        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
+        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
+        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
+        private SecureString _username = string.Empty.ToSecureString();
+        private readonly SecureString _password = string.Empty.ToSecureString();
+        private readonly Uri _xrmUri;
+        private readonly BrowserType _browser;
 
-            [TestMethod]
-            public void TestDeleteAccount()
+        [TestMethod]
+        public void TestDeleteAccount()
+        {
+            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
-                using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+                string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
+                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+
+                string name = "Test API Account";
+
+                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
+                xrmBrowser.GuidedHelp.CloseGuidedHelp();
+                Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                xrmBrowser.ThinkTime(500);
+                if (name == string.Empty)
                 {
-                    string name = "Test API Account";
-                    xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                    xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                    xrmBrowser.ThinkTime(500);
-                    if (name == string.Empty)
-                        xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-                    else
-                        xrmBrowser.Navigation.GlobalSearch(name);
-                    
-                    xrmBrowser.ThinkTime(2000);
+                    xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
+                    Logs.LogHTML(testCaseFile, "Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                }
+                else
+                {
+                    xrmBrowser.Navigation.GlobalSearch(name);
+                    Logs.LogHTML(testCaseFile, "Global Search Success", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                }
+                xrmBrowser.ThinkTime(2000);
+
                 try
                 {
                     xrmBrowser.GlobalSearch.OpenRecord("Accounts", 0, 1000);
                     xrmBrowser.ThinkTime(1000);
-                    xrmBrowser.CommandBar.ClickCommand("Delete");
+                    Logs.LogHTML(testCaseFile, "Selected Account to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                    xrmBrowser.CommandBar.ClickCommand("Delete");                   
                     xrmBrowser.ThinkTime(2000);
                     xrmBrowser.Dialogs.Delete();
+                    Logs.LogHTML(testCaseFile, "Deleted Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     xrmBrowser.ThinkTime(1000);
-                }
+                    Logs.LogHTML(testCaseFile, "Delete Account ( "+ name+" ) Failed : " +ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
             }
         }
     }
+}
 
