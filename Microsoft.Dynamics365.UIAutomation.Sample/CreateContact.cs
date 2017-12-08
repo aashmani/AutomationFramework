@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Security;
 using Microsoft.Dynamics365.UIAutomation.Utility;
+using OpenQA.Selenium;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -20,7 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
         private readonly BrowserType _browser;
-
+        Random rnd = new Random();
 
         [TestMethod]
         public void TestCreateNewContact()
@@ -28,8 +29,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
                 string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
-                Logs.LogHTML(testCaseFile,string.Empty , Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-                
+                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
                 Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
@@ -47,6 +48,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 xrmBrowser.ThinkTime(5000);
 
+                //string firstName = "Test" + rnd.Next(100000, 999999).ToString();
                 string firstName = "Test";
                 string lastName = "Contact";
                 string displayName = firstName + " " + lastName;
@@ -56,26 +58,30 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                     new Field() {Id = "lastname", Value = lastName}
                 };
 
-                xrmBrowser.Entity.SetValue(new CompositeControl() {Id = "fullname", Fields = fields});
+                xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
+                //xrmBrowser.Entity.SetValue("emailaddress1", "test" + rnd.Next(100000, 999999).ToString() + "@contoso.com");
                 xrmBrowser.Entity.SetValue("emailaddress1", "test@contoso.com");
                 xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
                 xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
-                xrmBrowser.Entity.SetValue(new OptionSet {Name = "preferredcontactmethodcode", Value = "Email"});
+                xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
 
                 xrmBrowser.CommandBar.ClickCommand("Save & Close");
                 xrmBrowser.ThinkTime(5000);
 
-                if (!xrmBrowser.Dialogs.DuplicateDetection(true))
+                if (xrmBrowser.Driver.IsVisible(By.Id("InlineDialog_Background")))
                 {
+                    xrmBrowser.Dialogs.DuplicateDetection(true);
+                    xrmBrowser.ThinkTime(2000);
                     Logs.LogHTML(testCaseFile, "Duplicate Contacts Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
                 }
 
-
                 xrmBrowser.Grid.Search(displayName);
-
+                xrmBrowser.ThinkTime(1000);
+                
                 var results = xrmBrowser.Grid.GetGridItems();
 
-                if (results.Value.Count == 0)
+                if (results.Value == null || results.Value.Count == 0)
                 {
                     Logs.LogHTML(testCaseFile, "Contact  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
