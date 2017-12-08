@@ -21,21 +21,8 @@
    
 	<roles>
 		<role>
-			<role-name>Sales Rep</role-name>
-			<users>
-        <user>
-				  <username>testsalesrep@servicesource.com</username>
-          <password>pass@word1</password>
-        </user>
-			</users>    
-		</role>
-		<role>
 			<role-name>Sales Manager</role-name>
 			<users>
-        <user>
-				<username>testsalesmanager@servicesource.com</username>
-        <password>pass@word1</password>
-          </user>
         <user>
           <username>SalesManager@pesdemo3.onmicrosoft.com</username>
           <password>pass@word1</password>
@@ -69,7 +56,6 @@
           </user>
       </users>
     </role>
-
     <role>
       <role-name>Sales User1</role-name>
       <users>
@@ -87,6 +73,7 @@
 				<scenario-name>CreateAccount</scenario-name>
 				<scenario-name>UpdateAccount</scenario-name>
         <scenario-name>OpenAccount</scenario-name>
+        <scenario-name>DeleteAccount</scenario-name>
 			</scenarios>
 		</entity>
 	  <entity>

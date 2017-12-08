@@ -189,12 +189,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="bin\Debug\config\config.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.exe.config" />
     <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.vshost.exe.config" />
     <None Include="bin\Debug\Microsoft.Dynamics365.UIAutomation.UI.vshost.exe.manifest" />
+    <None Include="config\config.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -241,6 +242,9 @@
     <Content Include="bin\Debug\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll" />
     <Content Include="bin\Debug\Telerik.Windows.Maths.dll" />
     <Content Include="bin\Debug\Telerik.Windows.Zip.dll" />
+    <None Include="config\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Task Scheduler\de\Microsoft.Win32.TaskScheduler.resources.dll" />
     <Content Include="Task Scheduler\es\Microsoft.Win32.TaskScheduler.resources.dll" />
     <Content Include="Task Scheduler\fr\Microsoft.Win32.TaskScheduler.resources.dll" />
@@ -289,11 +293,6 @@
       <Project>{a075b87e-dca5-4a2a-909b-932e2f5f98b4}</Project>
       <Name>Microsoft.Dynamics365.UIAutomation.Sample</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\config\config.xml">
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="TaskScheduler">
