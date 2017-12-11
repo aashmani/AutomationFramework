@@ -25,13 +25,23 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
 
-                xrmBrowser.ThinkTime(200);
-                xrmBrowser.Grid.SwitchView("Open Opportunities");
+                //xrmBrowser.ThinkTime(200);
+                //xrmBrowser.Grid.SwitchView("Open Opportunities");
 
 
                 xrmBrowser.ThinkTime(1000);
                 xrmBrowser.Grid.OpenRecord(0);
+                xrmBrowser.BusinessProcessFlow.SelectStage(1);
 
+                xrmBrowser.Entity.SetValue("customerneed", "test content");
+                xrmBrowser.Entity.SetValue("proposedsolution", "test content");
+                
+                xrmBrowser.Entity.SetValue("identifycustomercontacts", "completed" );
+               
+
+                xrmBrowser.BusinessProcessFlow.SelectStage(2);
+                xrmBrowser.Entity.SetValue("identifypursuitteam", "completed");
+                              
                 xrmBrowser.Entity.SetValue("description", "Testing the update api for Opportunity");
 
                 xrmBrowser.Entity.Save();
