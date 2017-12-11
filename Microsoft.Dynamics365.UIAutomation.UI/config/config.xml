@@ -99,6 +99,7 @@
 				<scenario-name>UpdateLead</scenario-name>
         <scenario-name>OpenLead</scenario-name>
        <scenario-name>LeadToOpportuninty</scenario-name>
+        <scenario-name>BPFLeadToOpportunity</scenario-name>
 			</scenarios>
 		</entity>
     <entity>

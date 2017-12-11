@@ -555,11 +555,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 $"ExceptionThrown - [{e.ThrownException.GetType().Name}] - {e.ThrownException.Message} (HResult = {e.ThrownException.HResult}, InnerException = {e.ThrownException.InnerException?.Message})");
 
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
-            TakeWindowScreenShot(Path.GetFullPath(@"..\..\..") + @"\Logs\Screenshots\Screenshot" + timeStamp + ".jpg", ScreenshotImageFormat.Jpeg);
 
             Logs.Log("Error 3", TraceEventType.Error.ToString(), Constants.Tracing.BrowserExceptionThrownEventId.ToString(),
-        $"ExceptionThrown - [{e.ThrownException.GetType().Name}] - {e.ThrownException.Message} (HResult = {e.ThrownException.HResult}, InnerException = {e.ThrownException.InnerException?.Message})",
-        ImageName: timeStamp);
+                        $"ExceptionThrown - [{e.ThrownException.GetType().Name}] - {e.ThrownException.Message} (HResult = {e.ThrownException.HResult}, InnerException = {e.ThrownException.InnerException?.Message})",
+                        ImageName: timeStamp);
+
+            TakeWindowScreenShot(Path.GetFullPath(@"..\..\..") + @"\Logs\Screenshots\Screenshot" + timeStamp + ".jpg", ScreenshotImageFormat.Jpeg);
 
             OnExceptionThrown(e);
         }
