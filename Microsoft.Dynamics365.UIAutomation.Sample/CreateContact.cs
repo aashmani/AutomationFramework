@@ -48,8 +48,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 xrmBrowser.ThinkTime(5000);
 
-                //string firstName = "Test" + rnd.Next(100000, 999999).ToString();
-                string firstName = "Test";
+                string firstName = "Test" + rnd.Next(100000, 999999).ToString();
+                //string firstName = "Test";
                 string lastName = "Contact";
                 string displayName = firstName + " " + lastName;
                 var fields = new List<Field>
@@ -59,8 +59,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 };
 
                 xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-                //xrmBrowser.Entity.SetValue("emailaddress1", "test" + rnd.Next(100000, 999999).ToString() + "@contoso.com");
-                xrmBrowser.Entity.SetValue("emailaddress1", "test@contoso.com");
+                xrmBrowser.Entity.SetValue("emailaddress1", "test" + rnd.Next(100000, 999999).ToString() + "@contoso.com");
+                //xrmBrowser.Entity.SetValue("emailaddress1", "test@contoso.com");
                 xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
                 xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
                 xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
@@ -88,6 +88,26 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 else
                 {
                     Logs.LogHTML(testCaseFile, "Created Contact  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                }
+
+
+               try
+                {
+                    xrmBrowser.ThinkTime(1000);
+                    xrmBrowser.Grid.SelectRecord(0);
+                    Logs.LogHTML(testCaseFile, "Selected Contact to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+              
+                    xrmBrowser.CommandBar.ClickCommand("Delete");
+                    xrmBrowser.ThinkTime(2000);
+                    xrmBrowser.Dialogs.Delete();
+                    Logs.LogHTML(testCaseFile, "Deleted Contact Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                }
+                catch (Exception ex)
+                {
+                    xrmBrowser.ThinkTime(1000);
+                    Logs.LogHTML(testCaseFile, "Delete Contact ( " + displayName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
 
             }
