@@ -11,6 +11,17 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
     {
         private static string  logPath=Path.GetFullPath(@"..\..\..");
 
+        static Logs()
+        {
+            if (!Directory.Exists(logPath + @"\Logs"))
+                Directory.CreateDirectory(logPath + @"\Logs");
+            if (!Directory.Exists(logPath + @"\Logs\Errors"))
+                Directory.CreateDirectory(logPath + @"\Logs\Errors");
+            if (!Directory.Exists(logPath + @"\Logs\TestCases\"))
+                Directory.CreateDirectory(logPath + @"\Logs\TestCases\");
+            if (!Directory.Exists(logPath + @"\Logs\Screenshots\"))
+                Directory.CreateDirectory(logPath + @"\Logs\Screenshots\");
+        }
         /// <summary>
         /// To Log Errors in txt file.
         /// </summary>
@@ -31,6 +42,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
           
             string file = TraceEventTypeError + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
             string filename = logPath + @"\Logs\Errors\" + file;
+         
             if (!File.Exists(filename))
             {
                 using (StreamWriter sw = File.CreateText(filename))
