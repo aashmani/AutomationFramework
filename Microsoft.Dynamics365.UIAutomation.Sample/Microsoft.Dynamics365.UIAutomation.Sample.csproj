@@ -101,6 +101,7 @@
     <Compile Include="DOCValidationTests\OpenMobile.cs" />
     <Compile Include="DOCValidationTests\ValidationVersion.cs" />
     <Compile Include="DuplicateDetection.cs" />
+    <Compile Include="LeadToOpportuninty.cs" />
     <Compile Include="OpenAccount.cs" />
     <Compile Include="OpenCase.cs" />
     <Compile Include="OpenContact.cs" />
