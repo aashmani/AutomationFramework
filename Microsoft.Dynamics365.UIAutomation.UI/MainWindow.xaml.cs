@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using Microsoft.Win32.TaskScheduler;
-
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.UI
 {
@@ -166,8 +166,11 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
         {
             btnRuntest.IsEnabled = false;
             List<BrowserEntity> lstSelectedBrowser = new List<BrowserEntity>();
-            lstSelectedBrowser = lstBrowse.Where(b => b.IsChecked.Equals(true)).ToList();           
+            lstSelectedBrowser = lstBrowse.Where(b => b.IsChecked.Equals(true)).ToList();
             string path = System.AppDomain.CurrentDomain.BaseDirectory + @"Microsoft.Dynamics365.UIAutomation.Sample.dll";
+
+            Helper.htmlLogFileName = "CRM Testing-" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString() + ".html";
+
             //foreach(var browswer in lstSelectedBrowser)
             //{
 
@@ -175,43 +178,41 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             {
                 //foreach (var user in role)
                 //{
-                    foreach (var scenario in lstSenario)
+                foreach (var scenario in lstSenario)
+                {
+                    Assembly objAssembly = Assembly.LoadFile(path);
+                    if (objAssembly != null)
                     {
-                        Assembly objAssembly = Assembly.LoadFile(path);
-                        if (objAssembly != null)
+                        Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + scenario);
+                        //type.GetMethod("TestUpdateAccount").Invoke(Activator.CreateInstance(type), null);
+                        if (type != null)
                         {
-                            Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + scenario);
-                            //type.GetMethod("TestUpdateAccount").Invoke(Activator.CreateInstance(type), null);
-                            if (type != null)
-                            {
-                                object objType = Activator.CreateInstance(type);
-                                FieldInfo field = type.GetField("_username", BindingFlags.NonPublic | BindingFlags.Instance);
-                                field.SetValue(objType, user.username.ToSecureString());
-                                FieldInfo fieldPassword = type.GetField("_password", BindingFlags.NonPublic | BindingFlags.Instance);
-                                fieldPassword.SetValue(objType, user.password.ToSecureString());
-                                FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
-                                fieldURL.SetValue(objType, new Uri(hostURL));
-                          
-                                FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
-                                fieldBrowser.SetValue(objType,  BrowserType.Chrome);  //Update BrowserType When  Browser selection implemented
-                            //fieldBrowser.SetValue(objType, lstSelectedBrowser);
+                            object objType = Activator.CreateInstance(type);
+                            FieldInfo field = type.GetField("_username", BindingFlags.NonPublic | BindingFlags.Instance);
+                            field.SetValue(objType, user.username.ToSecureString());
+                            FieldInfo fieldPassword = type.GetField("_password", BindingFlags.NonPublic | BindingFlags.Instance);
+                            fieldPassword.SetValue(objType, user.password.ToSecureString());
+                            FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
+                            fieldURL.SetValue(objType, new Uri(hostURL));
 
+                            FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
+                            fieldBrowser.SetValue(objType, BrowserType.Chrome);  //Update BrowserType When  Browser selection implemented
+                                                                                 //fieldBrowser.SetValue(objType, lstSelectedBrowser);
 
                             MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-                                if (methodInfos.Count() > 0)
-                                {
-                                    methodInfos[0].Invoke(objType, null);
-                                }
+                            if (methodInfos.Count() > 0)
+                            {
+                                methodInfos[0].Invoke(objType, null);
                             }
                         }
-
                     }
+
+                }
                 //}
             }
             btnRuntest.IsEnabled = true;
             //}
         }
-
         #endregion
 
         //*****************************************************

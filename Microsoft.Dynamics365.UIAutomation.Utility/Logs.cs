@@ -48,8 +48,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 using (StreamWriter sw = File.CreateText(filename))
                 {
                     sw.WriteLine("ErrorId : " + ErrorId);
-                    if (CommandErrorEventId != "")
-                        sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
+                    //if (CommandErrorEventId != "")
+                    //    sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
                     if (CommandError != "")
                         sw.WriteLine("CommandError : " + CommandError);
                     if (CommandName != "")
@@ -73,8 +73,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                     sw.WriteLine("************************************");
 
                     sw.WriteLine("ErrorId : " + ErrorId);
-                    if (CommandErrorEventId != "")
-                        sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
+                    //if (CommandErrorEventId != "")
+                    //    sw.WriteLine("CommandErrorEventId : " + CommandErrorEventId);
                     if (CommandError != "")
                         sw.WriteLine("CommandError : " + CommandError);
                     if (CommandName != "")
@@ -96,17 +96,17 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
         /// <summary>
         /// To log Details in HTML
         /// </summary>
-        /// <param name="testCaseFile"></param>
         /// <param name="message">Message to Show in test result</param>
         /// <param name="section"></param>
         /// <param name="teststatus"></param>
         /// <param name="TestCase"></param>
         /// <param name="User"></param>
         /// <param name="Browser"></param>
-        public static void LogHTML(string testCaseFile, string message, HTMLSection section, TestStatus teststatus =TestStatus.NA, string TestCase = "", string User = "", string Browser = "")
+        /// 
+        public static void LogHTML(string message, HTMLSection section, TestStatus teststatus = TestStatus.NA, string TestCase = "", string User = "", string Browser = "")
         {
 
-            string file = "CRM Testing-" + testCaseFile + ".html";
+            string file = Helper.htmlLogFileName;
             string filename = logPath + @"\Logs\TestCases\" + file;
             if (!File.Exists(filename))
             {
@@ -133,7 +133,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
             {
                 using (StreamWriter sw = File.AppendText(filename))
                 {
-                   
+                    if (section == HTMLSection.Header)
+                    {
+                        sw.WriteLine("<h1> TestCase : " + TestCase + "</h1> ");
+                        sw.WriteLine("<h2> User :  " + User + "</h2> ");
+                        sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
+                    }
                     if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
                         sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
                     else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)

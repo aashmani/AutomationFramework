@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Dynamics365.UIAutomation.Utility
 {
-   public class Helper
+    public class Helper
     {
         public static String SecureStringToString(SecureString value)
         {
@@ -23,6 +23,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
             }
         }
-    }
 
+        public static string htmlLogFileName;
+    }
 }

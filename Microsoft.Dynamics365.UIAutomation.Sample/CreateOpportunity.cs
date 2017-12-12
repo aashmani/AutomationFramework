@@ -23,16 +23,16 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
                 Random rnd = new Random();
-                string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
-                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+            
+                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
-                Logs.LogHTML(testCaseFile, "Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 
                 xrmBrowser.ThinkTime(200);
                 xrmBrowser.Grid.SwitchView("Open Opportunities");
@@ -53,7 +53,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 {
                     xrmBrowser.Dialogs.DuplicateDetection(true);
                     xrmBrowser.ThinkTime(2000);
-                    Logs.LogHTML(testCaseFile, "Duplicate Opportunities Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Duplicate Opportunities Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 }
 
@@ -64,11 +64,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 if (results.Value == null || results.Value.Count == 0)
                 {
-                    Logs.LogHTML(testCaseFile, "Opportunity  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    Logs.LogHTML("Opportunity  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
                 else
                 {
-                    Logs.LogHTML(testCaseFile, "Created Opportunity  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Created Opportunity  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 }
 
 
@@ -76,19 +76,19 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 {
                     xrmBrowser.ThinkTime(1000);
                     xrmBrowser.Grid.SelectRecord(0);
-                    Logs.LogHTML(testCaseFile, "Selected Opportunity to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Selected Opportunity to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
 
                     xrmBrowser.CommandBar.ClickCommand("Delete");
                     xrmBrowser.ThinkTime(2000);
                     xrmBrowser.Dialogs.Delete();
-                    Logs.LogHTML(testCaseFile, "Deleted Opportunity Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Deleted Opportunity Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 }
                 catch (Exception ex)
                 {
                     xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML(testCaseFile, "Delete Opportunity ( " + oppName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    Logs.LogHTML("Delete Opportunity ( " + oppName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
             }
         }

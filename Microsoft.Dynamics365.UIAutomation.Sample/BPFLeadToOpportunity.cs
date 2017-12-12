@@ -30,16 +30,16 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
-                string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
-                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+                
+                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.ThinkTime(1000);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Leads");
-                Logs.LogHTML(testCaseFile, "Navigated to Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Navigated to Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.CommandBar.ClickCommand("New");
                 xrmBrowser.BusinessProcessFlow.SelectStage(0);
@@ -74,11 +74,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
                 xrmBrowser.CommandBar.ClickCommand("Save");
                 xrmBrowser.ThinkTime(2000);
-                Logs.LogHTML(testCaseFile, "Created Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Created Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.CommandBar.ClickCommand("Qualify");
                 xrmBrowser.ThinkTime(2000);
-                Logs.LogHTML(testCaseFile, "Qualified Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Qualified Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
 
                 //bool isFound = xrmBrowser.Navigation.GlobalSearch(displayName);

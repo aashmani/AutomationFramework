@@ -27,25 +27,25 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
-                string testCaseFile = this.GetType().Name + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString();
-                Logs.LogHTML(testCaseFile, string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+                
+                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
                 string name = "Test API Account";
 
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML(testCaseFile, "Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 xrmBrowser.ThinkTime(500);
                 if (name == string.Empty)
                 {
                     xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-                    Logs.LogHTML(testCaseFile, "Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 }
                 else
                 {
                     xrmBrowser.Navigation.GlobalSearch(name);
-                    Logs.LogHTML(testCaseFile, "Global Search Success", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Global Search Success", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 }
                 xrmBrowser.ThinkTime(2000);
 
@@ -53,18 +53,18 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 {
                     xrmBrowser.GlobalSearch.OpenRecord("Accounts", 0, 1000);
                     xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML(testCaseFile, "Selected Account to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Selected Account to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                     xrmBrowser.CommandBar.ClickCommand("Delete");                   
                     xrmBrowser.ThinkTime(2000);
                     xrmBrowser.Dialogs.Delete();
-                    Logs.LogHTML(testCaseFile, "Deleted Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Logs.LogHTML("Deleted Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
                 }
                 catch (Exception ex)
                 {
                     xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML(testCaseFile, "Delete Account ( "+ name+" ) Failed : " +ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    Logs.LogHTML("Delete Account ( " + name + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 }
             }
         }

@@ -109,12 +109,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                         result.ExecutionAttempts,
                         this.Options.RetryAttempts);
 
-                    Logs.Log("Info 1", TraceEventType.Information.ToString(),
-                           Constants.Tracing.CommandStartEventId.ToString(),
-                           "Command Start: {0} - Attempt {1}/{2}",
-                           this.Options.CommandName,
-                           result.ExecutionAttempts.ToString(),
-                           this.Options.RetryAttempts.ToString());
+                    //Logs.Log("Info 1", TraceEventType.Information.ToString(),
+                    //       Constants.Tracing.CommandStartEventId.ToString(),
+                    //       "Command Start: {0} - Attempt {1}/{2}",
+                    //       this.Options.CommandName,
+                    //       result.ExecutionAttempts.ToString(),
+                    //       this.Options.RetryAttempts.ToString());
 
                     result.Value = ExecuteCommand(driver, p1, p2, p3, p4, p5, p6, p7, p8, p9);
                     result.Success = true;
@@ -162,8 +162,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                                     "Command Error: {0} - Retry Action initiated",
                                     this.Options.CommandName);
 
-                                Logs.Log("Info 2", TraceEventType.Information.ToString(), Constants.Tracing.CommandRetryEventId.ToString(),
-                                    "Command Error: {0} - Retry Action initiated", this.Options.CommandName);
+                                //Logs.Log("Info 2", TraceEventType.Information.ToString(), Constants.Tracing.CommandRetryEventId.ToString(),
+                                //    "Command Error: {0} - Retry Action initiated", this.Options.CommandName);
 
                                 this.Options.ExceptionAction(e);
                             }
@@ -214,12 +214,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 result.ExecutionAttempts,
                 result.ExecutionTime);
 
-            Logs.Log("Info 3", TraceEventType.Information.ToString(),
-                           Constants.Tracing.CommandStopEventId.ToString(),
-                             "Command Stop: {0} - {1} attempts - total execution time {2}ms",
-                           this.Options.CommandName,
-                           result.ExecutionAttempts.ToString(),
-                          result.ExecutionTime.ToString());
+            //Logs.Log("Info 3", TraceEventType.Information.ToString(),
+            //               Constants.Tracing.CommandStopEventId.ToString(),
+            //                 "Command Stop: {0} - {1} attempts - total execution time {2}ms",
+            //               this.Options.CommandName,
+            //               result.ExecutionAttempts.ToString(),
+            //              result.ExecutionTime.ToString());
 
 
             System.Diagnostics.Trace.CorrelationManager.StopLogicalOperation();
