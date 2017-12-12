@@ -22,18 +22,27 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
 
-                //xrmBrowser.ThinkTime(500);
-                //xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
+                xrmBrowser.ThinkTime(500);
+                xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
 
                 //xrmBrowser.ThinkTime(200);
                 //xrmBrowser.Grid.SwitchView("Open Opportunities");
 
-                
+                xrmBrowser.Grid.Search("PES_Testing_3");
+                xrmBrowser.ThinkTime(1000);
 
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Navigation.GlobalSearch("PES_Testing_2");
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.GlobalSearch.OpenRecord("Opportunities", 0, 1000);
+                var results = xrmBrowser.Grid.GetGridItems();
+
+                if (results.Value != null || results.Value.Count >0)
+                {
+                    xrmBrowser.Grid.OpenRecord(0);
+
+                }
+
+                //    xrmBrowser.ThinkTime(1000);
+                //xrmBrowser.Navigation.GlobalSearch("PES_Testing_3");
+                //xrmBrowser.ThinkTime(1000);
+                
                 //xrmBrowser.Grid.OpenRecord(0);
                 //xrmBrowser.Entity.SetValue("identifycompetitors", true);
                 xrmBrowser.ThinkTime(1000);
