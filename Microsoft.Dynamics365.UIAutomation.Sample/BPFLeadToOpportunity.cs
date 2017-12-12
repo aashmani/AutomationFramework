@@ -41,31 +41,39 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 xrmBrowser.CommandBar.ClickCommand("New");
                 xrmBrowser.BusinessProcessFlow.SelectStage(0);
-                xrmBrowser.ThinkTime(1000);
+                xrmBrowser.ThinkTime(5000);
 
                 xrmBrowser.Entity.SelectLookup("header_process_parentcontactid", 0);
 
                 xrmBrowser.Entity.SelectLookup("header_process_parentaccountid", 0);
 
+                xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchasetimeframe", Value = "Immediate" });
+                xrmBrowser.Entity.SetValue("header_process_budgetamount", "1");
 
+                xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchaseprocess",  Value = "Individual" });
 
+                xrmBrowser.Entity.SetValue("header_process_decisionmaker");
+                //xrmBrowser.Entity.SetValue("header_process_decisionmaker", "Completed");
+                xrmBrowser.Entity.SetValue("header_process_description", "Test header process description");
 
-                //xrmBrowser.Entity.Save();               
-                             
-                //List<Field> fields = new List<Field>
-                //{
-                //    new Field() {Id = "firstname", Value = "Test"},
-                //    new Field() {Id = "lastname", Value = "Lead"}
-                //};
-                //xrmBrowser.Entity.SetValue("subject", "Test API Lead");
-                //xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-                //xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
-                //xrmBrowser.Entity.SetValue("description", "Test lead creation with API commands");
+                xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_leadsourcecode", Value = "Advertisement" });
 
-                //xrmBrowser.CommandBar.ClickCommand("Save");
-                //xrmBrowser.ThinkTime(2000);
+                xrmBrowser.Entity.SetValue("subject", "Test API Lead");
 
-                //Logs.LogHTML(testCaseFile, "Created Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                List<Field> fields = new List<Field>
+                {
+                    new Field() {Id = "firstname", Value = "Test"},
+                    new Field() {Id = "lastname", Value = "Lead"}
+                };
+                xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
+                xrmBrowser.CommandBar.ClickCommand("Save");
+                xrmBrowser.ThinkTime(2000);
+                Logs.LogHTML(testCaseFile, "Created Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                xrmBrowser.CommandBar.ClickCommand("Qualify");
+                xrmBrowser.ThinkTime(2000);
+
+                Logs.LogHTML(testCaseFile, "Created Opportunity From Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
             }
 
