@@ -167,5 +167,26 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
                 return true;
             });
         }
+
+        /// <summary>
+        /// Added by Anusha to handle Finish button on 11th Dec 2017
+        /// </summary>
+        /// <param name="thinkTime">Used to simulate a wait time between human interactions. The Default is 2 seconds.</param>
+        /// <example>xrmBrowser.BusinessProcessFlow.SetActive();</example>
+        public BrowserCommandResult<bool> Finish(int thinkTime = Constants.DefaultThinkTime)
+        {
+            this.Browser.ThinkTime(thinkTime);
+
+            return this.Execute("Finish", driver =>
+            {
+                if (!driver.HasElement(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.Finish])))
+                    throw new Exception("Business Process Flow Finish Element does not exist");
+
+                driver.ClickWhenAvailable(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.Finish]));
+
+                return true;
+            });
+        }
+
     }
 }

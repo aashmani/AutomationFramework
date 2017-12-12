@@ -20,6 +20,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             { "BPF_SetActive"       , "id(\"stageSetActiveActionContainer\")" },
             { "BPF_SelectStage"     , "id(\"stage_[STAGENUM]\")/div[2]/div/div/div/span" },
             { "BPF_Ok"     , "id(\"SwitchProcess-Select\")" },
+            { "BPF_Finish", "id(\"stageFinishActionContainer\")" },
 
             //Dialogs
             { "Dialog_Header"       , "id(\"dialogHeaderTitle\")"},
@@ -111,7 +112,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             { "Search_Filter"       , "id(\"filterCombo\")"},
             { "Search_Text"       , "id(\"searchTextBox\")"},
             { "Search_Button"       , "id(\"SearchButton\")"},
-            { "Search_Result"       , "id(\"entityDiv_1\")"},
+            { "Search_Result"       , "id(\"entityDiv_3\")"},
             { "Search_Container"       , "id(\"panoramaContainer\")"},
 
             //DashBoard
@@ -321,6 +322,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             public static string SetActive = "BPF_SetActive";
             public static string SelectStage = "BPF_SelectStage";
             public static string Ok = "BPF_Ok";
+            public static string Finish = "BPF_Finish";
         }
 
         public static class Dialogs

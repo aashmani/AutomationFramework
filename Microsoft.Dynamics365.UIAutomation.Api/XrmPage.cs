@@ -305,6 +305,32 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             });
         }
 
+
+        /// <summary>
+        /// Added by Anusha on 11th Dec 2017
+        /// Sets the value of a Two Options field without changing the class name as it throws element not visible error.
+        /// </summary>
+        /// <param name="field">The field id.</param>
+        /// <param name="value">The value.</param>
+        /// <example>xrmBrowser.Entity.SetValue("name", "Test API Account");</example>
+        public BrowserCommandResult<bool> SetValue(string field)
+        {
+            //return this.Execute($"Set Value: {field}", SetValue, field, value);
+            return this.Execute(GetOptions($"Set Value: {field}"), driver =>
+            {
+                if (driver.HasElement(By.Id(field)))
+                {
+                    driver.WaitUntilVisible(By.Id(field));
+                    var fieldElement = driver.FindElement(By.Id(field));
+                    fieldElement.Click();
+                }
+                else
+                    throw new InvalidOperationException($"Field: {field} Does not exist");
+
+                return true;
+            });
+        }
+
         /// <summary>
         /// Gets the value of a Text/Description field.
         /// </summary>
