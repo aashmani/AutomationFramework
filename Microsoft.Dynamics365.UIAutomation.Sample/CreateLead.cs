@@ -56,6 +56,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
                 xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
                 xrmBrowser.Entity.SetValue("description", "Test lead creation with API commands");
+                xrmBrowser.Entity.SetValue("emailaddress1", "testing@crm.com");
+                xrmBrowser.Entity.SetValue("companyname", "CompanyName");
 
                 xrmBrowser.CommandBar.ClickCommand("Save & Close");
                 xrmBrowser.ThinkTime(2000);
