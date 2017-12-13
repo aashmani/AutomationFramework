@@ -19,10 +19,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly Uri _xrmUri;
         private readonly BrowserType _browser;
 
-        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
-
         [TestMethod]
         public void TestBPFLeadToOpportunity()
         {
@@ -30,7 +26,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
             {
-                
+
                 Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
@@ -50,27 +46,25 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.Entity.SelectLookup("header_process_parentaccountid", 0);
 
                 xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchasetimeframe", Value = "Immediate" });
-                xrmBrowser.Entity.SetValue("header_process_budgetamount", "1");
+                xrmBrowser.Entity.SetValue("header_process_budgetamount", "100");
 
-                xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchaseprocess",  Value = "Individual" });
+                xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchaseprocess", Value = "Individual" });
 
                 xrmBrowser.Entity.SetValue("header_process_decisionmaker");
-                //xrmBrowser.Entity.SetValue("header_process_decisionmaker", "Completed");
+
                 xrmBrowser.Entity.SetValue("header_process_description", "Test header process description");
 
                 xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_leadsourcecode", Value = "Advertisement" });
 
-                xrmBrowser.Entity.SetValue("subject", "Test API Lead");
+                string leadSub = "Test API Lead_" + rnd.Next(100000, 999999).ToString();
+                xrmBrowser.Entity.SetValue("subject", leadSub);
 
-                string firstName = "Test" + rnd.Next(100000, 999999).ToString();
-                string lastName = "Lead";
-                string displayName = firstName + " " + lastName;
                 var fields = new List<Field>
                 {
-                    new Field() {Id = "firstname", Value = firstName },
-                    new Field() {Id = "lastname", Value = lastName}
+                    new Field() {Id = "firstname", Value = "Test" },
+                    new Field() {Id = "lastname", Value = "Lead"}
                 };
-               
+
                 xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
                 xrmBrowser.CommandBar.ClickCommand("Save");
                 xrmBrowser.ThinkTime(2000);
@@ -81,37 +75,43 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Logs.LogHTML("Qualified Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
 
-                //bool isFound = xrmBrowser.Navigation.GlobalSearch(displayName);
-                //xrmBrowser.ThinkTime(2000);
-                //Logs.LogHTML(testCaseFile, "Global Search Success", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-              
-                //if (isFound)
-                //{
-                //    Logs.LogHTML(testCaseFile, "Created Opportunity From Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                //}
-                //else
-                //{
-                //    Logs.LogHTML(testCaseFile, "Opportunity  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                //}
+                xrmBrowser.ThinkTime(500);
+                xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
+                Logs.LogHTML("Navigated to Opportunities  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
-                //try
-                //{
-                //    xrmBrowser.GlobalSearch.OpenRecord("Opportunity", 0, 1000);
-                //    xrmBrowser.ThinkTime(1000);
-                //    Logs.LogHTML(testCaseFile, "Selected Opportunity to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                xrmBrowser.Grid.Search(leadSub);
+                xrmBrowser.ThinkTime(1000);
 
-                //    xrmBrowser.CommandBar.ClickCommand("Delete");
-                //    xrmBrowser.ThinkTime(2000);
-                //    xrmBrowser.Dialogs.Delete();
-                //    Logs.LogHTML(testCaseFile, "Deleted Opportunity Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                var results = xrmBrowser.Grid.GetGridItems();
 
-                //}
-                //catch (Exception ex)
-                //{
-                //    xrmBrowser.ThinkTime(1000);
-                //    Logs.LogHTML(testCaseFile, "Delete Opportunity ( " + displayName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                //}
-              
+                if (results.Value == null || results.Value.Count == 0)
+                {
+                    Logs.LogHTML("Opportunity  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                }
+                else
+                {
+                    Logs.LogHTML("Created Opportunity From Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+
+
+                    try
+                    {
+                        xrmBrowser.ThinkTime(1000);
+                        xrmBrowser.Grid.SelectRecord(0);
+                        Logs.LogHTML("Selected Opportunity to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    
+                        xrmBrowser.CommandBar.ClickCommand("Delete");
+                        xrmBrowser.ThinkTime(2000);
+                        xrmBrowser.Dialogs.Delete();
+                        Logs.LogHTML("Deleted Opportunity Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        xrmBrowser.ThinkTime(1000);
+                        Logs.LogHTML("Delete Opportunity ( " + leadSub + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    }
+                }
 
             }
 

@@ -32,7 +32,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Opportunities");
-                Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                Logs.LogHTML("Navigated to Opportunities  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 
                 xrmBrowser.ThinkTime(200);
                 xrmBrowser.Grid.SwitchView("Open Opportunities");

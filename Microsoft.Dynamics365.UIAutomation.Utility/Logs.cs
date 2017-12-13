@@ -19,8 +19,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 Directory.CreateDirectory(logPath + @"\Logs\Errors");
             if (!Directory.Exists(logPath + @"\Logs\TestCases\"))
                 Directory.CreateDirectory(logPath + @"\Logs\TestCases\");
-            if (!Directory.Exists(logPath + @"\Logs\Screenshots\"))
-                Directory.CreateDirectory(logPath + @"\Logs\Screenshots\");
+            //if (!Directory.Exists(logPath + @"\Logs\Screenshots\"))
+            //    Directory.CreateDirectory(logPath + @"\Logs\Screenshots\");
         }
         /// <summary>
         /// To Log Errors in txt file.
@@ -108,49 +108,41 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
 
             string file = Helper.htmlLogFileName;
             string filename = logPath + @"\Logs\TestCases\" + file;
+            StreamWriter sw = null;
             if (!File.Exists(filename))
             {
-                using (StreamWriter sw = File.CreateText(filename))
-                {
-                    //sw.WriteLine(" < !DOCTYPE html >");
-                    //sw.WriteLine("< html >");
-                    //sw.WriteLine(" < body >");
-
-
-                    if (section == HTMLSection.Header) {
-                        sw.WriteLine("<h1> TestCase : " + TestCase + "</h1> ");
-                            sw.WriteLine("<h2> User :  " + User + "</h2> ");
-                            sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
-                    }
-                    else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
-                        sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
-                    else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                        sw.WriteLine("<p style = 'color: red; '> " + message + "</p> ");
-                  
-                }
+                sw = File.CreateText(filename);
+               
             }
             else
             {
-                using (StreamWriter sw = File.AppendText(filename))
-                {
-                    if (section == HTMLSection.Header)
-                    {
-                        sw.WriteLine("<h1> TestCase : " + TestCase + "</h1> ");
-                        sw.WriteLine("<h2> User :  " + User + "</h2> ");
-                        sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
-                    }
-                    if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
-                        sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
-                    else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                        sw.WriteLine("<p style = 'color: red; '> " + message + "</p> ");
+                sw = File.AppendText(filename);
+               
+            }
+            using (sw )
+            {
+                //sw.WriteLine(" < !DOCTYPE html >");
+                //sw.WriteLine("< html >");
+                //sw.WriteLine(" < body >");
 
-                    //else if (section == HTMLSection.Close)
-                    //{
-                    //    sw.WriteLine("  </ body >");
-                    //    sw.WriteLine(" </ html >");
-                    //}
-                                      
+
+                if (section == HTMLSection.Header)
+                {
+                    sw.WriteLine("<h1> TestCase : " + TestCase + "</h1> ");
+                    sw.WriteLine("<h2> User :  " + User + "</h2> ");
+                    sw.WriteLine("<h3> Browser : " + Browser + "</h3> ");
                 }
+                else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
+                    sw.WriteLine("<p style = 'color: green;'> " + message + "</p> ");
+                else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
+                    sw.WriteLine("<p style = 'color: red; '> " + message + "</p> ");
+
+                //else if (section == HTMLSection.Close)
+                //{
+                //    sw.WriteLine("  </ body >");
+                //    sw.WriteLine(" </ html >");
+                //}
+
             }
         }
     

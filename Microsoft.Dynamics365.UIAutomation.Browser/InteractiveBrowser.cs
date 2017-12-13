@@ -618,9 +618,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
                 Constants.Tracing.BrowserNavigatedEventId,
                 $"Navigated - {e.Url}");
 
-            Logs.Log("Verbose 9", TraceEventType.Verbose.ToString(),
-              Constants.Tracing.BrowserNavigatedEventId.ToString(),
-               $"Navigated - {e.Url}");
+            //Logs.Log("Verbose 9", TraceEventType.Verbose.ToString(),
+            //  Constants.Tracing.BrowserNavigatedEventId.ToString(),
+            //   $"Navigated - {e.Url}");
 
             if (Options.EnableRecording)
             {
