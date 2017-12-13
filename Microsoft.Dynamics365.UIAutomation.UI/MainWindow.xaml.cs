@@ -169,7 +169,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
             lstSelectedBrowser = lstBrowse.Where(b => b.IsChecked.Equals(true)).ToList();
             string path = System.AppDomain.CurrentDomain.BaseDirectory + @"Microsoft.Dynamics365.UIAutomation.Sample.dll";
 
-            Helper.htmlLogFileName = "CRM Testing-" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss").ToString() + ".html";
+            Helper.htmlLogFileName = "CRM Testing-" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss").ToString() + ".html";
 
             //foreach(var browswer in lstSelectedBrowser)
             //{
