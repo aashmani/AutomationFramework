@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security;
 using Microsoft.Dynamics365.UIAutomation.Api;
 using Microsoft.Dynamics365.UIAutomation.Browser;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -20,24 +21,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         [TestMethod]
         public void TestUpdateAccount()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
-            {
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
+            Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Accounts");
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Grid.OpenRecord(0);
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Entity.SelectLookup("parentaccountid", 0);
-                xrmBrowser.Entity.Save();
-                xrmBrowser.ThinkTime(2000);
-            }
+            Account.NavigateToAccounts(_xrmUri, _username, _password);
+            Account.UpdateAccount();
+            Account.close();
+          
         }
     }
 }

@@ -88,7 +88,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ADFSLogin.cs" />
-	<Compile Include="BPFLeadToOpportunity.cs" />
+    <Compile Include="BPFLeadToOpportunity.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="CloseOpportunity.cs" />
     <Compile Include="CreateAccount.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="DOCValidationTests\ValidationVersion.cs" />
     <Compile Include="DuplicateDetection.cs" />
     <Compile Include="LeadToOpportuninty.cs" />
+    <Compile Include="Model\Account.cs" />
     <Compile Include="OpenAccount.cs" />
     <Compile Include="OpenCase.cs" />
     <Compile Include="OpenContact.cs" />
