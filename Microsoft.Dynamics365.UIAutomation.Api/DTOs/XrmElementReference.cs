@@ -21,6 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             { "BPF_SelectStage"     , "id(\"stage_[STAGENUM]\")/div[2]/div/div/div/span" },
             { "BPF_Ok"     , "id(\"SwitchProcess-Select\")" },
             { "BPF_Finish", "id(\"stageFinishActionContainer\")" },
+            { "BPF_Finish_Label", "id(\"finishLabelContainer\")" },
 
             //Dialogs
             { "Dialog_Header"       , "id(\"dialogHeaderTitle\")"},
@@ -323,6 +324,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             public static string SelectStage = "BPF_SelectStage";
             public static string Ok = "BPF_Ok";
             public static string Finish = "BPF_Finish";
+            public static string FinishLabel = "BPF_Finish_Label";
         }
 
         public static class Dialogs

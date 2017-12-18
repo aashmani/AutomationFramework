@@ -32,11 +32,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
 
-            string accName;
+            
             Account.NavigateToAccounts(_xrmUri, _username, _password);
-            Account.CreateAccount(out accName);
-            if (Account.VerifyAccount(accName))
+            string createdAccName = Account.CreateAccount(string.Empty);
+            if (Account.SearchAccount(createdAccName))
+            {
+                Logs.LogHTML("Created Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 Account.DeleteAccount();
+            }
             Account.close();
         }
     }

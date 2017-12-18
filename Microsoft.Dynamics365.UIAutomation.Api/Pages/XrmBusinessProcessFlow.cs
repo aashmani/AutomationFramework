@@ -188,5 +188,62 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             });
         }
 
+          /// <summary>
+        /// Selects the Business Process Flow stage.
+        /// </summary>
+        /// <param name="stagenumber">The stage number that you would like to select. The stages start with 0.</param>
+        /// <param name="thinkTime">Used to simulate a wait time between human interactions. The Default is 2 seconds.</param>
+        /// <example>xrmBrowser.BusinessProcessFlow.SelectStage(0);</example>
+        public BrowserCommandResult<bool> isStageActive(int thinkTime = Constants.DefaultThinkTime)
+        {
+            this.Browser.ThinkTime(thinkTime);
+
+            return this.Execute("Is Stage Active", driver =>
+            {
+                if (driver.HasElement(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.SetActive])))
+                {
+                    if (driver.IsVisible(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.SetActive])))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+
+                //driver.ClickWhenAvailable(By.XPath(xpath));
+
+                //return true;
+            });
+        }
+
+        /// <summary>
+        /// Selects the Business Process Flow stage.
+        /// </summary>
+        /// <param name="stagenumber">The stage number that you would like to select. The stages start with 0.</param>
+        /// <param name="thinkTime">Used to simulate a wait time between human interactions. The Default is 2 seconds.</param>
+        /// <example>xrmBrowser.BusinessProcessFlow.SelectStage(0);</example>
+        public BrowserCommandResult<bool> isFinished(int thinkTime = Constants.DefaultThinkTime)
+        {
+            this.Browser.ThinkTime(thinkTime);
+
+            return this.Execute("Select Stage", driver =>
+            {
+                
+                if (driver.HasElement(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.FinishLabel])))
+                {
+                    if (driver.IsVisible(By.XPath(Elements.Xpath[Reference.BusinessProcessFlow.FinishLabel])))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+
+                //driver.ClickWhenAvailable(By.XPath(xpath));
+
+                //return true;
+            });
+        }
+
     }
 }
