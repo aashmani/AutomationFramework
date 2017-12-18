@@ -6,6 +6,13 @@ using System.Security;
 using Microsoft.Dynamics365.UIAutomation.Utility;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using System.Configuration;
+using YamlDotNet.Serialization;
+using System.IO;
+using YamlDotNet.Serialization.NamingConventions;
+using Newtonsoft.Json;
+using System.Text;
+using System.Collections;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -21,7 +28,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         [TestMethod]
         public void TestCreateNewAccount()
-        {
+        {        
 
             Guid id = Guid.NewGuid();
             using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
