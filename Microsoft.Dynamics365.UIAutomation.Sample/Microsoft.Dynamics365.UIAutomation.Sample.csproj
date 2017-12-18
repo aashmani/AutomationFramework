@@ -73,7 +73,6 @@
     </Reference>
     <Reference Include="YamlDotNet, Version=4.2.2.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.Signed.4.2.2\lib\net35\YamlDotNet.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -108,6 +107,7 @@
     <Compile Include="DuplicateDetection.cs" />
     <Compile Include="LeadToOpportuninty.cs" />
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\General.cs" />
     <Compile Include="OpenAccount.cs" />
     <Compile Include="OpenCase.cs" />
     <Compile Include="OpenContact.cs" />

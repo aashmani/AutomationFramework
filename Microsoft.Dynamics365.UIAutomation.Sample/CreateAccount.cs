@@ -31,9 +31,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {        
 
             Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-
-            
-            Account.NavigateToAccounts(_xrmUri, _username, _password);
+            General.Login(_xrmUri, _username, _password);
+            Account.NavigateToAccounts();
             string createdAccName = Account.CreateAccount();
             if (Account.SearchAccount(createdAccName))
             {

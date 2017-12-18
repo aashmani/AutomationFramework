@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
-using YamlDotNet.Serialization;
+
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -19,42 +19,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Random rnd = new Random();
         static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
-        static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
-        static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
-        static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
-        static Account()
+        public Account()
+        { }
+
+
+        public static void NavigateToAccounts()
         {
-            try
-            {
-                string filepath = ConfigurationManager.AppSettings["TestDetailsYAML"].ToString();
-                var reader = new StreamReader(filepath);
-                var deserializer = new DeserializerBuilder().Build();
-                var yamlObject = deserializer.Deserialize(reader);
-
-                var serializer = new SerializerBuilder()
-                    .JsonCompatible()
-                    .Build();
-
-                var json = serializer.Serialize(yamlObject);
-                dictionaryMain = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                dictionaryCreateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["CreateAccount"].ToString());
-                dictionaryUpdateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["UpdateAccount"].ToString());
-            }
-            catch(Exception ex)
-            {
-
-            }
-        }
-
-
-
-        public static void NavigateToAccounts(Uri uri, SecureString username, SecureString password)
-        {
-           
-                xrmBrowser.LoginPage.Login(uri, username, password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
                 Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
@@ -62,44 +32,45 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.ThinkTime(2000);
                 xrmBrowser.Grid.SwitchView("Active Accounts");
         }
-        private static void NewAccount()
+
+        private static void ClickNew()
         {
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.CommandBar.ClickCommand("New");
         }
         public static string CreateAccount()
         {
-            NewAccount();
+            ClickNew();
 
             xrmBrowser.ThinkTime(6000);
-            string Name = dictionaryCreateAccount["name"].ToString();
+            string Name = General.dictionaryCreateAccount["name"].ToString();
             string accName = ((Name == null || Name== string.Empty) ? Name : "TEST_Smoke_PET_Account");
             xrmBrowser.Entity.SetValue("name", accName + rnd.Next(100000, 999999).ToString());
-            xrmBrowser.Entity.SetValue("telephone1", dictionaryCreateAccount["telephone1"].ToString());
-            xrmBrowser.Entity.SetValue("fax", dictionaryCreateAccount["fax"].ToString());
-            xrmBrowser.Entity.SetValue("websiteurl", dictionaryCreateAccount["websiteurl"].ToString());
-            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(dictionaryCreateAccount["parentaccountid"].ToString()));
-            xrmBrowser.Entity.SetValue("tickersymbol", dictionaryCreateAccount["tickersymbol"].ToString());
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = dictionaryCreateAccount["new_typeofcustomer"].ToString() });
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = dictionaryCreateAccount["new_customer"].ToString() });
-            xrmBrowser.Entity.SetValue("revenue", dictionaryCreateAccount["revenue"].ToString());
-            xrmBrowser.Entity.SetValue("new_testlock", dictionaryCreateAccount["new_testlock"].ToString());
-            xrmBrowser.Entity.SetValue("creditlimit", dictionaryCreateAccount["creditlimit"].ToString());
+            xrmBrowser.Entity.SetValue("telephone1", General.dictionaryCreateAccount["telephone1"].ToString());
+            xrmBrowser.Entity.SetValue("fax", General.dictionaryCreateAccount["fax"].ToString());
+            xrmBrowser.Entity.SetValue("websiteurl", General.dictionaryCreateAccount["websiteurl"].ToString());
+            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(General.dictionaryCreateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SetValue("tickersymbol", General.dictionaryCreateAccount["tickersymbol"].ToString());
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = General.dictionaryCreateAccount["new_typeofcustomer"].ToString() });
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = General.dictionaryCreateAccount["new_customer"].ToString() });
+            xrmBrowser.Entity.SetValue("revenue", General.dictionaryCreateAccount["revenue"].ToString());
+            xrmBrowser.Entity.SetValue("new_testlock", General.dictionaryCreateAccount["new_testlock"].ToString());
+            xrmBrowser.Entity.SetValue("creditlimit", General.dictionaryCreateAccount["creditlimit"].ToString());
             //xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
             var fields = new List<Field>
                {
-                   new Field() { Id = "address1_line1", Value = dictionaryCreateAccount["address1_line1"].ToString() },
-                   new Field() { Id = "address1_city", Value = dictionaryCreateAccount["address1_city"].ToString() },
-                   new Field() { Id = "address1_postalcode", Value = dictionaryCreateAccount["address1_postalcode"].ToString()}
+                   new Field() { Id = "address1_line1", Value = General.dictionaryCreateAccount["address1_line1"].ToString() },
+                   new Field() { Id = "address1_city", Value = General.dictionaryCreateAccount["address1_city"].ToString() },
+                   new Field() { Id = "address1_postalcode", Value = General.dictionaryCreateAccount["address1_postalcode"].ToString()}
                };
             xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "address1_composite", Fields = fields });
 
-            SaveAccount();
+            ClickSave();
 
             return accName;
         }
         
-        private static void SaveAccount()
+        private static void ClickSave()
         {
             xrmBrowser.CommandBar.ClickCommand("Save & Close");
             xrmBrowser.ThinkTime(5000);
@@ -156,11 +127,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Logs.LogHTML("Delete Account Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
             }
         }
+
         public static void UpdateAccount() {
             OpenFirstAccount();
 
             xrmBrowser.ThinkTime(1000);
-            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dictionaryUpdateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(General.dictionaryUpdateAccount["parentaccountid"].ToString()));
 
             xrmBrowser.Entity.Save();
             xrmBrowser.ThinkTime(2000);
