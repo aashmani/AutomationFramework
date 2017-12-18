@@ -34,13 +34,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.CommandBar.ClickCommand("New");
         }
-        public static string CreateAccount( out string accName)
+        public static string CreateAccount(string Name)
         {
             NewAccount();
 
             xrmBrowser.ThinkTime(6000);
-            accName = "Test API Account_" + rnd.Next(100000, 999999).ToString();
-            xrmBrowser.Entity.SetValue("name", accName);
+            string accName = ((Name == null || Name== string.Empty) ? Name : "TEST_Smoke_PET_Account");
+            xrmBrowser.Entity.SetValue("name", accName + rnd.Next(100000, 999999).ToString());
             xrmBrowser.Entity.SetValue("telephone1", "555-555-3111");
             xrmBrowser.Entity.SetValue("fax", "12345678");
             xrmBrowser.Entity.SetValue("websiteurl", "https://Test.crm.dynamics.com");
@@ -69,7 +69,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             xrmBrowser.CommandBar.ClickCommand("Save & Close");
             xrmBrowser.ThinkTime(5000);
+            CloseDuplicateWindow();
         }
+
         private static void CloseDuplicateWindow()
         {
 
@@ -81,10 +83,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             }
         }
-        public static bool VerifyAccount( string accName)
+        public static bool SearchAccount( string accName)
         {
-            CloseDuplicateWindow();
-
             xrmBrowser.Grid.Search(accName);
             xrmBrowser.ThinkTime(1000);
 
@@ -96,12 +96,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 return false;
             }
             else
-            {
-                Logs.LogHTML("Created Account  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 return true;
-            }
-
         }
+
         public static void SelectFirstAccount()
         {
             xrmBrowser.ThinkTime(1000);
@@ -111,17 +108,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         public static void DeleteAccount()
         {
-
             try
             {
-
                 SelectFirstAccount();
-
                 xrmBrowser.CommandBar.ClickCommand("Delete");
                 xrmBrowser.ThinkTime(2000);
                 xrmBrowser.Dialogs.Delete();
                 Logs.LogHTML("Deleted Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
             }
             catch (Exception ex)
             {
@@ -138,11 +131,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.Entity.Save();
             xrmBrowser.ThinkTime(2000);
         }
+
         public static  void OpenFirstAccount()
         {
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Grid.OpenRecord(0);
         }
+
         public static void close() {
             xrmBrowser.Dispose();
         }
