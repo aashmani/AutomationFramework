@@ -46,6 +46,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 xrmBrowser.Entity.SetValue("name", oppName);
                 xrmBrowser.Entity.SetValue("description", "Testing the create api for Opportunity");
 
+                xrmBrowser.Entity.SetValue("new_deligatedto", "Test new deligatedto ");
+                
+
                 xrmBrowser.CommandBar.ClickCommand("Save & Close");
                 xrmBrowser.ThinkTime(5000);
 
