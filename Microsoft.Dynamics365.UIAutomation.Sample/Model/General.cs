@@ -19,18 +19,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Random rnd = new Random();
         static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
-       public static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
-       public static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
-       public static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
+        static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
+        public static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
+        public static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
+
         static General()
         {
-        }
-
-        public static void Login(Uri uri, SecureString username, SecureString password)
-        {
-            xrmBrowser.LoginPage.Login(uri, username, password);
-            xrmBrowser.GuidedHelp.CloseGuidedHelp();
-            Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
 
         public static void GetDataFromYaml()
