@@ -34,7 +34,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             
             Account.NavigateToAccounts(_xrmUri, _username, _password);
-            string createdAccName = Account.CreateAccount(string.Empty);
+            string createdAccName = Account.CreateAccount();
             if (Account.SearchAccount(createdAccName))
             {
                 Logs.LogHTML("Created Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);

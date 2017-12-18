@@ -1,13 +1,17 @@
 ﻿using Microsoft.Dynamics365.UIAutomation.Api;
 using Microsoft.Dynamics365.UIAutomation.Browser;
 using Microsoft.Dynamics365.UIAutomation.Utility;
+using Newtonsoft.Json;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using YamlDotNet.Serialization;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
@@ -15,6 +19,35 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Random rnd = new Random();
         static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
+        static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
+        static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
+        static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
+        static Account()
+        {
+            try
+            {
+                string filepath = ConfigurationManager.AppSettings["TestDetailsYAML"].ToString();
+                var reader = new StreamReader(filepath);
+                var deserializer = new DeserializerBuilder().Build();
+                var yamlObject = deserializer.Deserialize(reader);
+
+                var serializer = new SerializerBuilder()
+                    .JsonCompatible()
+                    .Build();
+
+                var json = serializer.Serialize(yamlObject);
+                dictionaryMain = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                dictionaryCreateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["CreateAccount"].ToString());
+                dictionaryUpdateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["UpdateAccount"].ToString());
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+
+
         public static void NavigateToAccounts(Uri uri, SecureString username, SecureString password)
         {
            
@@ -34,29 +67,30 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.CommandBar.ClickCommand("New");
         }
-        public static string CreateAccount(string Name)
+        public static string CreateAccount()
         {
             NewAccount();
 
             xrmBrowser.ThinkTime(6000);
+            string Name = dictionaryCreateAccount["name"].ToString();
             string accName = ((Name == null || Name== string.Empty) ? Name : "TEST_Smoke_PET_Account");
             xrmBrowser.Entity.SetValue("name", accName + rnd.Next(100000, 999999).ToString());
-            xrmBrowser.Entity.SetValue("telephone1", "555-555-3111");
-            xrmBrowser.Entity.SetValue("fax", "12345678");
-            xrmBrowser.Entity.SetValue("websiteurl", "https://Test.crm.dynamics.com");
-            xrmBrowser.Entity.SelectLookup("parentaccountid", 2);
-            xrmBrowser.Entity.SetValue("tickersymbol", "TickerSymbol3 data");
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = "Customer" });
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = "Customer1" });
-            xrmBrowser.Entity.SetValue("revenue", "39");
-            xrmBrowser.Entity.SetValue("new_testlock", "test lock");
-            xrmBrowser.Entity.SetValue("creditlimit", "10000");
+            xrmBrowser.Entity.SetValue("telephone1", dictionaryCreateAccount["telephone1"].ToString());
+            xrmBrowser.Entity.SetValue("fax", dictionaryCreateAccount["fax"].ToString());
+            xrmBrowser.Entity.SetValue("websiteurl", dictionaryCreateAccount["websiteurl"].ToString());
+            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(dictionaryCreateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SetValue("tickersymbol", dictionaryCreateAccount["tickersymbol"].ToString());
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = dictionaryCreateAccount["new_typeofcustomer"].ToString() });
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = dictionaryCreateAccount["new_customer"].ToString() });
+            xrmBrowser.Entity.SetValue("revenue", dictionaryCreateAccount["revenue"].ToString());
+            xrmBrowser.Entity.SetValue("new_testlock", dictionaryCreateAccount["new_testlock"].ToString());
+            xrmBrowser.Entity.SetValue("creditlimit", dictionaryCreateAccount["creditlimit"].ToString());
             //xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
             var fields = new List<Field>
                {
-                   new Field() { Id = "address1_line1", Value = "Test" },
-                   new Field() { Id = "address1_city", Value = "Contact" },
-                   new Field() { Id = "address1_postalcode", Value = "577501" }
+                   new Field() { Id = "address1_line1", Value = dictionaryCreateAccount["address1_line1"].ToString() },
+                   new Field() { Id = "address1_city", Value = dictionaryCreateAccount["address1_city"].ToString() },
+                   new Field() { Id = "address1_postalcode", Value = dictionaryCreateAccount["address1_postalcode"].ToString()}
                };
             xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "address1_composite", Fields = fields });
 
@@ -126,7 +160,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             OpenFirstAccount();
 
             xrmBrowser.ThinkTime(1000);
-            xrmBrowser.Entity.SelectLookup("parentaccountid", 0);
+            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dictionaryUpdateAccount["parentaccountid"].ToString()));
 
             xrmBrowser.Entity.Save();
             xrmBrowser.ThinkTime(2000);
