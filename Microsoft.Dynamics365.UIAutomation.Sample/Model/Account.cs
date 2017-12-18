@@ -18,9 +18,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     public class Account
     {
         static Random rnd = new Random();
-        static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
-        public Account()
-        { }
+        public static XrmBrowser xrmBrowser;
+        static Account()
+        {
+            General.GetDataFromYaml();
+        }
 
 
         public static void NavigateToAccounts()
