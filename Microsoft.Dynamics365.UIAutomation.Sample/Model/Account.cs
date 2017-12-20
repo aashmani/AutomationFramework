@@ -25,7 +25,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         }
 
 
-        public static void NavigateToAccounts()
+        public static void Navigate()
         {
                 xrmBrowser.ThinkTime(500);
                 xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
@@ -40,7 +40,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.CommandBar.ClickCommand("New");
         }
-        public static string CreateAccount()
+        public static string Create()
         {
             ClickNew();
 
@@ -90,7 +90,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             }
         }
-        public static bool SearchAccount( string accName)
+        public static bool Search( string accName)
         {
             xrmBrowser.Grid.Search(accName);
             xrmBrowser.ThinkTime(1000);
@@ -106,14 +106,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 return true;
         }
 
-        public static void SelectFirstAccount()
+        private static void SelectFirstAccount()
         {
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Grid.SelectRecord(0);
             Logs.LogHTML("Selected Account", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
 
-        public static void DeleteAccount()
+        public static void Delete()
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
         }
 
-        public static void UpdateAccount() {
+        public static void Update() {
             OpenFirstAccount();
 
             xrmBrowser.ThinkTime(1000);
@@ -146,7 +146,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.Grid.OpenRecord(0);
         }
 
-        public static void close() {
+        public static void Close() {
             xrmBrowser.Dispose();
         }
     }
