@@ -51,7 +51,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Logs.LogHTML("Create Account Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
                 Helper.failedScenarios.Add(this.GetType().Name);
             }
-            finally { Account.Close(); }
+            finally {
+                Account.Close();
+            }
 
         }
     }

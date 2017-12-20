@@ -179,10 +179,6 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                 Logs.LogHTML(string.Empty, Logs.HTMLSection.User, Logs.TestStatus.Pass, string.Empty, user.username, BrowserType.Chrome.ToString());
                 //Update BrowserType When  Browser selection implemented
 
-                //if (Helper.failedScenarios != null)
-                //{
-                //    Helper.failedScenarios.Clear();
-                //}                else
                 Helper.failedScenarios = new List<string>();
                 
                 foreach (var scenario in lstSenario)

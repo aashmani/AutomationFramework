@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Microsoft.Dynamics365.UIAutomation.Utility
@@ -112,7 +113,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
            
             if (!File.Exists(filename))
             {
-                Helper.failedScenarios = new List<string>();
                 sw = File.CreateText(filename);
                 sw.WriteLine(" <link rel = 'stylesheet' href ='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css' integrity = 'sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb' crossorigin = 'anonymous' >");
                 sw.WriteLine(" <style > p {padding-left: 5%; } </style >");
@@ -141,7 +141,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
                     sw.WriteLine("<p style = 'color: green;'> " + message + "</p>");
                 else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                    sw.WriteLine("<p style = 'color: red;'> " + message + "</p> ");
+                    sw.WriteLine("<p style = 'color: red;'> " + Regex.Replace(message, "<.*?>", String.Empty) + "</p> ");
 
                 else if (section == HTMLSection.TestCaseCount)
                 {

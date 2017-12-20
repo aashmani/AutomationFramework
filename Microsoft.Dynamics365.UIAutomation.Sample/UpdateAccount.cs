@@ -10,9 +10,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     [TestClass]
     public class UpdateAccount
     {
-        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
@@ -31,7 +28,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 Account.Navigate();
                 Account.Update();
-                Account.Close();
+               
             }
             catch (Exception ex)
             {
