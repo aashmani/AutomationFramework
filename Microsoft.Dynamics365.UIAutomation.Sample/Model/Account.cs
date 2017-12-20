@@ -138,6 +138,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             xrmBrowser.Entity.Save();
             xrmBrowser.ThinkTime(2000);
+
+            Logs.LogHTML("Updated Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
 
         public static  void OpenFirstAccount()

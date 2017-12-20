@@ -131,8 +131,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
 
                 if (section == HTMLSection.User)
                 {
-                    sw.WriteLine("<h4 class='bg - info'>  User :  " + User + "</h4>");
-                    sw.WriteLine("<h4 class='text - muted'> Browser : " + Browser + "</h4>");
+                    sw.WriteLine("<h4 class='bg-info'>  User :  " + User + "</h4>");
+                    sw.WriteLine("<h4 class='text-muted'> Browser : " + Browser + "</h4>");
                 }
                 else if (section == HTMLSection.TestCase)
                 {
@@ -151,7 +151,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 {
                     sw.WriteLine("<div style = 'color: red;'><em> " + message + "</em></div>");
                 }
-                //To be deleted after migrating old code
+                //To be deleted after migrating old test classes
                 else if (section == HTMLSection.Header)
                 {
                     sw.WriteLine("<h1> TestCase : " + TestCase + "</h1>");

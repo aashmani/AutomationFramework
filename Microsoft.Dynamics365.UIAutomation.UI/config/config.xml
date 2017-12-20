@@ -80,7 +80,7 @@
 			<entity-name>Contact</entity-name>
 			<scenarios>
 				<scenario-name>CreateContact</scenario-name>
-				<scenario-name>UpdateContactt</scenario-name>
+				<scenario-name>UpdateContact</scenario-name>
         <scenario-name>OpenContact</scenario-name>
 			</scenarios>
 		</entity>
