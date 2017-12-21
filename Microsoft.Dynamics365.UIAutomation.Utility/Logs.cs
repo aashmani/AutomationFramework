@@ -141,7 +141,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
                 else if (section == HTMLSection.Details && teststatus == TestStatus.Pass)
                     sw.WriteLine("<p style = 'color: green;'> " + message + "</p>");
                 else if (section == HTMLSection.Details && teststatus == TestStatus.Fail)
-                    sw.WriteLine("<p style = 'color: red;'> " + Regex.Replace(message, "<.*?>", String.Empty) + "</p> ");
+                    sw.WriteLine("<p style = 'color: red;'> " + Regex.Replace(message, "<.*?>", String.Empty).Trim() + "</p> ");
 
                 else if (section == HTMLSection.TestCaseCount)
                 {

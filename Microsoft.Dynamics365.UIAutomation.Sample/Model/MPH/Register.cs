@@ -13,7 +13,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static XrmBrowser xrmBrowser;
         static Register()
         {
-            General.GetDataFromYaml();
+            BaseModel.GetDataFromYaml();
         }
 
         public static void NavigateToClientContract()
@@ -32,7 +32,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             ClickNew();
 
-            var dicRegisterClient = General.jsonObj.SelectToken("RegisterClient");
+            var dicRegisterClient = BaseModel.jsonObj.SelectToken("RegisterClient");
 
             xrmBrowser.Entity.SetValue("mph_ismphtemplate");
 

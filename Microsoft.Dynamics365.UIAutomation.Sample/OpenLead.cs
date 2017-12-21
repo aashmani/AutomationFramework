@@ -25,10 +25,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Random rnd = new Random();
                 Lead.xrmBrowser = xrmBrowser;
 
-                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
 
                 Lead.Navigate();
                 Lead.OpenRecord();

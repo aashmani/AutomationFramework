@@ -13,28 +13,26 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        private readonly BrowserType _browser;
+        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestOpenActiveAccount()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+            Account.xrmBrowser = xrmBrowser;
+            try
             {
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                Account.Navigate();
+                Account.OpenFirst();
 
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Accounts");
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Grid.OpenRecord(0);
-
-                xrmBrowser.ThinkTime(2000);
-
+            }
+            catch (Exception ex)
+            {
+                BaseModel.LogError(ex.Message, this.GetType().Name);
+            }
+            finally
+            {
+                Account.Close();
             }
         }
     }

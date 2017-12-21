@@ -25,13 +25,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Case.xrmBrowser = xrmBrowser;
                 Account.xrmBrowser = xrmBrowser;
 
-                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
 
                 Account.Navigate();
-                Account.OpenFirstAccount();
+                Account.OpenFirst();
                 Case.OpenRelatedCase();
                 Case.OpenRecord();
             }

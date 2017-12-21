@@ -19,24 +19,23 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         [TestMethod]
         public void TestUpdateAccount()
         {
-            Logs.LogHTML(string.Empty, Logs.HTMLSection.TestCase, Logs.TestStatus.NA, this.GetType().Name);
             Account.xrmBrowser = xrmBrowser;
             try
             {
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Account.Navigate();
                 Account.Update();
-               
+
             }
             catch (Exception ex)
             {
-                Logs.LogHTML("Update  Account Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                Helper.failedScenarios.Add(this.GetType().Name);
+                BaseModel.LogError(ex.Message, this.GetType().Name);
             }
-            finally {
-                Account.Close(); }
+            finally
+            {
+                Account.Close();
+            }
         }
     }
 }

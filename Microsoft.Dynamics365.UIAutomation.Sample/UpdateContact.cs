@@ -3,49 +3,44 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security;
 using Microsoft.Dynamics365.UIAutomation.Browser;
 using Microsoft.Dynamics365.UIAutomation.Api;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
     [TestClass]
     public class UpdateContact
     {
-        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
-
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        private readonly BrowserType _browser;
+        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
+        Random rnd = new Random();
+
 
         [TestMethod]
         public void TestUpdateContact()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+
+            Contact.xrmBrowser = xrmBrowser;
+            try
             {
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
+                //var perf = xrmBrowser.PerformanceCenter;
 
-                var perf = xrmBrowser.PerformanceCenter;
+                //if (!perf.IsEnabled)
+                //    perf.IsEnabled = true;
 
-                if (!perf.IsEnabled)
-                    perf.IsEnabled = true;
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                Contact.Navigate();
+                Contact.Update();
 
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Contacts");
-
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Contacts");
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Grid.OpenRecord(0);
-
-                xrmBrowser.Entity.SetValue("emailaddress1", "testUpdate@contoso.com");
-                xrmBrowser.Entity.SetValue("mobilephone", "123-222-4444");
-                xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("12/2/1984"));
-
-                xrmBrowser.Entity.Save();
-
+            }
+            catch (Exception ex)
+            {
+                BaseModel.LogError(ex.Message, this.GetType().Name);
+            }
+            finally
+            {
+                Contact.Close();
             }
         }
     }

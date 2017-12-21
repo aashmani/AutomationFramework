@@ -21,18 +21,18 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static XrmBrowser xrmBrowser;
         static Account()
         {
-            General.GetDataFromYaml();
+            BaseModel.GetDataFromYaml();
         }
 
 
         public static void Navigate()
         {
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-                Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+            xrmBrowser.ThinkTime(500);
+            xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
+            Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Accounts");
+            xrmBrowser.ThinkTime(2000);
+            xrmBrowser.Grid.SwitchView("Active Accounts");
         }
 
         private static void ClickNew()
@@ -43,15 +43,15 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static string Create()
         {
             ClickNew();
-            var dicCreateAccount = General.jsonObj.SelectToken("CreateAccount");
+            var dicCreateAccount =BaseModel.jsonObj.SelectToken("CreateAccount");
             xrmBrowser.ThinkTime(6000);
             string Name = dicCreateAccount["name"].ToString();
-            string accName = ((Name == null || Name== string.Empty) ? Name : "TEST_Smoke_PET_Account");
-            xrmBrowser.Entity.SetValue("name", accName + rnd.Next(100000, 999999).ToString());
+            string accName = ((Name == null || Name == string.Empty) ? Name : "TEST_Smoke_PET_Account" + rnd.Next(100000, 999999).ToString());
+            xrmBrowser.Entity.SetValue("name", accName);
             xrmBrowser.Entity.SetValue("telephone1", dicCreateAccount["telephone1"].ToString());
             xrmBrowser.Entity.SetValue("fax", dicCreateAccount["fax"].ToString());
             xrmBrowser.Entity.SetValue("websiteurl", dicCreateAccount["websiteurl"].ToString());
-            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(dicCreateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dicCreateAccount["parentaccountid"].ToString()));
             xrmBrowser.Entity.SetValue("tickersymbol", dicCreateAccount["tickersymbol"].ToString());
             xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = dicCreateAccount["new_typeofcustomer"].ToString() });
             xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = dicCreateAccount["new_customer"].ToString() });
@@ -71,7 +71,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             return accName;
         }
-        
+
         private static void ClickSave()
         {
             xrmBrowser.CommandBar.ClickCommand("Save & Close");
@@ -90,7 +90,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
             }
         }
-        public static bool Search( string accName)
+        public static bool Search(string accName)
         {
             xrmBrowser.Grid.Search(accName);
             xrmBrowser.ThinkTime(1000);
@@ -103,10 +103,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 return false;
             }
             else
+            {
+                Logs.LogHTML("Account  Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                 return true;
+            }
+
         }
 
-        private static void SelectFirstAccount()
+        public static void SelectFirst()
         {
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Grid.SelectRecord(0);
@@ -117,7 +121,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             try
             {
-                SelectFirstAccount();
+                SelectFirst();
                 xrmBrowser.CommandBar.ClickCommand("Delete");
                 xrmBrowser.ThinkTime(2000);
                 xrmBrowser.Dialogs.Delete();
@@ -130,10 +134,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
         }
 
-        public static void Update() {
-            OpenFirstAccount();
+        public static void Update()
+        {
+            OpenFirst();
 
-            var dicUpdateAccount = General.jsonObj.SelectToken("UpdateAccount");
+            var dicUpdateAccount = BaseModel.jsonObj.SelectToken("UpdateAccount");
 
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dicUpdateAccount["parentaccountid"].ToString()));
@@ -144,13 +149,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             Logs.LogHTML("Updated Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
 
-        public static  void OpenFirstAccount()
+        public static void OpenFirst()
         {
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Grid.OpenRecord(0);
         }
 
-        public static void Close() {
+        public static void Close()
+        {
             xrmBrowser.Dispose();
         }
     }

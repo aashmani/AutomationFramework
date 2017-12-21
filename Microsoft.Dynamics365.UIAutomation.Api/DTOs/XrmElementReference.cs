@@ -102,7 +102,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             { "Grid_Refresh"   , "id(\"grid_refresh\")" },
             { "Grid_ViewSelectorContainer"   , "id(\"viewSelectorContainer\")" },
             { "Grid_FirstRow", "id(\"gridBodyTable\")/tbody/tr[1]"},
-
+            { "Grid_FindCriteriaCase"       , "id(\"crmGrid_incident_customer_accounts_findCriteria\")"},            
+            { "Grid_FindCriteriaCaseImg"       , "id(\"crmGrid_incident_customer_accounts_findCriteriaImg\")"},
                                
             //Entity
             { "Entity_Form"       , "id(\"tab0\")"},
@@ -473,6 +474,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             public static string FindCriteriaImg = "Grid_FindCriteriaImg";
             public static string GridBodyTable = "Grid_GridBodyTable";
             public static string FindCriteria = "Grid_FindCriteria";
+            public static string FindCriteriaCase = "Grid_FindCriteriaCase";
+            public static string FindCriteriaCaseImg = "Grid_FindCriteriaCaseImg";
             public static string ViewSelector = "Grid_ViewSelector";
             public static string Refresh = "Grid_Refresh";
             public static string ViewContainer = "Grid_ViewContainerClass";

@@ -14,60 +14,41 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     [TestClass]
     public class DeleteAccount
     {
-        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        private readonly BrowserType _browser;
+        public static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestDeleteAccount()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+            Account.xrmBrowser = xrmBrowser;
+            try
             {
-                
-                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-
                 string name = "Test API Account";
-
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.ThinkTime(500);
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 if (name == string.Empty)
                 {
-                    xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-                    Logs.LogHTML("Navigated to Accounts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Account.Navigate();
+                    Account.Delete();
                 }
                 else
                 {
-                    xrmBrowser.Navigation.GlobalSearch(name);
-                    Logs.LogHTML("Global Search Success", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                }
-                xrmBrowser.ThinkTime(2000);
-
-                try
-                {
-                    xrmBrowser.GlobalSearch.OpenRecord("Accounts", 0, 1000);
-                    xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML("Selected Account to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                    xrmBrowser.CommandBar.ClickCommand("Delete");                   
-                    xrmBrowser.ThinkTime(2000);
-                    xrmBrowser.Dialogs.Delete();
-                    Logs.LogHTML("Deleted Account Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                }
-                catch (Exception ex)
-                {
-                    xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML("Delete Account ( " + name + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    if (Account.Search(name))
+                    {
+                        Account.Delete();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                BaseModel.LogError(ex.Message, this.GetType().Name);
+            }
+            finally
+            {
+                Account.Close();
+            }
+
         }
     }
 }
-
