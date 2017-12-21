@@ -80,8 +80,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             { "Nav_SearchLabel"       , "id(\"findHintText\")"},
             { "Nav_Search"       , "id(\"search\")"},
             { "Nav_StartSearch"       , "id(\"findCriteriaButton\")"},
-                  
+
             //Grid
+
+            { "PopupGrid_RowSelect"       , "id(\"crmGrid_divDataArea\")/div/table/tbody/tr[[INDEX]]/td[1]"},
             { "Grid_JumpBar"       , "id(\"crmGrid_JumpBar\")"},
             { "Grid_ShowAll"       , "id(\"crmGrid_JumpBar\")/tbody/tr/td[1]"},
             { "Grid_RowSelect"       , "id(\"gridBodyTable\")/tbody/tr[[INDEX]]/td[1]"},
@@ -456,6 +458,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
         }
         public static class Grid
         {
+            public static string PopupRowSelect = "PopupGrid_RowSelect";
             public static string JumpBar = "Grid_JumpBar";
             public static string ShowAll = "Grid_ShowAll";
             public static string RowSelect = "Grid_RowSelect";

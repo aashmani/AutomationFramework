@@ -43,27 +43,27 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static string CreateAccount()
         {
             ClickNew();
-
+            var dicCreateAccount = General.jsonObj.SelectToken("CreateAccount");
             xrmBrowser.ThinkTime(6000);
-            string Name = General.dictionaryCreateAccount["name"].ToString();
+            string Name = dicCreateAccount["name"].ToString();
             string accName = ((Name == null || Name== string.Empty) ? Name : "TEST_Smoke_PET_Account");
             xrmBrowser.Entity.SetValue("name", accName + rnd.Next(100000, 999999).ToString());
-            xrmBrowser.Entity.SetValue("telephone1", General.dictionaryCreateAccount["telephone1"].ToString());
-            xrmBrowser.Entity.SetValue("fax", General.dictionaryCreateAccount["fax"].ToString());
-            xrmBrowser.Entity.SetValue("websiteurl", General.dictionaryCreateAccount["websiteurl"].ToString());
-            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(General.dictionaryCreateAccount["parentaccountid"].ToString()));
-            xrmBrowser.Entity.SetValue("tickersymbol", General.dictionaryCreateAccount["tickersymbol"].ToString());
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = General.dictionaryCreateAccount["new_typeofcustomer"].ToString() });
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = General.dictionaryCreateAccount["new_customer"].ToString() });
-            xrmBrowser.Entity.SetValue("revenue", General.dictionaryCreateAccount["revenue"].ToString());
-            xrmBrowser.Entity.SetValue("new_testlock", General.dictionaryCreateAccount["new_testlock"].ToString());
-            xrmBrowser.Entity.SetValue("creditlimit", General.dictionaryCreateAccount["creditlimit"].ToString());
+            xrmBrowser.Entity.SetValue("telephone1", dicCreateAccount["telephone1"].ToString());
+            xrmBrowser.Entity.SetValue("fax", dicCreateAccount["fax"].ToString());
+            xrmBrowser.Entity.SetValue("websiteurl", dicCreateAccount["websiteurl"].ToString());
+            xrmBrowser.Entity.SelectLookup("parentaccountid",Convert.ToInt32(dicCreateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SetValue("tickersymbol", dicCreateAccount["tickersymbol"].ToString());
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_typeofcustomer", Value = dicCreateAccount["new_typeofcustomer"].ToString() });
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "new_customer", Value = dicCreateAccount["new_customer"].ToString() });
+            xrmBrowser.Entity.SetValue("revenue", dicCreateAccount["revenue"].ToString());
+            xrmBrowser.Entity.SetValue("new_testlock", dicCreateAccount["new_testlock"].ToString());
+            xrmBrowser.Entity.SetValue("creditlimit", dicCreateAccount["creditlimit"].ToString());
             //xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
             var fields = new List<Field>
                {
-                   new Field() { Id = "address1_line1", Value = General.dictionaryCreateAccount["address1_line1"].ToString() },
-                   new Field() { Id = "address1_city", Value = General.dictionaryCreateAccount["address1_city"].ToString() },
-                   new Field() { Id = "address1_postalcode", Value = General.dictionaryCreateAccount["address1_postalcode"].ToString()}
+                   new Field() { Id = "address1_line1", Value = dicCreateAccount["address1_line1"].ToString() },
+                   new Field() { Id = "address1_city", Value = dicCreateAccount["address1_city"].ToString() },
+                   new Field() { Id = "address1_postalcode", Value = dicCreateAccount["address1_postalcode"].ToString()}
                };
             xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "address1_composite", Fields = fields });
 
@@ -131,10 +131,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         }
 
         public static void UpdateAccount() {
+            var dicUpdateAccount = General.jsonObj.SelectToken("UpdateAccount");
             OpenFirstAccount();
 
             xrmBrowser.ThinkTime(1000);
-            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(General.dictionaryUpdateAccount["parentaccountid"].ToString()));
+            xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dicUpdateAccount["parentaccountid"].ToString()));
 
             xrmBrowser.Entity.Save();
             xrmBrowser.ThinkTime(2000);

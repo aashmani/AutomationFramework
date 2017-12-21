@@ -461,6 +461,24 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
             });
         }
 
+        public BrowserCommandResult<bool> PopupSelectRecord(int index, int thinkTime = Constants.DefaultThinkTime)
+        {
+            Browser.ThinkTime(thinkTime);
+
+            return this.Execute(GetOptions("Select Grid Record"), driver =>
+            {
+                //index parameter will be 0 based but the Xpath is 1 based. So we need to increment.
+                index++;
+
+                var select = driver.WaitUntilAvailable(By.XPath(Elements.Xpath[Reference.Grid.PopupRowSelect].Replace("[INDEX]", index.ToString())),
+                                                        $"Row with index {index.ToString()} is not found");
+
+                select?.Click();
+
+                return false;
+            });
+        }
+
         /// <summary>
         /// Filters the by letter.
         /// </summary>

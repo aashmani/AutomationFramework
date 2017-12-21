@@ -2,6 +2,7 @@
 using Microsoft.Dynamics365.UIAutomation.Browser;
 using Microsoft.Dynamics365.UIAutomation.Utility;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Random rnd = new Random();
         static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
-        static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
-        public static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
-        public static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
-
+        //static Dictionary<string, object> dictionaryMain = new Dictionary<string, object>();
+        //public static Dictionary<string, string> dictionaryCreateAccount = new Dictionary<string, string>();
+        //public static Dictionary<string, string> dictionaryUpdateAccount = new Dictionary<string, string>();
+        public static JObject jsonObj;
         static General()
         {
         }
@@ -35,15 +36,17 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 var reader = new StreamReader(filepath);
                 var deserializer = new DeserializerBuilder().Build();
                 var yamlObject = deserializer.Deserialize(reader);
-
+                
                 var serializer = new SerializerBuilder()
                     .JsonCompatible()
                     .Build();
 
                 var json = serializer.Serialize(yamlObject);
-                dictionaryMain = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                dictionaryCreateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["CreateAccount"].ToString());
-                dictionaryUpdateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["UpdateAccount"].ToString());
+
+                jsonObj = JObject.Parse(json);               
+                //dictionaryMain = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                //dictionaryCreateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["CreateAccount"].ToString());
+                //dictionaryUpdateAccount = JsonConvert.DeserializeObject<Dictionary<string, string>>(dictionaryMain["UpdateAccount"].ToString());
             }
             catch (Exception ex)
             {
