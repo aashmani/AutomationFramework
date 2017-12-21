@@ -138,7 +138,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             OpenFirst();
 
-            var dicUpdateAccount = General.jsonObj.SelectToken("UpdateAccount");
+            var dicUpdateAccount = BaseModel.jsonObj.SelectToken("UpdateAccount");
 
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dicUpdateAccount["parentaccountid"].ToString()));
