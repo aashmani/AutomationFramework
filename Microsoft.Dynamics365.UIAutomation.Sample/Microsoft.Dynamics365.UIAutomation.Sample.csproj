@@ -110,14 +110,12 @@
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\Opportunity.cs" />
-    <Compile Include="Model\MPH\Register.cs" />
     <Compile Include="OpenAccount.cs" />
     <Compile Include="OpenCase.cs" />
     <Compile Include="OpenContact.cs" />
     <Compile Include="OpenLead.cs" />
     <Compile Include="OpenOpportunity.cs" />
     <Compile Include="QuickCreate.cs" />
-    <Compile Include="MPH\RegisterClient.cs" />
     <Compile Include="Reports.cs" />
     <Compile Include="Telemetry.cs" />
     <Compile Include="UpdateAccount.cs" />
