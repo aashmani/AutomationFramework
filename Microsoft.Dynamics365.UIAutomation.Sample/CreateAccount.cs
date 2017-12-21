@@ -19,8 +19,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     [TestClass]
     public class CreateAccount
     {
-        Random rnd = new Random();
-
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;

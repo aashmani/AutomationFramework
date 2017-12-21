@@ -289,13 +289,20 @@ namespace Microsoft.Dynamics365.UIAutomation.Api
 
             return this.Execute(GetOptions("Search"), driver =>
             {
-                driver.FindElement(By.XPath(Elements.Xpath[Reference.Grid.FindCriteria])).SendKeys(searchCriteria);
-                driver.ClickWhenAvailable(By.XPath(Elements.Xpath[Reference.Grid.FindCriteriaImg]));
+                if (driver.IsVisible(By.XPath(Elements.Xpath[Reference.Grid.FindCriteriaCase])))
+                {
+                    driver.FindElement(By.XPath(Elements.Xpath[Reference.Grid.FindCriteriaCase])).SendKeys(searchCriteria);
+                    driver.ClickWhenAvailable(By.XPath(Elements.Xpath[Reference.Grid.FindCriteriaCaseImg]));
+                }
+                else
+                {
+                    driver.FindElement(By.XPath(Elements.Xpath[Reference.Grid.FindCriteria])).SendKeys(searchCriteria);
+                    driver.ClickWhenAvailable(By.XPath(Elements.Xpath[Reference.Grid.FindCriteriaImg]));
+                }
 
                 return true;
             });
         }
-
         /// <summary>
         /// Sorts the specified column name.
         /// </summary>
