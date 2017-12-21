@@ -106,7 +106,9 @@
     <Compile Include="DOCValidationTests\ValidationVersion.cs" />
     <Compile Include="DuplicateDetection.cs" />
     <Compile Include="LeadToOpportuninty.cs" />
+    <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\General.cs" />
     <Compile Include="Model\Opportunity.cs" />
     <Compile Include="Model\MPH\Register.cs" />

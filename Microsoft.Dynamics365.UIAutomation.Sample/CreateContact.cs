@@ -12,104 +12,35 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     [TestClass]
     public class CreateContact
     {
-
-        //private readonly SecureString _username = System.Configuration.ConfigurationManager.AppSettings["OnlineUsername"].ToSecureString();
-        //private readonly SecureString _password = System.Configuration.ConfigurationManager.AppSettings["OnlinePassword"].ToSecureString();
-        //private readonly Uri _xrmUri = new Uri(System.Configuration.ConfigurationManager.AppSettings["OnlineCrmUrl"].ToString());
-
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        private readonly BrowserType _browser;
         Random rnd = new Random();
+        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestCreateNewContact()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+            try
             {
-                
-                Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
+                Contact.xrmBrowser = xrmBrowser;
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                Contact.Navigate();
 
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
-                Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Contacts");
-                Logs.LogHTML("Navigated to Contacts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Contacts");
-                Logs.LogHTML("Navigated to Active Contacts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.CommandBar.ClickCommand("New");
-
-                xrmBrowser.ThinkTime(5000);
-
-                string firstName = "Test" + rnd.Next(100000, 999999).ToString();
-                //string firstName = "Test";
-                string lastName = "Contact";
-                string displayName = firstName + " " + lastName;
-                var fields = new List<Field>
+                string createdAccName = Contact.Create();
+                if (Contact.Search(createdAccName))
                 {
-                    new Field() {Id = "firstname", Value = firstName },
-                    new Field() {Id = "lastname", Value = lastName}
-                };
-
-                xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-                xrmBrowser.Entity.SetValue("emailaddress1", "test" + rnd.Next(100000, 999999).ToString() + "@contoso.com");
-                //xrmBrowser.Entity.SetValue("emailaddress1", "test@contoso.com");
-                xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
-                xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
-                xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
-
-                xrmBrowser.CommandBar.ClickCommand("Save & Close");
-                xrmBrowser.ThinkTime(5000);
-
-                if (xrmBrowser.Driver.IsVisible(By.Id("InlineDialog_Background")))
-                {
-                    xrmBrowser.Dialogs.DuplicateDetection(true);
-                    xrmBrowser.ThinkTime(2000);
-                    Logs.LogHTML("Duplicate Contacts Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
+                    Logs.LogHTML("Contact Created Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
+                    Contact.Delete();
                 }
-
-                xrmBrowser.Grid.Search(displayName);
-                xrmBrowser.ThinkTime(1000);
-                
-                var results = xrmBrowser.Grid.GetGridItems();
-
-                if (results.Value == null || results.Value.Count == 0)
-                {
-                    Logs.LogHTML("Contact  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                }
-                else
-                {
-                    Logs.LogHTML("Created Contact  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                }
-
-
-               try
-                {
-                    xrmBrowser.ThinkTime(1000);
-                    xrmBrowser.Grid.SelectRecord(0);
-                    Logs.LogHTML("Selected Contact to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-              
-                    xrmBrowser.CommandBar.ClickCommand("Delete");
-                    xrmBrowser.ThinkTime(2000);
-                    xrmBrowser.Dialogs.Delete();
-                    Logs.LogHTML("Deleted Contact Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                }
-                catch (Exception ex)
-                {
-                    xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML("Delete Contact ( " + displayName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                }
-
+            }
+            catch (Exception ex)
+            {
+                BaseModel.LogError(ex.Message, this.GetType().Name);
+            }
+            finally
+            {
+                Contact.Close();
             }
         }
     }

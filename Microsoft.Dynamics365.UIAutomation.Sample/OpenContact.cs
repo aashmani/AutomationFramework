@@ -13,30 +13,33 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        private readonly BrowserType _browser;
+        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestOpenActiveContact()
         {
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+            try
             {
-                xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-                xrmBrowser.GuidedHelp.CloseGuidedHelp();
+                Contact.xrmBrowser = xrmBrowser;
+                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+        
 
-                var perf = xrmBrowser.PerformanceCenter;
+                //var perf = xrmBrowser.PerformanceCenter;
 
-                if (!perf.IsEnabled)
-                    perf.IsEnabled = true;
+                //if (!perf.IsEnabled)
+                //    perf.IsEnabled = true;
 
-                xrmBrowser.ThinkTime(500);
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Contacts");
+                Contact.Navigate();
+                Contact.OpenFirst();
 
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Grid.SwitchView("Active Contacts");
-
-                xrmBrowser.ThinkTime(1000);
-                xrmBrowser.Grid.OpenRecord(0);
-
+            }
+            catch (Exception ex)
+            {
+                BaseModel.LogError(ex.Message, this.GetType().Name);
+            }
+            finally
+            {
+                Contact.Close();
             }
         }
     }
