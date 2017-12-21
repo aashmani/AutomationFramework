@@ -107,7 +107,9 @@
     <Compile Include="DuplicateDetection.cs" />
     <Compile Include="LeadToOpportuninty.cs" />
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\Case.cs" />
     <Compile Include="Model\General.cs" />
+    <Compile Include="Model\Lead.cs" />
     <Compile Include="Model\Opportunity.cs" />
     <Compile Include="Model\MPH\Register.cs" />
     <Compile Include="OpenAccount.cs" />

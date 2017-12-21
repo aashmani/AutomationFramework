@@ -17,93 +17,37 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
         private readonly BrowserType _browser;
+        public static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestCreateNewLead()
         {
-            Random rnd = new Random();
-
-            using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
+            try
             {
-                
+                Random rnd = new Random();
+                Lead.xrmBrowser = xrmBrowser;
+
                 Logs.LogHTML(string.Empty, Logs.HTMLSection.Header, Logs.TestStatus.NA, this.GetType().Name, Helper.SecureStringToString(_username), _browser.ToString());
-
-
                 xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
                 xrmBrowser.GuidedHelp.CloseGuidedHelp();
                 Logs.LogHTML("Logged in Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
-
-                xrmBrowser.Navigation.OpenSubArea("Sales", "Leads");
-                Logs.LogHTML("Navigated to Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.Grid.SwitchView("All Leads");
-                Logs.LogHTML("Navigated to All Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                xrmBrowser.CommandBar.ClickCommand("New");
-                xrmBrowser.ThinkTime(2000);
-
-                string firstName = "Test" + rnd.Next(100000, 999999).ToString();
-                string lastName = "Lead";
-                string displayName = firstName + " " + lastName;
-                var fields = new List<Field>
+                Lead.Navigate();
+                string displayName=Lead.Create();
+                if (Lead.Search(displayName))
                 {
-                    new Field() {Id = "firstname", Value = firstName },
-                    new Field() {Id = "lastname", Value = lastName}
-                };
-            
-                xrmBrowser.Entity.SetValue("subject", "Test API Lead");
-                xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-                xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
-                xrmBrowser.Entity.SetValue("description", "Test lead creation with API commands");
-                xrmBrowser.Entity.SetValue("emailaddress1", "testing@crm.com");
-                xrmBrowser.Entity.SetValue("companyname", "CompanyName");
-
-                xrmBrowser.CommandBar.ClickCommand("Save & Close");
-                xrmBrowser.ThinkTime(2000);
-
-                if (xrmBrowser.Driver.IsVisible(By.Id("InlineDialog_Background")))
-                {
-                    xrmBrowser.Dialogs.DuplicateDetection(true);
-                    xrmBrowser.ThinkTime(2000);
-                    Logs.LogHTML("Duplicate Leads Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
+                    Lead.Delete();
                 }
-
-                xrmBrowser.Grid.Search(displayName);
-                xrmBrowser.ThinkTime(1000);
-
-                var results = xrmBrowser.Grid.GetGridItems();
-
-                if (results.Value == null || results.Value.Count == 0)
-                {
-                    Logs.LogHTML("Lead  not found or was not created.", Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                }
-                else
-                {
-                    Logs.LogHTML("Created Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                }
-
-
-                try
-                {
-                    xrmBrowser.ThinkTime(1000);
-                    xrmBrowser.Grid.SelectRecord(0);
-                    Logs.LogHTML("Selected Lead to Delete", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                    xrmBrowser.CommandBar.ClickCommand("Delete");
-                    xrmBrowser.ThinkTime(2000);
-                    xrmBrowser.Dialogs.Delete();
-                    Logs.LogHTML("Deleted Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
-                }
-                catch (Exception ex)
-                {
-                    xrmBrowser.ThinkTime(1000);
-                    Logs.LogHTML("Delete Lead ( " + displayName + " ) Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                }
-
             }
+            catch(Exception ex)
+            {
+                Logs.LogHTML("Create Lead Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                Helper.failedScenarios.Add(this.GetType().Name);
+            }
+            finally
+            {
+                Lead.Close();
+            }          
         }
     }
 }
