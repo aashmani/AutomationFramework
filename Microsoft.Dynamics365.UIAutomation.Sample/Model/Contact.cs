@@ -12,7 +12,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
     public class Contact
     {
-
+        static Contact()
+        {
+            BaseModel.GetDataFromYaml();
+        }
         static Random rnd = new Random();
         public static XrmBrowser xrmBrowser;
         public static void Navigate()
@@ -35,12 +38,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
 
             ClickNew();
-
+            var dicCreateContact = BaseModel.jsonObj.SelectToken("CreateContact");
             xrmBrowser.ThinkTime(5000);
-
-            string firstName = "Test" + rnd.Next(100000, 999999).ToString();
-            //string firstName = "Test";
-            string lastName = "Contact";
+            string firstName = dicCreateContact["firstName"].ToString();
+            firstName = ((firstName == null || firstName == string.Empty) ? firstName : "TEST_Smoke_PET_Contact");
+            firstName = firstName + rnd.Next(100000, 999999).ToString();
+            string lastName = dicCreateContact["lastName"].ToString();
             string displayName = firstName + " " + lastName;
             var fields = new List<Field>
                 {
@@ -49,20 +52,20 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 };
 
             xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-            xrmBrowser.Entity.SetValue("emailaddress1", "test" + rnd.Next(100000, 999999).ToString() + "@contoso.com");
-            //xrmBrowser.Entity.SetValue("emailaddress1", "test@contoso.com");
-            xrmBrowser.Entity.SetValue("mobilephone", "555-555-5555");
-            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("11/1/1980"));
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
+            xrmBrowser.Entity.SetValue("emailaddress1", dicCreateContact["emailaddress1"].ToString());
+            xrmBrowser.Entity.SetValue("mobilephone", dicCreateContact["mobilephone"].ToString());
+            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicCreateContact["birthdate"].ToString()));
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = dicCreateContact["preferredcontactmethodcode"].ToString() });
 
             ClickSave();
 
-            return firstName;
+            return displayName;
         }
         private static void ClickSave()
         {
             xrmBrowser.CommandBar.ClickCommand("Save & Close");
             xrmBrowser.ThinkTime(5000);
+            CloseDuplicateWindow();
         }
         private static void CloseDuplicateWindow()
         {
@@ -124,10 +127,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static void Update()
         {
             OpenFirst();
-            xrmBrowser.Entity.SetValue("emailaddress1", "testUpdate@contoso.com");
-            xrmBrowser.Entity.SetValue("mobilephone", "123-222-4444");
-            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse("12/2/1984"));
-
+            var dicUpdateContact = BaseModel.jsonObj.SelectToken("UpdateContact");
+            xrmBrowser.Entity.SetValue("emailaddress1", dicUpdateContact["emailaddress1"].ToString());
+            xrmBrowser.Entity.SetValue("mobilephone", dicUpdateContact["mobilephone"].ToString());
+            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateContact["birthdate"].ToString()));
             xrmBrowser.Entity.Save();
 
         }

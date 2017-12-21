@@ -27,8 +27,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Contact.Navigate();
 
-                string createdAccName = Contact.Create();
-                if (Contact.Search(createdAccName))
+                string createdName = Contact.Create();
+                if (Contact.Search(createdName))
                 {
                     Logs.LogHTML("Contact Created Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
                     Contact.Delete();

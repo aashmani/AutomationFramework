@@ -46,7 +46,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             var dicCreateAccount =BaseModel.jsonObj.SelectToken("CreateAccount");
             xrmBrowser.ThinkTime(6000);
             string Name = dicCreateAccount["name"].ToString();
-            string accName = ((Name == null || Name == string.Empty) ? Name : "TEST_Smoke_PET_Account" + rnd.Next(100000, 999999).ToString());
+            string accName = ((Name == null || Name == string.Empty) ? Name : "TEST_Smoke_PET_Account" );
+            accName = accName  +rnd.Next(100000, 999999).ToString();
             xrmBrowser.Entity.SetValue("name", accName);
             xrmBrowser.Entity.SetValue("telephone1", dicCreateAccount["telephone1"].ToString());
             xrmBrowser.Entity.SetValue("fax", dicCreateAccount["fax"].ToString());
