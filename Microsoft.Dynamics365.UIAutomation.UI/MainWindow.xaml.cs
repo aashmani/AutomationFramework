@@ -176,15 +176,17 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
 
             foreach (var user in lstSelectedRoleUsers)
             {
-                //foreach (var user in role)
-                //{
+                Logs.LogHTML(string.Empty, Logs.HTMLSection.User, Logs.TestStatus.Pass, string.Empty, user.username, BrowserType.Chrome.ToString());
+                //Update BrowserType When  Browser selection implemented
+
+                Helper.failedScenarios = new List<string>();
+                
                 foreach (var scenario in lstSenario)
                 {
                     Assembly objAssembly = Assembly.LoadFile(path);
                     if (objAssembly != null)
                     {
                         Type type = objAssembly.GetType("Microsoft.Dynamics365.UIAutomation.Sample." + scenario);
-                        //type.GetMethod("TestUpdateAccount").Invoke(Activator.CreateInstance(type), null);
                         if (type != null)
                         {
                             object objType = Activator.CreateInstance(type);
@@ -196,9 +198,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                             fieldURL.SetValue(objType, new Uri(hostURL));
 
                             FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
-                            fieldBrowser.SetValue(objType, BrowserType.Chrome);  //Update BrowserType When  Browser selection implemented
-                                                                                 //fieldBrowser.SetValue(objType, lstSelectedBrowser);
-
+                            //fieldBrowser.SetValue(objType, BrowserType.Chrome);    //fieldBrowser.SetValue(objType, lstSelectedBrowser);
                             MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                             if (methodInfos.Count() > 0)
                             {
@@ -206,12 +206,29 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                             }
                         }
                     }
-
                 }
-                //}
+
+                Logs.LogHTML("Total Scenarios : " + lstSenario.Count(), Logs.HTMLSection.TestCaseCount);
+                int failedCount = 0;
+                if (Helper.failedScenarios != null)
+                {
+                    failedCount = Helper.failedScenarios.Count;
+                }
+               
+                if (failedCount > 0)
+                {
+                    Logs.LogHTML("Total Failed Scenarios : " + failedCount, Logs.HTMLSection.TestCaseFail);
+                    foreach (string item in Helper.failedScenarios)
+                    {
+                        Logs.LogHTML(item, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
+                    }
+                }
+                else {
+                    Logs.LogHTML(" Failed Scenarios : 0" , Logs.HTMLSection.TestCaseCount);
+                }
             }
+
             btnRuntest.IsEnabled = true;
-            //}
         }
         #endregion
 

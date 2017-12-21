@@ -25,5 +25,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Utility
         }
 
         public static string htmlLogFileName;
+        public static List<string> failedScenarios;
     }
 }
