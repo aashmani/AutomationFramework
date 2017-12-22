@@ -1,4 +1,6 @@
 ﻿using Microsoft.Dynamics365.UIAutomation.Browser;
+using Microsoft.Dynamics365.UIAutomation.Sample;
+using Microsoft.Dynamics365.UIAutomation.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,11 +25,11 @@ namespace Microsoft.Dynamics365.UIAutomation.AutomationScheduler
             try
             {
 
-                //string paramList = string.Join("", args);
-                string paramList = "|<ArrayOfString><string>CreateAccount</string></ArrayOfString>|https://pesdemo3.crm.dynamics.com|admin@pesdemo3.onmicrosoft.com|pass@word1";
+                string paramList = string.Join("", args);
+                //string paramList = "|<ArrayOfString><string>CreateAccount</string></ArrayOfString>|https://pesdemo3.crm.dynamics.com|admin@pesdemo3.onmicrosoft.com|pass@word1";
                 //string paramList = "Chrome|testsalesrep@servicesource.com|<ArrayOfString><string>CreateAccount</string><string>UpdateAccount</string></ArrayOfString>|https://pesdemo3.crm.dynamics.com|admin@pesdemo3.onmicrosoft.com|pass@word1";
                 string[] paramArray = paramList.Split('|');
-
+                Helper.htmlLogFileName = "CRM Testing-" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss").ToString() + ".html";
                 hostURL = paramArray[2].ToString();
                 username = paramArray[3].ToString();
                 password = paramArray[4].ToString();
@@ -64,6 +66,7 @@ namespace Microsoft.Dynamics365.UIAutomation.AutomationScheduler
             }
             catch (Exception ex)
             {
+                General.LogError(ex.Message,"Scheduler Error");
                 MessageBox.Show(ex.Message.ToString());
             }
         }

@@ -38,8 +38,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             catch(Exception ex)
             {
-                Logs.LogHTML("Create Lead Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                Helper.failedScenarios.Add(this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);               
             }
             finally
             {

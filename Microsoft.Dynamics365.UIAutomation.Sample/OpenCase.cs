@@ -34,34 +34,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             catch(Exception ex)
             {
-                Logs.LogHTML("Open Case Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
-                Helper.failedScenarios.Add(this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {
                 Case.Close();
             }
-            //using (var xrmBrowser = new XrmBrowser(TestSettings.Options))
-            //{
-            //    xrmBrowser.LoginPage.Login(_xrmUri, _username, _password);
-
-            //    xrmBrowser.GuidedHelp.CloseGuidedHelp();
-
-            //    xrmBrowser.ThinkTime(500);
-            //    xrmBrowser.Navigation.OpenSubArea("Sales", "Accounts");
-
-            //    xrmBrowser.ThinkTime(3000);
-            //    xrmBrowser.Grid.OpenRecord(0);
-            //    xrmBrowser.Navigation.OpenRelated("Cases");
-
-            //    xrmBrowser.Related.SwitchView("Active Cases");
-
-            //    xrmBrowser.ThinkTime(2000);
-            //    xrmBrowser.Related.OpenGridRow(0);
-            //    xrmBrowser.ThinkTime(2000);
-
-
-            //}
         }
     }
 }

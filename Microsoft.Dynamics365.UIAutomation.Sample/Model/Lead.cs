@@ -24,7 +24,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             xrmBrowser.Navigation.OpenSubArea("Sales", "Leads");
             Logs.LogHTML("Navigated to Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-
+            xrmBrowser.ThinkTime(2000);
             //xrmBrowser.Grid.SwitchView("All Leads");
             //Logs.LogHTML("Navigated to All Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
@@ -57,11 +57,58 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.Entity.SetValue("emailaddress1", dicCreateLead["emailaddress1"].ToString());
             xrmBrowser.Entity.SetValue("companyname", dicCreateLead["companyname"].ToString());
 
-            ClickSave();
+            ClickSaveClose();
             return displayName;
         }
 
+        public static string CreateBPF()
+        {
+            ClickNew();
+            ClickHeader();
+            var dicBPFLeadToOpportunity = General.jsonObj.SelectToken("BPFLeadToOpportunity");
+
+            xrmBrowser.Entity.SelectLookup("header_process_parentcontactid", Convert.ToInt32(dicBPFLeadToOpportunity["header_process_parentcontactid"].ToString()));
+
+            xrmBrowser.Entity.SelectLookup("header_process_parentaccountid", Convert.ToInt32(dicBPFLeadToOpportunity["header_process_parentaccountid"].ToString()));
+
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchasetimeframe", Value = dicBPFLeadToOpportunity["header_process_purchasetimeframe"].ToString()});
+            xrmBrowser.Entity.SetValue("header_process_budgetamount", dicBPFLeadToOpportunity["header_process_budgetamount"].ToString());
+
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_process_purchaseprocess", Value = dicBPFLeadToOpportunity["header_process_purchaseprocess"].ToString() });
+
+            xrmBrowser.Entity.SetValue("header_process_decisionmaker");
+
+            xrmBrowser.Entity.SetValue("header_process_description", dicBPFLeadToOpportunity["header_process_description"].ToString());
+
+            xrmBrowser.Entity.SetValue(new OptionSet { Name = "header_leadsourcecode", Value = dicBPFLeadToOpportunity["header_leadsourcecode"].ToString() });
+            string firstName = dicBPFLeadToOpportunity["firstname"].ToString() + rnd.Next(100000, 999999).ToString();
+            string lastName = dicBPFLeadToOpportunity["lastname"].ToString();
+            string displayName = firstName + " " + lastName;
+            var fields = new List<Field>
+                {
+                    new Field() {Id = "firstname", Value = firstName },
+                    new Field() {Id = "lastname", Value = lastName}
+                };
+            string subject = dicBPFLeadToOpportunity["subject"].ToString() + "_" + rnd.Next(100000, 999999).ToString();
+            xrmBrowser.Entity.SetValue("subject", subject);
+            xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
+            ClickSave();
+            return subject;
+        }
+
+        private static void ClickHeader()
+        {
+            xrmBrowser.BusinessProcessFlow.SelectStage(0);
+            xrmBrowser.ThinkTime(3000);
+        }
+
         private static void ClickSave()
+        {
+            xrmBrowser.CommandBar.ClickCommand("Save");
+            xrmBrowser.ThinkTime(2000);
+            CloseDuplicateWindow();
+        }
+        private static void ClickSaveClose()
         {
             xrmBrowser.CommandBar.ClickCommand("Save & Close");
             xrmBrowser.ThinkTime(2000);
@@ -137,6 +184,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             {
                 Logs.LogHTML("Open Lead Failed : " + ex.Message.Trim(), Logs.HTMLSection.Details, Logs.TestStatus.Fail);
             }
+
+        }
+        public static void ClickQualify()
+        {
+            xrmBrowser.CommandBar.ClickCommand("Qualify");
+            xrmBrowser.ThinkTime(5000);
+            Logs.LogHTML("Qualified Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
         }
 
