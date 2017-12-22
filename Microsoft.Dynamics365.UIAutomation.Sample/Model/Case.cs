@@ -17,7 +17,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         static Case()
         {
-            BaseModel.GetDataFromYaml();
+            General.GetDataFromYaml();
         }
         public static void OpenRelatedCase()
         {
@@ -36,7 +36,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             ClickNew();
 
-            var dicCreateCase = BaseModel.jsonObj.SelectToken("CreateCase");
+            var dicCreateCase = General.jsonObj.SelectToken("CreateCase");
             xrmBrowser.ThinkTime(6000);
 
             string Name = dicCreateCase["title"].ToString();
@@ -116,7 +116,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         }
         public static void Update()
         {
-            var dicUpdateCase = BaseModel.jsonObj.SelectToken("UpdateCase");
+            var dicUpdateCase = General.jsonObj.SelectToken("UpdateCase");
             xrmBrowser.ThinkTime(6000);
             SelectFirstCase();
 

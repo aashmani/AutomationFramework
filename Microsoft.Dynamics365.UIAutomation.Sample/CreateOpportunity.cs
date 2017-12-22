@@ -23,7 +23,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             try
             {
 
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Opportunity.Navigate();
 
                 string createdName = Opportunity.Create();
@@ -35,7 +35,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {

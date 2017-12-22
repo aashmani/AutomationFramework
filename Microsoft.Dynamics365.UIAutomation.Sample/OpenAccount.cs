@@ -21,14 +21,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             Account.xrmBrowser = xrmBrowser;
             try
             {
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Account.Navigate();
                 Account.OpenFirst();
 
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {

@@ -26,7 +26,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             try
             {
                 string name = "Test API Account";
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 if (name == string.Empty)
                 {
                     Account.Navigate();
@@ -42,7 +42,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {

@@ -23,14 +23,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             try
             {
 
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Account.Navigate();
                 Account.Update();
 
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {
