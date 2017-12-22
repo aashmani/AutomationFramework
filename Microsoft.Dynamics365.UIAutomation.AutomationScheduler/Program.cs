@@ -23,7 +23,8 @@ namespace Microsoft.Dynamics365.UIAutomation.AutomationScheduler
             try
             {
 
-                string paramList = string.Join("", args);
+                //string paramList = string.Join("", args);
+                string paramList = "|<ArrayOfString><string>CreateAccount</string></ArrayOfString>|https://pesdemo3.crm.dynamics.com|admin@pesdemo3.onmicrosoft.com|pass@word1";
                 //string paramList = "Chrome|testsalesrep@servicesource.com|<ArrayOfString><string>CreateAccount</string><string>UpdateAccount</string></ArrayOfString>|https://pesdemo3.crm.dynamics.com|admin@pesdemo3.onmicrosoft.com|pass@word1";
                 string[] paramArray = paramList.Split('|');
 
@@ -50,8 +51,8 @@ namespace Microsoft.Dynamics365.UIAutomation.AutomationScheduler
                             fieldPassword.SetValue(objType, password.ToSecureString());
                             FieldInfo fieldURL = type.GetField("_xrmUri", BindingFlags.NonPublic | BindingFlags.Instance);
                             fieldURL.SetValue(objType, new Uri(hostURL));
-                            FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
-                            fieldBrowser.SetValue(objType,  BrowserType.Chrome); 
+                            //FieldInfo fieldBrowser = type.GetField("_browser", BindingFlags.NonPublic | BindingFlags.Instance);
+                            //fieldBrowser.SetValue(objType,  BrowserType.Chrome); 
                             MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                             if (methodInfos.Count() > 0)
                             {
