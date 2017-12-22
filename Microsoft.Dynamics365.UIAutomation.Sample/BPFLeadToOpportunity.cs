@@ -50,7 +50,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }   
             finally
             {
-                Lead.Close();
+                Opportunity.Close();
             }     
         }
     }
