@@ -14,7 +14,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Contact()
         {
-            BaseModel.GetDataFromYaml();
+            General.GetDataFromYaml();
         }
         static Random rnd = new Random();
         public static XrmBrowser xrmBrowser;
@@ -38,7 +38,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
 
             ClickNew();
-            var dicCreateContact = BaseModel.jsonObj.SelectToken("CreateContact");
+            var dicCreateContact = General.jsonObj.SelectToken("CreateContact");
             xrmBrowser.ThinkTime(5000);
             string firstName = dicCreateContact["firstName"].ToString();
             firstName = ((firstName == null || firstName == string.Empty) ? firstName : "TEST_Smoke_PET_Contact");
@@ -93,7 +93,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             else
             {
                 Logs.LogHTML("Contact  Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                return false;
+                return true;
             }
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static void Update()
         {
             OpenFirst();
-            var dicUpdateContact = BaseModel.jsonObj.SelectToken("UpdateContact");
+            var dicUpdateContact = General.jsonObj.SelectToken("UpdateContact");
             xrmBrowser.Entity.SetValue("emailaddress1", dicUpdateContact["emailaddress1"].ToString());
             xrmBrowser.Entity.SetValue("mobilephone", dicUpdateContact["mobilephone"].ToString());
             xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateContact["birthdate"].ToString()));

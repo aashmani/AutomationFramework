@@ -25,7 +25,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 Random rnd = new Random();
                 Lead.xrmBrowser = xrmBrowser;
 
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
 
                 Lead.Navigate();
                 Lead.OpenRecord();

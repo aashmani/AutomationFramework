@@ -17,7 +17,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         static Lead()
         {
-            BaseModel.GetDataFromYaml();
+            General.GetDataFromYaml();
         }
 
         public static void Navigate()
@@ -38,7 +38,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             ClickNew();
 
-            var dicCreateLead = BaseModel.jsonObj.SelectToken("CreateLead");
+            var dicCreateLead = General.jsonObj.SelectToken("CreateLead");
             xrmBrowser.ThinkTime(6000);
 
             string firstName = dicCreateLead["firstname"].ToString() + rnd.Next(100000, 999999).ToString();
@@ -119,7 +119,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             OpenRecord();
 
-            var dicUpdateLead = BaseModel.jsonObj.SelectToken("UpdateLead");
+            var dicUpdateLead = General.jsonObj.SelectToken("UpdateLead");
 
             xrmBrowser.Entity.SetValue("subject", dicUpdateLead["subject"].ToString());
             xrmBrowser.Entity.SetValue("description", dicUpdateLead["description"].ToString());

@@ -25,7 +25,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             {
                 Case.xrmBrowser = xrmBrowser;
                 Account.xrmBrowser = xrmBrowser;
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
 
 
                 Account.Navigate();

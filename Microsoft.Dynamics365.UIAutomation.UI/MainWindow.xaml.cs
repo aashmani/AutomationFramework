@@ -286,7 +286,7 @@ namespace Microsoft.Dynamics365.UIAutomation.UI
                            StartBoundary = DateTime.Now + TimeSpan.FromHours(1),
                            Enabled = false,
                        },
-                       new ExecAction(@"D:\AutomationFramework\Microsoft.Dynamics365.UIAutomation.AutomationScheduler\bin\Debug\Microsoft.Dynamics365.UIAutomation.AutomationScheduler.exe", schArgument, @"D:\"));
+                       new ExecAction(@"D:\Projects\CRMTestAutomation\AutomationFramework\Microsoft.Dynamics365.UIAutomation.AutomationScheduler\bin\Debug\Microsoft.Dynamics365.UIAutomation.AutomationScheduler.exe", schArgument, @"D:\"));
                     // Edit task and re-register if user clicks Ok
                     TaskEditDialog editorForm = new TaskEditDialog();
                     editorForm.Editable = true;

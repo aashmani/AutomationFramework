@@ -21,7 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             try
             {
                 Contact.xrmBrowser = xrmBrowser;
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
         
 
                 //var perf = xrmBrowser.PerformanceCenter;
@@ -35,7 +35,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {

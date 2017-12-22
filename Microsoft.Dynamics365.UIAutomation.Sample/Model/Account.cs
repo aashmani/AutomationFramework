@@ -21,7 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static XrmBrowser xrmBrowser;
         static Account()
         {
-            BaseModel.GetDataFromYaml();
+            General.GetDataFromYaml();
         }
 
 
@@ -43,7 +43,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static string Create()
         {
             ClickNew();
-            var dicCreateAccount =BaseModel.jsonObj.SelectToken("CreateAccount");
+            var dicCreateAccount =General.jsonObj.SelectToken("CreateAccount");
             xrmBrowser.ThinkTime(6000);
             string Name = dicCreateAccount["name"].ToString();
             string accName = ((Name == null || Name == string.Empty) ? Name : "TEST_Smoke_PET_Account" );
@@ -139,7 +139,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             OpenFirst();
 
-            var dicUpdateAccount = BaseModel.jsonObj.SelectToken("UpdateAccount");
+            var dicUpdateAccount = General.jsonObj.SelectToken("UpdateAccount");
 
             xrmBrowser.ThinkTime(1000);
             xrmBrowser.Entity.SelectLookup("parentaccountid", Convert.ToInt32(dicUpdateAccount["parentaccountid"].ToString()));

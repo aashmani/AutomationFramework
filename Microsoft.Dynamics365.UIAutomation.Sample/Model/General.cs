@@ -9,7 +9,7 @@ using YamlDotNet.Serialization;
 
 namespace Microsoft.Dynamics365.UIAutomation.Sample
 {
-    public  class BaseModel
+    public  class General
     {
       
         public static JObject jsonObj;

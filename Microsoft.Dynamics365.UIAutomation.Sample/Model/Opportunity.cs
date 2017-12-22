@@ -14,7 +14,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
         static Opportunity()
         {
-            BaseModel.GetDataFromYaml();
+            General.GetDataFromYaml();
         }
         static Random rnd = new Random();
         public static XrmBrowser xrmBrowser;
@@ -38,7 +38,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
 
             ClickNew();
-            var dicCreateOpportunity = BaseModel.jsonObj.SelectToken("CreateOpportunity");
+            var dicCreateOpportunity = General.jsonObj.SelectToken("CreateOpportunity");
             xrmBrowser.ThinkTime(5000);
             string oppName = dicCreateOpportunity["name"].ToString();
             oppName = ((oppName == null || oppName == string.Empty) ? oppName : "TEST_Smoke_PET_Opportunity");
@@ -46,7 +46,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             xrmBrowser.Entity.SetValue("name", oppName);
             xrmBrowser.Entity.SetValue("description", dicCreateOpportunity["description"].ToString() );
 
-            xrmBrowser.Entity.SetValue("new_deligatedto", dicCreateOpportunity["new_deligatedto"].ToString());
+           // xrmBrowser.Entity.SetValue("new_deligatedto", dicCreateOpportunity["new_deligatedto"].ToString());
             ClickSave();
 
             return oppName;
@@ -83,7 +83,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             else
             {
                 Logs.LogHTML("Opportunity  Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-                return false;
+                return true;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static void Update()
         {
             OpenFirst();
-            var dicUpdateOpportunity = BaseModel.jsonObj.SelectToken("UpdateOpportunity");
+            var dicUpdateOpportunity = General.jsonObj.SelectToken("UpdateOpportunity");
             xrmBrowser.Entity.SetValue("emailaddress1", dicUpdateOpportunity["emailaddress1"].ToString());
             xrmBrowser.Entity.SetValue("mobilephone", dicUpdateOpportunity["mobilephone"].ToString());
             xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateOpportunity["birthdate"].ToString()));

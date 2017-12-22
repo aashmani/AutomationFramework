@@ -29,14 +29,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 //if (!perf.IsEnabled)
                 //    perf.IsEnabled = true;
 
-                BaseModel.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
                 Contact.Navigate();
                 Contact.Update();
 
             }
             catch (Exception ex)
             {
-                BaseModel.LogError(ex.Message, this.GetType().Name);
+                General.LogError(ex.Message, this.GetType().Name);
             }
             finally
             {
