@@ -66,7 +66,6 @@ namespace Microsoft.Dynamics365.UIAutomation.AutomationScheduler
             }
             catch (Exception ex)
             {
-                General.LogError(ex.Message,"Scheduler Error");
                 MessageBox.Show(ex.Message.ToString());
             }
         }
