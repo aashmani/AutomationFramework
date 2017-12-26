@@ -24,7 +24,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
              General.xrmBrowser.Navigation.OpenSubArea("Sales", "Leads");
             Logs.LogHTML("Navigated to Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
-             General.xrmBrowser.ThinkTime(2000);
+             General.xrmBrowser.ThinkTime(3000);
             // General.xrmBrowser.Grid.SwitchView("All Leads");
             //Logs.LogHTML("Navigated to All Leads  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
@@ -104,7 +104,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         private static void ClickSave()
         {
-             General.xrmBrowser.CommandBar.ClickCommand("Save");
+            General.xrmBrowser.Entity.Save();
+            //General.xrmBrowser.CommandBar.ClickCommand("Save");
              General.xrmBrowser.ThinkTime(2000);
             CloseDuplicateWindow();
         }
@@ -168,6 +169,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
              General.xrmBrowser.Entity.SetValue("description", dicUpdateLead["description"].ToString());
 
             ClickSave();
+
+            Logs.LogHTML("Updated Lead Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
         public static void OpenRecord()
         {

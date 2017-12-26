@@ -132,7 +132,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             General.xrmBrowser.Entity.SetValue("mobilephone", dicUpdateContact["mobilephone"].ToString());
             General.xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateContact["birthdate"].ToString()));
             General.xrmBrowser.Entity.Save();
-
+            Logs.LogHTML("Updated Contact Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
     }
 }

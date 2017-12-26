@@ -21,11 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         {
             try
             {
-                Random rnd = new Random();
-                
-
                 General.Login(_xrmUri, _username, _password, this.GetType().Name);
-
                 Lead.Navigate();
                 Lead.Update();
 

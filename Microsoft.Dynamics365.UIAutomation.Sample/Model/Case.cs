@@ -118,6 +118,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
              General.xrmBrowser.Entity.SetValue(new OptionSet { Name = "caseorigincode", Value = dicUpdateCase["caseorigincode"].ToString() });
             ClickSave();
+
+            Logs.LogHTML("Updated Case Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
         private static void ClickSave()
         {

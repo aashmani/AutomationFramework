@@ -13,15 +13,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
-        Random rnd = new Random();
 
 
         [TestMethod]
         public void TestUpdateContact()
-        {
-
-            General.xrmBrowser = xrmBrowser;
+        {            
             try
             {
                 //var perf = xrmBrowser.PerformanceCenter;
