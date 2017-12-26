@@ -14,16 +14,16 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        public static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
+     
 
         [TestMethod]
         public void TestCreateNewOpportunity()
         {
-            Opportunity.xrmBrowser = xrmBrowser;
+            
             try
             {
 
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
                 Opportunity.Navigate();
 
                 string createdName = Opportunity.Create();
@@ -39,7 +39,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             finally
             {
-                Opportunity.Close();
+                General.Close();
             }
 
         }

@@ -21,7 +21,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public void TestUpdateContact()
         {
 
-            Contact.xrmBrowser = xrmBrowser;
+            General.xrmBrowser = xrmBrowser;
             try
             {
                 //var perf = xrmBrowser.PerformanceCenter;
@@ -29,7 +29,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                 //if (!perf.IsEnabled)
                 //    perf.IsEnabled = true;
 
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
                 Contact.Navigate();
                 Contact.Update();
 
@@ -40,7 +40,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             finally
             {
-                Contact.Close();
+                General.Close();
             }
         }
     }

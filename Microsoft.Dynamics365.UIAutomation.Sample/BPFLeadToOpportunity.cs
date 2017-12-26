@@ -18,7 +18,6 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
         private readonly BrowserType _browser;
-        public static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestBPFLeadToOpportunity()
@@ -26,9 +25,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             Random rnd = new Random();
             try
             {
-                Lead.xrmBrowser = xrmBrowser;
-                Opportunity.xrmBrowser = xrmBrowser;
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
 
                 Lead.Navigate();
 
@@ -50,7 +47,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }   
             finally
             {
-                Opportunity.Close();
+                General.Close();
             }     
         }
     }

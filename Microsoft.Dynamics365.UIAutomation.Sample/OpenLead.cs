@@ -15,17 +15,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
         private readonly BrowserType _browser;
-        public static XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
+        
 
         [TestMethod]
         public void TestOpenActiveLead()
         {
             try
             {
-                Random rnd = new Random();
-                Lead.xrmBrowser = xrmBrowser;
-
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
 
                 Lead.Navigate();
                 Lead.OpenRecord();
@@ -36,7 +33,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             finally
             {
-                Lead.Close();
+                General.Close();
             }
         }
     }

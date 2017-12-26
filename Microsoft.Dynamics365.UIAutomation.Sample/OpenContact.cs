@@ -13,15 +13,13 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private SecureString _username = string.Empty.ToSecureString();
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
-        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestOpenActiveContact()
         {
             try
             {
-                Contact.xrmBrowser = xrmBrowser;
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
         
 
                 //var perf = xrmBrowser.PerformanceCenter;
@@ -39,7 +37,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             finally
             {
-                Contact.Close();
+                General.Close();
             }
         }
     }

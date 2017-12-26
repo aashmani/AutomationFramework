@@ -16,15 +16,14 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         private readonly SecureString _password = string.Empty.ToSecureString();
         private readonly Uri _xrmUri;
         Random rnd = new Random();
-        public XrmBrowser xrmBrowser = new XrmBrowser(TestSettings.Options);
 
         [TestMethod]
         public void TestCreateNewContact()
         {
             try
             {
-                Contact.xrmBrowser = xrmBrowser;
-                General.Login(xrmBrowser, _xrmUri, _username, _password, this.GetType().Name);
+               
+                General.Login(_xrmUri, _username, _password, this.GetType().Name);
                 Contact.Navigate();
 
                 string createdName = Contact.Create();
@@ -40,7 +39,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
             finally
             {
-                Contact.Close();
+                General.Close();
             }
         }
     }

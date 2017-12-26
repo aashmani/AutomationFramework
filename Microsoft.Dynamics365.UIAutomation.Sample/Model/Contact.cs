@@ -17,29 +17,29 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             General.GetDataFromYaml();
         }
         static Random rnd = new Random();
-        public static XrmBrowser xrmBrowser;
+            
         public static void Navigate()
         {
 
-            xrmBrowser.ThinkTime(500);
-            xrmBrowser.Navigation.OpenSubArea("Sales", "Contacts");
+            General.xrmBrowser.ThinkTime(500);
+            General.xrmBrowser.Navigation.OpenSubArea("Sales", "Contacts");
             Logs.LogHTML("Navigated to Contacts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
-            xrmBrowser.ThinkTime(2000);
-            xrmBrowser.Grid.SwitchView("Active Contacts");
+            General.xrmBrowser.ThinkTime(2000);
+            General.xrmBrowser.Grid.SwitchView("Active Contacts");
             Logs.LogHTML("Navigated to Active Contacts  Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
         private static void ClickNew()
         {
-            xrmBrowser.ThinkTime(1000);
-            xrmBrowser.CommandBar.ClickCommand("New");
+            General.xrmBrowser.ThinkTime(1000);
+            General.xrmBrowser.CommandBar.ClickCommand("New");
         }
         public static string Create()
         {
 
             ClickNew();
             var dicCreateContact = General.jsonObj.SelectToken("CreateContact");
-            xrmBrowser.ThinkTime(5000);
+            General.xrmBrowser.ThinkTime(5000);
             string firstName = dicCreateContact["firstName"].ToString();
             firstName = ((firstName == null || firstName == string.Empty) ? firstName : "TEST_Smoke_PET_Contact");
             firstName = firstName + rnd.Next(100000, 999999).ToString();
@@ -51,11 +51,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
                     new Field() {Id = "lastname", Value = lastName}
                 };
 
-            xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
-            xrmBrowser.Entity.SetValue("emailaddress1", dicCreateContact["emailaddress1"].ToString());
-            xrmBrowser.Entity.SetValue("mobilephone", dicCreateContact["mobilephone"].ToString());
-            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicCreateContact["birthdate"].ToString()));
-            xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = dicCreateContact["preferredcontactmethodcode"].ToString() });
+            General.xrmBrowser.Entity.SetValue(new CompositeControl() { Id = "fullname", Fields = fields });
+            General.xrmBrowser.Entity.SetValue("emailaddress1", dicCreateContact["emailaddress1"].ToString());
+            General.xrmBrowser.Entity.SetValue("mobilephone", dicCreateContact["mobilephone"].ToString());
+            General.xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicCreateContact["birthdate"].ToString()));
+            General.xrmBrowser.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = dicCreateContact["preferredcontactmethodcode"].ToString() });
 
             ClickSave();
 
@@ -63,27 +63,27 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         }
         private static void ClickSave()
         {
-            xrmBrowser.CommandBar.ClickCommand("Save & Close");
-            xrmBrowser.ThinkTime(5000);
+            General.xrmBrowser.CommandBar.ClickCommand("Save & Close");
+            General.xrmBrowser.ThinkTime(5000);
             CloseDuplicateWindow();
         }
         private static void CloseDuplicateWindow()
         {
 
-            if (xrmBrowser.Driver.IsVisible(By.Id("InlineDialog_Background")))
+            if (General.xrmBrowser.Driver.IsVisible(By.Id("InlineDialog_Background")))
             {
-                xrmBrowser.Dialogs.DuplicateDetection(true);
-                xrmBrowser.ThinkTime(2000);
+                General.xrmBrowser.Dialogs.DuplicateDetection(true);
+                General.xrmBrowser.ThinkTime(2000);
                 Logs.LogHTML("Duplicate Contacts Found", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
 
             }
         }
         public static bool Search(string Name)
         {
-            xrmBrowser.Grid.Search(Name);
-            xrmBrowser.ThinkTime(1000);
+            General.xrmBrowser.Grid.Search(Name);
+            General.xrmBrowser.ThinkTime(1000);
 
-            var results = xrmBrowser.Grid.GetGridItems();
+            var results = General.xrmBrowser.Grid.GetGridItems();
 
             if (results.Value == null || results.Value.Count == 0)
             {
@@ -99,8 +99,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
 
         public static void SelectFirst()
         {
-            xrmBrowser.ThinkTime(1000);
-            xrmBrowser.Grid.SelectRecord(0);
+            General.xrmBrowser.ThinkTime(1000);
+            General.xrmBrowser.Grid.SelectRecord(0);
             Logs.LogHTML("Selected Contact", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
         }
         public static void Delete()
@@ -108,35 +108,31 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             try
             {
                 SelectFirst();
-                xrmBrowser.CommandBar.ClickCommand("Delete");
-                xrmBrowser.ThinkTime(2000);
-                xrmBrowser.Dialogs.Delete();
+                General.xrmBrowser.CommandBar.ClickCommand("Delete");
+                General.xrmBrowser.ThinkTime(2000);
+                General.xrmBrowser.Dialogs.Delete();
                 Logs.LogHTML("Deleted Contact Successfully", Logs.HTMLSection.Details, Logs.TestStatus.Pass);
             }
             catch (Exception ex)
             {
-                xrmBrowser.ThinkTime(1000);
+                General.xrmBrowser.ThinkTime(1000);
                 Logs.LogHTML("Delete Contact Failed : " + ex.Message, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
             }
         }
         public static void OpenFirst()
         {
-            xrmBrowser.ThinkTime(1000);
-            xrmBrowser.Grid.OpenRecord(0);
+            General.xrmBrowser.ThinkTime(1000);
+            General.xrmBrowser.Grid.OpenRecord(0);
         }
         public static void Update()
         {
             OpenFirst();
             var dicUpdateContact = General.jsonObj.SelectToken("UpdateContact");
-            xrmBrowser.Entity.SetValue("emailaddress1", dicUpdateContact["emailaddress1"].ToString());
-            xrmBrowser.Entity.SetValue("mobilephone", dicUpdateContact["mobilephone"].ToString());
-            xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateContact["birthdate"].ToString()));
-            xrmBrowser.Entity.Save();
+            General.xrmBrowser.Entity.SetValue("emailaddress1", dicUpdateContact["emailaddress1"].ToString());
+            General.xrmBrowser.Entity.SetValue("mobilephone", dicUpdateContact["mobilephone"].ToString());
+            General.xrmBrowser.Entity.SetValue("birthdate", DateTime.Parse(dicUpdateContact["birthdate"].ToString()));
+            General.xrmBrowser.Entity.Save();
 
-        }
-        public static void Close()
-        {
-            xrmBrowser.Dispose();
         }
     }
 }

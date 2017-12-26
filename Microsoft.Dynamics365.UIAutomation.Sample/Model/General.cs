@@ -13,7 +13,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
     {
       
         public static JObject jsonObj;
-
+        public static XrmBrowser xrmBrowser;
         public static void GetDataFromYaml()
         {
             try
@@ -37,8 +37,9 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
             }
         }
 
-        public static void Login(XrmBrowser xrmBrowser, Uri uri, SecureString username, SecureString password,string testCase)
+        public static void Login(Uri uri, SecureString username, SecureString password, string testCase)
         {
+            xrmBrowser = new XrmBrowser(TestSettings.Options);
             Logs.LogHTML(string.Empty, Logs.HTMLSection.TestCase, Logs.TestStatus.NA, testCase);
             xrmBrowser.LoginPage.Login(uri, username, password);
             xrmBrowser.GuidedHelp.CloseGuidedHelp();
@@ -47,6 +48,10 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample
         public static void LogError(string ErrorMsg,string TestCase) {
             Logs.LogHTML(TestCase + " : Error : " + ErrorMsg, Logs.HTMLSection.Details, Logs.TestStatus.Fail);
             Helper.failedScenarios.Add(TestCase);
+        }
+        public static void Close() {
+            xrmBrowser.Dispose();
+            xrmBrowser = null;
         }
     }
 }
